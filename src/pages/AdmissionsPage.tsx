@@ -1,10 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Download, FileText } from 'lucide-react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const AdmissionsPage: React.FC = () => {
   return (
     <div className="py-12 bg-[#f6f7fd] min-h-screen">
+      <MetaTags
+        title="Admissions - Sacred Heart Secondary School"
+        description="Learn about admission requirements at Sacred Heart Secondary School. Download application forms, find entry requirements for Grade 8 and transfer students."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'admissions', 'application', 'grade 8', 'transfer students', 'application form']}
+        url="/admissions"
+      />
+      <EducationalInstitutionSchema pageType="admissions" />
       <div className="container mx-auto px-6 sm:px-8">
         <h1 className="text-3xl font-bold text-[#26262c] mb-8">Admissions</h1>
 

@@ -2,10 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import ResponsiveImage from '../components/ResponsiveImage';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const SportsPage: React.FC = () => {
   return (
     <div className="bg-white min-h-screen">
+      <MetaTags
+        title="Sports Program - Sacred Heart Secondary School"
+        description="Explore our comprehensive sports program at Sacred Heart Secondary School. From soccer to swimming, we develop physical, mental, and social well-being in every student."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'sports', 'soccer', 'swimming', 'athletics', 'student development', 'physical education']}
+        url="/sports"
+      />
+      <EducationalInstitutionSchema pageType="sports" />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center bg-blue-950 text-white overflow-hidden">
         {/* Decorative Elements */}
@@ -112,7 +121,7 @@ const SportsPage: React.FC = () => {
                 {/* <span className="text-gray-500 text-sm">Sport Image {index + 1}</span> */}
                 <ResponsiveImage
                   src={`/images/sports/pic${index + 1}.jpg`}
-                  alt={`Sport Image ${index + 1}`}
+                  alt={`Student participating in sports activity ${index + 1}`}
                   className="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-500"
                 />
               </div>

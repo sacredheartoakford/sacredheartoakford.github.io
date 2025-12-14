@@ -1,9 +1,18 @@
 import React from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const ContactPage: React.FC = () => {
   return (
     <div className="py-12 bg-[#f6f7fd] min-h-screen">
+      <MetaTags
+        title="Contact Us - Sacred Heart Secondary School"
+        description="Contact Sacred Heart Secondary School. Find our address, phone number, and email. Send us a message or locate us on the map."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'contact', 'address', 'phone', 'email', 'inquiry']}
+        url="/contact"
+      />
+      <EducationalInstitutionSchema pageType="contact" />
       <div className="w-[80%] mx-auto">
         <h1 className="text-3xl font-bold text-[#26262c] mb-8">Contact Us</h1>
 
@@ -44,7 +53,7 @@ const ContactPage: React.FC = () => {
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="School Location"
+                  title="Map of Sacred Heart Secondary School Location on Oakford Road, Redcliffe, Verulam"
                 ></iframe>
               </div>
             </div>
@@ -55,36 +64,40 @@ const ContactPage: React.FC = () => {
               <h2 className="text-2xl font-semibold text-[#26262c] mb-6">Get in Touch</h2>
               <form className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-[#76767f] mb-1">Name</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-[#76767f] mb-1">Name</label>
                   <input
+                    id="name"
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7]"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#76767f] mb-1">Email</label>
+                  <label htmlFor="email" className="block text-sm font-medium text-[#76767f] mb-1">Email</label>
                   <input
+                    id="email"
                     type="email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7]"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#76767f] mb-1">Subject</label>
+                  <label htmlFor="subject" className="block text-sm font-medium text-[#76767f] mb-1">Subject</label>
                   <input
+                    id="subject"
                     type="text"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7]"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#76767f] mb-1">Message</label>
+                  <label htmlFor="message" className="block text-sm font-medium text-[#76767f] mb-1">Message</label>
                   <textarea
+                    id="message"
                     rows={5}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7]"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-[#4747d7] focus:border-[#4747d7] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                   ></textarea>
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-[#4747d7] hover:bg-[#3a3ac5] text-white font-medium py-3 px-6 rounded-md transition duration-300"
+                  className="w-full bg-[#4747d7] hover:bg-[#3a3ac5] text-white font-medium py-3 px-6 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   Send Message
                 </button>

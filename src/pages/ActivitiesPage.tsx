@@ -1,5 +1,7 @@
 import React from 'react';
 import { Music, Users, ArrowRight, Star } from 'lucide-react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const ActivitiesPage: React.FC = () => {
 
@@ -12,6 +14,13 @@ const ActivitiesPage: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      <MetaTags
+        title="Co-curricular Activities - Sacred Heart Secondary School"
+        description="Explore our diverse co-curricular activities at Sacred Heart Secondary School including music, choir, performing arts, and more."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'co-curricular', 'activities', 'music', 'choir', 'performing arts', 'drama', 'art']}
+        url="/activities"
+      />
+      <EducationalInstitutionSchema pageType="activities" />
       {/* Hero Section */}
       <section className="relative h-[60vh] min-h-[250px] flex items-center justify-center bg-blue-950 text-white overflow-hidden">
         {/* Decorative Circles */}

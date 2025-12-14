@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Users, Tent, Camera } from 'lucide-react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 
 const StudentsPage: React.FC = () => {
@@ -21,6 +23,13 @@ const StudentsPage: React.FC = () => {
 
   return (
     <div className="bg-[#f6f7fd] min-h-screen">
+      <MetaTags
+        title="Our Students - Sacred Heart Secondary School"
+        description="Discover student life at Sacred Heart Secondary School. Learn about our academic programs, extracurricular activities, boot camps, and matric preparation."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'students', 'student life', 'academic programs', 'extracurricular', 'matric camp', 'student development']}
+        url="/students"
+      />
+      <EducationalInstitutionSchema pageType="students" />
       {/* Hero / Intro Section */}
       <section
         className="py-16 bg-cover bg-center"
@@ -62,7 +71,7 @@ const StudentsPage: React.FC = () => {
               <div className="group relative overflow-hidden rounded-xl shadow-lg h-64 cursor-pointer">
                 <img
                   src={`/images/students/student${num}.jpg`}
-                  alt={`Sponsor ${num}`}
+                  alt={`Sacred Heart Secondary School student ${num}`}
                   className="object-cover w-full h-full block transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">

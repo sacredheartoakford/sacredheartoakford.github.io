@@ -25,5 +25,7 @@ export default defineConfig({
         }
       }
     }
-  }
+  },
+  // Enable SPA fallback for GitHub Pages
+  appType: 'spa'
 })

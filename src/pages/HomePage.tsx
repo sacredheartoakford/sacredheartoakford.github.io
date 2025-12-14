@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Target, Music, Dumbbell } from 'lucide-react';
 import ResponsiveImage from '../components/ResponsiveImage';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 
 // --- Components ---
@@ -63,6 +65,13 @@ const CountUp = ({ end, duration = 2000, suffix = '' }: { end: number; duration?
 const HomePage: React.FC = () => {
   return (
     <div className="relative">
+      <MetaTags
+        title="Sacred Heart Secondary School - Quality Education in South Africa"
+        description="Sacred Heart Secondary School provides quality education with a focus on academic excellence, character development, and holistic growth for students. Located in Oakford Road, Redcliffe, Verulam."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'boarding school', 'sacred heart', 'oakford', 'academic excellence']}
+        url="/"
+      />
+      <EducationalInstitutionSchema pageType="home" />
       {/* Hero Section */}
       <section className="relative h-96 md:h-[590px] flex items-center">
         {/* Background image - replace src with your image path */}
@@ -176,6 +185,7 @@ const HomePage: React.FC = () => {
                 poster="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/20240523_163224-scaled.jpg"
                 controls={true}
                 className="w-full h-full object-cover rounded-xl"
+                aria-label="Sacred Heart Secondary School promotional video"
               >
                 Your browser does not support the video tag.
               </video>
@@ -390,7 +400,7 @@ const HomePage: React.FC = () => {
               <div key={num} className="h-16 w-40 flex items-center justify-center">
                 <img
                   src={`/images/homepage/sponsor${num}.jpg`}
-                  alt={`Sponsor ${num}`}
+                  alt={`Community sponsor ${num} supporting Sacred Heart Secondary School`}
                   className="max-h-full max-w-full object-contain"
                 />
               </div>

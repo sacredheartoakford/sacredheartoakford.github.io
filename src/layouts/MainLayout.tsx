@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import MetaTags from '../components/MetaTags';
 import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 interface MainLayoutProps { }
@@ -43,8 +42,14 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#4747d7] focus:text-white focus:rounded-md focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
       {/* Header */}
-      <header className="bg-white shadow-md sticky top-0 z-50">
+      <header className="bg-white shadow-md sticky top-0 z-50" role="banner">
         <div className="container mx-auto px-4 sm:px-6 py-1">
           <div className="flex justify-between items-center py-2">
             <div className="flex items-center">
@@ -59,7 +64,7 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
               </div>
             </div>
 
-            <nav className="hidden md:block">
+            <nav className="hidden md:block" role="navigation" aria-label="Main navigation">
               <ul className="flex flex-wrap justify-center space-x-2 sm:space-x-4">
                 {menuItems.map((item) => (
                   <li key={item.name} className="relative group">
@@ -70,16 +75,17 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
                           className="font-medium text-[#76767f] hover:text-[#4747d7] transition-colors duration-300 flex items-center font-sans text-sm sm:text-base"
                         >
                           {item.name}
-                          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                           </svg>
                         </Link>
-                        <ul className="absolute top-full left-0 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 min-w-max">
+                        <ul className="absolute top-full left-0 bg-white shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 min-w-max" role="menu">
                           {item.dropdownItems?.map((subItem) => (
-                            <li key={subItem.name}>
+                            <li key={subItem.name} role="none">
                               <Link
                                 to={subItem.path}
                                 className="block px-4 py-2 text-[#76767f] hover:bg-[#f6f7fd] hover:text-[#4747d7] whitespace-nowrap text-sm"
+                                role="menuitem"
                               >
                                 {subItem.name}
                               </Link>
@@ -91,6 +97,7 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
                       <Link
                         to={item.path}
                         className="font-medium text-[#76767f] hover:text-[#4747d7] transition-colors duration-300 font-sans text-sm sm:text-base"
+                        role="menuitem"
                       >
                         {item.name}
                       </Link>
@@ -102,43 +109,50 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
 
             <button
               onClick={toggleMenu}
-              className="md:hidden text-[#26262c] focus:outline-none"
+              className="md:hidden text-[#26262c] focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
             </button>
           </div>
 
           {/* Mobile menu */}
           {isMenuOpen && (
-            <div className="md:hidden pt-2 pb-3">
-              <ul className="space-y-2">
+            <div id="mobile-menu" className="md:hidden pt-2 pb-3">
+              <ul className="space-y-2" role="menubar">
                 {menuItems.map((item) => (
-                  <li key={item.name}>
+                  <li key={item.name} role="none">
                     {item.hasDropdown ? (
-                      <div>
-                        <div className="block py-2 px-4 rounded-md text-[#76767f] font-medium font-sans">
+                      <details className="block">
+                        <summary className="block py-2 px-4 rounded-md text-[#76767f] font-medium font-sans cursor-pointer list-none">
                           {item.name}
-                        </div>
-                        <ul className="pl-6 space-y-1 mt-1">
+                          <svg className="inline-block ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                          </svg>
+                        </summary>
+                        <ul className="pl-6 space-y-1 mt-1" role="menubar">
                           {item.dropdownItems?.map((subItem) => (
-                            <li key={subItem.name}>
+                            <li key={subItem.name} role="none">
                               <Link
                                 to={subItem.path}
                                 className="block py-1.5 px-4 rounded-md text-[#76767f] hover:bg-[#f6f7fd] hover:text-[#4747d7] transition-colors duration-300 font-sans text-sm"
                                 onClick={() => setIsMenuOpen(false)}
+                                role="menuitem"
                               >
                                 {subItem.name}
                               </Link>
                             </li>
                           ))}
                         </ul>
-                      </div>
+                      </details>
                     ) : (
                       <Link
                         to={item.path}
                         className="block py-2 px-4 rounded-md text-[#76767f] hover:bg-[#f6f7fd] hover:text-[#4747d7] transition-colors duration-300 font-sans"
                         onClick={() => setIsMenuOpen(false)}
+                        role="menuitem"
                       >
                         {item.name}
                       </Link>
@@ -152,14 +166,13 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow">
-        <MetaTags />
+      <main className="flex-grow" id="main-content" tabIndex={-1}>
         <EducationalInstitutionSchema />
         <Outlet />
       </main>
 
       {/* Footer */}
-      <div className="bg-[#4747d7] text-white py-8">
+      <div className="bg-[#4747d7] text-white py-8" role="contentinfo">
         <div className="container mx-auto px-6 sm:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -203,38 +216,35 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
               />
             </div>
 
-            <div className="mb-6 md:mb-0">
+            <div className="mb-6 md:mb-0" role="navigation" aria-label="Footer navigation">
               <ul className="flex flex-wrap justify-center gap-4">
-                <li><Link to="/" className="text-[#bfd1ff] hover:text-white transition-colors">Home</Link></li>
-                <li><Link to="/academics" className="text-[#bfd1ff] hover:text-white transition-colors">Academics</Link></li>
-                <li><Link to="/admissions" className="text-[#bfd1ff] hover:text-white transition-colors">Admissions</Link></li>
-                <li><Link to="/apply" className="text-[#bfd1ff] hover:text-white transition-colors">Apply</Link></li>
-                <li><Link to="/boarding-fees" className="text-[#bfd1ff] hover:text-white transition-colors">Boarding Fees</Link></li>
-                <li><Link to="/activities" className="text-[#bfd1ff] hover:text-white transition-colors">Activities</Link></li>
-                <li><Link to="/events" className="text-[#bfd1ff] hover:text-white transition-colors">Events</Link></li>
-                <li><Link to="/kitchen" className="text-[#bfd1ff] hover:text-white transition-colors">Kitchen</Link></li>
-                <li><Link to="/staff" className="text-[#bfd1ff] hover:text-white transition-colors">Our Teachers</Link></li>
-                <li><Link to="/students" className="text-[#bfd1ff] hover:text-white transition-colors">Students</Link></li>
-                <li><Link to="/contact" className="text-[#bfd1ff] hover:text-white transition-colors">Contact</Link></li>
+                <li><Link to="/" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Home page">Home</Link></li>
+                <li><Link to="/academics" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Academics page">Academics</Link></li>
+                <li><Link to="/admissions" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Admissions page">Admissions</Link></li>
+                <li><Link to="/apply" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Apply page">Apply</Link></li>
+                <li><Link to="/boarding-fees" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Boarding fees page">Boarding Fees</Link></li>
+                <li><Link to="/activities" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Activities page">Activities</Link></li>
+                <li><Link to="/events" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Events page">Events</Link></li>
+                <li><Link to="/kitchen" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Kitchen page">Kitchen</Link></li>
+                <li><Link to="/staff" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Our Teachers page">Our Teachers</Link></li>
+                <li><Link to="/students" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Students page">Students</Link></li>
+                <li><Link to="/contact" className="text-[#bfd1ff] hover:text-white transition-colors" role="link" aria-label="Contact page">Contact</Link></li>
               </ul>
             </div>
 
-            <div>
+            <div role="navigation" aria-label="Social media links">
               <div className="flex space-x-4">
-                <a href="#" className="text-[#7acdee] hover:text-white">
-                  <span className="sr-only">Twitter</span>
+                <a href="#" className="text-[#7acdee] hover:text-white" aria-label="Follow us on Twitter">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
                   </svg>
                 </a>
-                <a href="#" className="text-[#557dbc] hover:text-white">
-                  <span className="sr-only">Facebook</span>
+                <a href="#" className="text-[#557dbc] hover:text-white" aria-label="Follow us on Facebook">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd"></path>
                   </svg>
                 </a>
-                <a href="#" className="text-[#8a3ab9] hover:text-white">
-                  <span className="sr-only">Instagram</span>
+                <a href="#" className="text-[#8a3ab9] hover:text-white" aria-label="Follow us on Instagram">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd"></path>
                   </svg>

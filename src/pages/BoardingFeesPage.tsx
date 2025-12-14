@@ -1,8 +1,17 @@
 import React from 'react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const BoardingFeesPage: React.FC = () => {
   return (
     <div className="bg-white min-h-screen">
+      <MetaTags
+        title="Boarding Fees - Sacred Heart Secondary School"
+        description="View the boarding fees for Sacred Heart Secondary School for 2024. Find payment plans for Grade 8-11 and Grade 12 students."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'boarding fees', 'payment plans', 'fees structure', 'grade 8', 'grade 12', 'school fees']}
+        url="/boarding-fees"
+      />
+      <EducationalInstitutionSchema pageType="boarding-fees" />
       {/* Page Title / Hero Section */}
       <section className="py-16 bg-white relative overflow-hidden">
         <div className="container mx-auto px-6 sm:px-8 max-w-6xl">

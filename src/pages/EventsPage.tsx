@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 import ThreeDCarousel from '../components/ThreeDCarousel';
 
 interface EventData {
@@ -190,6 +192,13 @@ const EventsPage: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      <MetaTags
+        title="Events - Sacred Heart Secondary School"
+        description="View upcoming and past events at Sacred Heart Secondary School including matric dances, gala dinners, and special celebrations."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'school events', 'matric dance', 'gala dinner', 'community events']}
+        url="/events"
+      />
+      <EducationalInstitutionSchema pageType="events" />
       {/* Page Title */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6 sm:px-8 max-w-6xl">

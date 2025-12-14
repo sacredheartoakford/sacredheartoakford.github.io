@@ -1,9 +1,18 @@
 import React from 'react';
 import { feesData } from '../data/fees';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const FeesPage: React.FC = () => {
   return (
     <div className="py-12 bg-[#f6f7fd] min-h-screen">
+      <MetaTags
+        title="Boarding Fees - Sacred Heart Secondary School"
+        description="View the boarding fees for Sacred Heart Secondary School for 2024/2025 academic year. Detailed fee structure for tuition, boarding, and total costs per term."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'boarding fees', 'fees structure', 'tuition', 'term fees', 'annual fees']}
+        url="/fees"
+      />
+      <EducationalInstitutionSchema pageType="fees" />
       <div className="container mx-auto px-6 sm:px-8">
         <h1 className="text-3xl font-bold text-[#26262c] mb-8">Boarding Fees</h1>
 

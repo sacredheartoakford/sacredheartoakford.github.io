@@ -1,5 +1,7 @@
 import React from 'react';
 import { Coffee, Utensils, Clock } from 'lucide-react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const KitchenPage: React.FC = () => {
 
@@ -72,6 +74,13 @@ const KitchenPage: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      <MetaTags
+        title="School Kitchen & Dining - Sacred Heart Secondary School"
+        description="Discover our school kitchen services and daily nutrition plans at Sacred Heart Secondary School. Nutritious meals for students managed by Sumptuous Catering."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'school kitchen', 'dining', 'nutrition', 'meals', 'catering', 'student nutrition']}
+        url="/kitchen"
+      />
+      <EducationalInstitutionSchema pageType="kitchen" />
       {/* Hero Section - Gradient Blue */}
       <section className="py-20 md:py-15 min-h-[150px] bg-gradient-to-br from-[#4747d7] to-[#3232a8] text-white relative overflow-hidden">
         {/* Abstract Shapes */}

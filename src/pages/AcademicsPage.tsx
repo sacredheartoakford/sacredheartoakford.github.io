@@ -1,8 +1,17 @@
 import React from 'react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
 
 const AcademicsPage: React.FC = () => {
   return (
     <div className="bg-white min-h-screen">
+      <MetaTags
+        title="Academics - Sacred Heart Secondary School"
+        description="Explore our comprehensive academic programs at Sacred Heart Secondary School, including Science, Mathematics, Computer Application Technology, Accounting, and more."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'academic programs', 'curriculum', 'science', 'mathematics', 'computer application technology', 'accounting']}
+        url="/academics"
+      />
+      <EducationalInstitutionSchema pageType="academics" />
       {/* Page Title Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-6 sm:px-8 max-w-6xl">
@@ -42,7 +51,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="images/homepage/science.jpg"
-                  alt="Science Department"
+                  alt="Science laboratory with students conducting experiments"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -59,7 +68,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/school-template-curriculum-img-5.jpg"
-                  alt="Mathematics"
+                  alt="Students learning mathematics with numbers and equations"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -76,7 +85,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/20240528_082309-scaled.jpg"
-                  alt="Computer Application Technology"
+                  alt="Students using computers for Computer Application Technology class"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -93,7 +102,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="https://sacredheartoakford.co.za/wp-content/uploads/2024/07/20240722_110832-scaled.jpg"
-                  alt="Accounting"
+                  alt="Students learning accounting with financial documents and calculators"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -110,7 +119,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/school-template-curriculum-img-3.jpg"
-                  alt="Humanities"
+                  alt="Students studying humanities with books and educational materials"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -127,7 +136,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="https://sacredheartoakford.co.za/wp-content/uploads/2024/07/20240722_110739-scaled.jpg"
-                  alt="Business Studies"
+                  alt="Students learning business studies concepts"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -144,7 +153,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/shutterstock_1289254792.jpg"
-                  alt="Agricultural Science"
+                  alt="Student learning agricultural science with plants and farming equipment"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -161,7 +170,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="/images/activities/main.jpg"
-                  alt="Drama Program"
+                  alt="Students participating in drama and music activities"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
@@ -178,7 +187,7 @@ const AcademicsPage: React.FC = () => {
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
                   src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/ElectricalEngineering_1000x750.jpg"
-                  alt="Electrical Engineering"
+                  alt="Electrical engineering equipment and circuits"
                   className="w-full h-full object-cover object-top"
                 />
               </div>
