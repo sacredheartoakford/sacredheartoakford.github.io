@@ -2,74 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://sacredheartoakford.co.za/</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://sacredheartoakford.co.za/academics</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://sacredheartoakford.co.za/admissions</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://sacredheartoakford.co.za/apply</loc>
+    <lastmod>2024-12-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sacredheartoakford.co.za/apply</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://sacredheartoakford.co.za/boarding-fees</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2024-12-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sacredheartoakford.co.za/activities</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sacredheartoakford.co.za/events</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2024-12-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sacredheartoakford.co.za/kitchen</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://sacredheartoakford.co.za/sports</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://sacredheartoakford.co.za/staff</loc>
+    <lastmod>2024-12-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sacredheartoakford.co.za/staff</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://sacredheartoakford.co.za/students</loc>
-    <lastmod>2025-06-12</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2024-12-14</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://sacredheartoakford.co.za/contact</loc>
-    <lastmod>2025-06-12</lastmod>
+    <lastmod>2024-12-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.9</priority>
   </url>
 </urlset>
