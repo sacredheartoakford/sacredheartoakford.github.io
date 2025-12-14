@@ -1,0 +1,142 @@
+# Dependencies
+node_modules/
+
+# Production builds
+# dist/
+# build/
+# out/
+
+# Environment variables
+.env*
+!.env.example
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Icon?
+.directory
+*.md5
+.DS_Store*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Temporary folders
+tmp/
+temp/
+
+# Build outputs
+.next/
+.nuxt/
+dist-ssr/
+dist-electron/
+dist-tauri/
+dist-nuxt/
+dist-next/
+dist-angular/
+
+# TypeScript
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+.next
+
+# Vite
+.vite/
+
+# Cache
+.cache/
+.svelte-kit/
+.cargo/
+target/
+
+# Backup files
+*.bak
+*.zip
+*.tar
+*.gz
+
+# Editor backups
+*~
+#*#
+
+# Local environment
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# npm
+npm-debug.log*
+node_modules/
+jspm_packages/
+
+# Yarn
+yarn-debug.log*
+yarn-error.log*
+.yarn/
+.pnp.*
+.pnp.js
+
+# pnpm
+node_modules/.pnpm/
+
+# GitHub
+.github/
+
+# SASS
+.sass-cache/
+
+# Output of `npm pack`
+*.tgz
+
+# Next.js
+.next/
+out/
+
+# Vue
+.vuepress/dist
+.vuepress/.cache
+
+# Angular
+angular/
+angular-cli/
+dist/
+tmp/
+
+# Babel
+babel.config.js
+
+# Rollup
+.rollup.cache/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Your specific project files
+backup.zip
