@@ -14,7 +14,7 @@ const EducationalInstitutionSchema: React.FC<EducationalInstitutionSchemaProps> 
             "@context": "https://schema.org",
             "@type": "EducationalOrganization",
             "name": "Sacred Heart Secondary School",
-            "url": "https://sacredheartoakford.co.za/",
+            "url": "https://sacredheartoakford.github.io/",
             "logo": "/images/logo.jpg",
             "description": "Sacred Heart Secondary School provides quality education with a focus on academic excellence, character development, and holistic growth for students.",
             "address": {
@@ -88,7 +88,7 @@ const EducationalInstitutionSchema: React.FC<EducationalInstitutionSchemaProps> 
                     ...baseData,
                     "@type": "EducationalOrganization",
                     "applicationDeadline": "2025-09-30",
-                    "applicationProcess": "https://sacredheartoakford.co.za/apply",
+                    "applicationProcess": "https://sacredheartoakford.github.io/apply",
                     "admissionRequirements": [
                         "Academic transcripts from previous school",
                         "Completed application form",

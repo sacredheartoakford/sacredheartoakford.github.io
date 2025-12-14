@@ -18,18 +18,17 @@ const MetaTags: React.FC<MetaTagsProps> = ({
     url = window.location.pathname,
     type = 'website',
     keywords = ['school', 'education', 'secondary school', 'south africa', 'boarding school', 'sacred heart'],
-    author = 'Sacred Heart Secondary School',
-    canonical = window.location.href
+    author = 'Sacred Heart Secondary School'
 }) => {
     useEffect(() => {
         // Update canonical URL
         const canonicalLink = document.querySelector('link[rel="canonical"]');
         if (canonicalLink) {
-            canonicalLink.setAttribute('href', canonical);
+            canonicalLink.setAttribute('href', `https://sacredheartoakford.github.io${url}`);
         } else {
             const link = document.createElement('link');
             link.rel = 'canonical';
-            link.href = canonical;
+            link.href = `https://sacredheartoakford.github.io${url}`;
             document.head.appendChild(link);
         }
 
@@ -102,11 +101,11 @@ const MetaTags: React.FC<MetaTagsProps> = ({
 
         const ogUrl = document.querySelector('meta[property="og:url"]');
         if (ogUrl) {
-            ogUrl.setAttribute('content', `${window.location.origin}${url}`);
+            ogUrl.setAttribute('content', `https://sacredheartoakford.github.io${url}`);
         } else {
             const meta = document.createElement('meta');
             meta.setAttribute('property', 'og:url');
-            meta.setAttribute('content', `${window.location.origin}${url}`);
+            meta.setAttribute('content', `https://sacredheartoakford.github.io${url}`);
             document.head.appendChild(meta);
         }
 
@@ -154,7 +153,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={image} />
-            <meta property="og:url" content={`${window.location.origin}${url}`} />
+            <meta property="og:url" content={`https://sacredheartoakford.github.io${url}`} />
             <meta property="og:site_name" content="Sacred Heart Secondary School" />
 
             {/* Twitter */}
