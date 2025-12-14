@@ -1,0 +1,33 @@
+User-agent: *
+Disallow: 
+Allow: /
+
+Sitemap: https://sacredheartoakford.co.za/sitemap.xml
+
+# Google Search Console
+User-agent: Googlebot
+Disallow: 
+
+# Bing Webmaster Tools  
+User-agent: bingbot
+Disallow: 
+
+# Yandex
+User-agent: Yandex
+Disallow: 
+
+# Baidu
+User-agent: Baiduspider
+Disallow: 
+
+# Ask.com
+User-agent: Slurp
+Disallow: 
+
+# DuckDuckBot
+User-agent: DuckDuckBot
+Allow: /
+
+# Twitterbot
+User-agent: Twitterbot
+Allow: /
