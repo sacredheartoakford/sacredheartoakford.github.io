@@ -54,7 +54,7 @@ const MainLayout: React.FC<MainLayoutProps> = () => {
           <div className="flex justify-between items-center py-2">
             <div className="flex items-center">
               <img
-                src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/Screenshot_20231129_124531_WhatsApp-1-70x63.jpg"
+                src="/images/logo.jpg"
                 alt="Sacred Heart Secondary School"
                 className="h-10 sm:h-12 w-auto mr-2"
               />

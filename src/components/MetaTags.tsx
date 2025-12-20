@@ -17,18 +17,20 @@ const MetaTags: React.FC<MetaTagsProps> = ({
     image = '/images/homepage/sacred.jpg',
     url = window.location.pathname,
     type = 'website',
+    canonical,
     keywords = ['school', 'education', 'secondary school', 'south africa', 'boarding school', 'sacred heart'],
     author = 'Sacred Heart Secondary School'
 }) => {
     useEffect(() => {
         // Update canonical URL
         const canonicalLink = document.querySelector('link[rel="canonical"]');
+        const canonicalUrl = canonical || `https://sacredheartoakford.github.io${url}`;
         if (canonicalLink) {
-            canonicalLink.setAttribute('href', `https://sacredheartoakford.github.io${url}`);
+            canonicalLink.setAttribute('href', canonicalUrl);
         } else {
             const link = document.createElement('link');
             link.rel = 'canonical';
-            link.href = `https://sacredheartoakford.github.io${url}`;
+            link.href = canonicalUrl;
             document.head.appendChild(link);
         }
 
