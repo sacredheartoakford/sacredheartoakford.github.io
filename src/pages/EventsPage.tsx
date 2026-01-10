@@ -20,7 +20,7 @@ const eventsData: EventData[] = [
     id: 1,
     date: "November 23/ 2024 / 15:00 pm",
     title: "Class of 2024 MATRIC DANCE: A night to Remember",
-    highlightImage: "/images/events/matric_dance_2024/pic1.jpg",
+    highlightImage: "/images/events/matric_dance_2024/pic1.avif",
     highlightAlt: "Matric Dance Highlight",
     galleryCount: 10,
     galleryPathBase: "/images/events/matric_dance_2024/pic",
@@ -52,7 +52,7 @@ const eventsData: EventData[] = [
     id: 2,
     date: "October 08/ 2024 / 12:00 pm",
     title: "Sacred Heart Business Lunch",
-    highlightImage: "/images/events/business_lunch/pic5.jpg",
+    highlightImage: "/images/events/business_lunch/pic5.avif",
     highlightAlt: "Business Lunch Highlight",
     galleryCount: 7,
     galleryPathBase: "/images/events/business_lunch/pic",
@@ -84,7 +84,7 @@ const eventsData: EventData[] = [
     id: 3,
     date: "September 19/ 2024 / 18:00 pm",
     title: "GALA DINNER",
-    highlightImage: "/images/events/gala_dinner_2024/pic12.jpg",
+    highlightImage: "/images/events/gala_dinner_2024/pic12.avif",
     highlightAlt: "Gala Dinner 2024 Highlight",
     galleryCount: 15,
     galleryPathBase: "/images/events/gala_dinner_2024/pic",
@@ -117,7 +117,7 @@ const eventsData: EventData[] = [
     id: 4,
     date: "September 30/ 2023 / 18:30 pm",
     title: "GALA DINNER",
-    highlightImage: "/images/events/gala_dinner_2023/pic9.jpg",
+    highlightImage: "/images/events/gala_dinner_2023/pic9.avif",
     highlightAlt: "Gala Dinner 2023 Highlight",
     galleryCount: 9,
     galleryPathBase: "/images/events/gala_dinner_2023/pic",
@@ -151,7 +151,7 @@ const eventsData: EventData[] = [
     id: 5,
     date: "February 14/ 2024 / 10:00 am",
     title: "Valentine's Day Picnic",
-    highlightImage: "/images/events/valentines_day_picnic/pic1.jpg",
+    highlightImage: "/images/events/valentines_day_picnic/pic1.avif",
     highlightAlt: "Valentine's Day Highlight",
     galleryCount: 14,
     galleryPathBase: "/images/events/valentines_day_picnic/pic",
@@ -243,7 +243,7 @@ const EventsPage: React.FC = () => {
               {/* Gallery Carousel */}
               <h4 className="text-xl font-bold text-[#26262c] mb-6">Photo Gallery</h4>
               <ThreeDCarousel
-                images={Array.from({ length: event.galleryCount }, (_, i) => `${event.galleryPathBase}${i + 1}.jpg`)}
+                images={Array.from({ length: event.galleryCount }, (_, i) => `${event.galleryPathBase}${i + 1}.avif`)}
                 altTexts={Array.from({ length: event.galleryCount }, (_, i) =>
                   i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
                 )}

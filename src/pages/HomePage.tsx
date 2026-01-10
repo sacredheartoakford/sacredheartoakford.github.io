@@ -77,7 +77,7 @@ const HomePage: React.FC = () => {
         {/* Background image - replace src with your image path */}
         <div className="absolute inset-0 overflow-hidden">
           <ResponsiveImage
-            src="/images/homepage/sacred.jpg"
+            src="/images/homepage/sacred.avif"
             alt="Sacred Heart Secondary School"
             className="w-full h-full object-cover object-center"
             loading="lazy"
@@ -181,8 +181,8 @@ const HomePage: React.FC = () => {
           <div className="max-w-4xl mx-auto bg-gray-200 border-2 border-dashed rounded-xl w-full h-96 flex items-center justify-center">
             <div className="w-full h-full">
               <video
-                src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/9d9a96ff18f24580a0ea09388b4e4465.mp4"
-                poster="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/20240523_163224-scaled.jpg"
+                src="public/vid/home.mp4"
+                // poster="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/20240523_163224-scaled.avif"
                 controls={true}
                 className="w-full h-full object-cover rounded-xl"
                 aria-label="Sacred Heart Secondary School promotional video"
@@ -211,7 +211,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col items-center flex-shrink-0">
                 <div className="bg-gray-200 border-2 border-dashed rounded-xl w-72 h-72 flex items-center justify-center overflow-hidden shadow-sm">
                   <ResponsiveImage
-                    src="/images/homepage/principal.jpg"
+                    src="/images/homepage/principal.avif"
                     alt="Mrs SP Hlongwa, Principal"
                     className="w-full h-full object-cover"
                     loading="lazy"
@@ -255,7 +255,7 @@ const HomePage: React.FC = () => {
             <div className="bg-[#f6f7fd] rounded-lg overflow-hidden shadow-md">
               <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center">
                 <ResponsiveImage
-                  src="/images/homepage/computerlap.jpg"
+                  src="/images/homepage/computerlap.avif"
                   alt="Computer Application Technology"
                   className="w-full h-full object-cover"
                   loading="lazy"
@@ -270,7 +270,7 @@ const HomePage: React.FC = () => {
             <div className="bg-[#f6f7fd] rounded-lg overflow-hidden shadow-md">
               <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center">
                 <img
-                  src="/images/homepage/science.jpg"
+                  src="/images/homepage/science.avif"
                   alt="Physical Science"
                   className="w-full h-full object-cover"
                 />
@@ -284,7 +284,7 @@ const HomePage: React.FC = () => {
             <div className="bg-[#f6f7fd] rounded-lg overflow-hidden shadow-md">
               <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center">
                 <img
-                  src="/images/homepage/maths.jpg"
+                  src="/images/homepage/maths.avif"
                   alt="Mathematics"
                   className="w-full h-full object-cover"
                 />
@@ -298,7 +298,7 @@ const HomePage: React.FC = () => {
             <div className="bg-[#f6f7fd] rounded-lg overflow-hidden shadow-md">
               <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center">
                 <img
-                  src="/images/homepage/accounting.jpg"
+                  src="/images/homepage/accounting.avif"
                   alt="Accounting"
                   className="w-full h-full object-cover"
                 />
@@ -312,7 +312,7 @@ const HomePage: React.FC = () => {
             <div className="bg-[#f6f7fd] rounded-lg overflow-hidden shadow-md">
               <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center">
                 <img
-                  src="/images/homepage/humanities.jpg"
+                  src="/images/homepage/humanities.avif"
                   alt="Humanities"
                   className="w-full h-full object-cover"
                 />
@@ -326,7 +326,7 @@ const HomePage: React.FC = () => {
             <div className="bg-[#f6f7fd] rounded-lg overflow-hidden shadow-md">
               <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center">
                 <img
-                  src="/images/homepage/drama.jpg"
+                  src="/images/homepage/drama.avif"
                   alt="Drama and Music"
                   className="w-full h-full object-cover"
                 />
@@ -349,7 +349,7 @@ const HomePage: React.FC = () => {
             <div>
               <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-96 flex items-center justify-center">
                 <img
-                  src="/images/homepage/soccer.jpg"
+                  src="/images/homepage/soccer.avif"
                   alt="Athletics"
                   className="w-full h-full object-cover"
                 />
@@ -399,7 +399,7 @@ const HomePage: React.FC = () => {
             {[1, 2, 3, 4, 5].map((num) => (
               <div key={num} className="h-16 w-40 flex items-center justify-center">
                 <img
-                  src={`/images/homepage/sponsor${num}.jpg`}
+                  src={`/images/homepage/sponsor${num}.avif`}
                   alt={`Community sponsor ${num} supporting Sacred Heart Secondary School`}
                   className="max-h-full max-w-full object-contain"
                 />

@@ -50,9 +50,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="images/homepage/science.jpg"
-                  alt="Science laboratory with students conducting experiments"
-                  className="w-full h-full object-cover object-top"
+                  src="/images/homepage/science.avif"
+                  alt="Physical Science"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
@@ -67,8 +67,8 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/school-template-curriculum-img-5.jpg"
-                  alt="Students learning mathematics with numbers and equations"
+                  src="/images/homepage/maths.avif"
+                  alt="Mathematics"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -84,9 +84,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/20240528_082309-scaled.jpg"
-                  alt="Students using computers for Computer Application Technology class"
-                  className="w-full h-full object-cover object-top"
+                  src="/images/homepage/computerlap.avif"
+                  alt="Computer Application Technology"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
@@ -101,9 +101,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/07/20240722_110832-scaled.jpg"
-                  alt="Students learning accounting with financial documents and calculators"
-                  className="w-full h-full object-cover object-top"
+                  src="/images/homepage/accounting.avif"
+                  alt="Accounting"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
@@ -118,9 +118,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/school-template-curriculum-img-3.jpg"
-                  alt="Students studying humanities with books and educational materials"
-                  className="w-full h-full object-cover object-top"
+                  src="/images/homepage/humanities.avif"
+                  alt="Humanities"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
@@ -135,9 +135,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/07/20240722_110739-scaled.jpg"
+                  src="/images/homepage/business studies.avif"
                   alt="Students learning business studies concepts"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-72 object-cover object-center"
                 />
               </div>
               <div className="p-6">
@@ -152,9 +152,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/shutterstock_1289254792.jpg"
+                  src="/images/homepage/agriculture.avif"
                   alt="Student learning agricultural science with plants and farming equipment"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-72 object-cover object-center"
                 />
               </div>
               <div className="p-6">
@@ -169,9 +169,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="/images/activities/main.jpg"
-                  alt="Students participating in drama and music activities"
-                  className="w-full h-full object-cover object-top"
+                  src="/images/homepage/drama.avif"
+                  alt="Drama and Music"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div className="p-6">
@@ -186,9 +186,9 @@ const AcademicsPage: React.FC = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                 <img
-                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/ElectricalEngineering_1000x750.jpg"
+                  src="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/ElectricalEngineering_1000x750.avif"
                   alt="Electrical engineering equipment and circuits"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-72 object-cover object-center"
                 />
               </div>
               <div className="p-6">

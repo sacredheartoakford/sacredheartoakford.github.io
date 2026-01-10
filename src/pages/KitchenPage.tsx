@@ -120,7 +120,7 @@ const KitchenPage: React.FC = () => {
             {/* Column 2: Image */}
             <div>
               <div className="relative w-full h-80 md:h-96 overflow-hidden rounded-2xl">
-                <img src="/images/kitchen/food1.jpg" alt="pic1" className="w-full h-full object-cover align-middle" />
+                <img src="/images/kitchen/food1.avif" alt="pic1" className="w-full h-full object-cover align-middle" />
               </div>
             </div>
 
@@ -128,10 +128,10 @@ const KitchenPage: React.FC = () => {
             <div className="hidden md:block">
               <div className="grid grid-cols-1 gap-6">
                 <div className="relative w-full h-40 overflow-hidden rounded-2xl">
-                  <img src="/images/kitchen/food2.jpg" alt="pic2" className="w-full h-full object-cover" />
+                  <img src="/images/kitchen/food2.avif" alt="pic2" className="w-full h-full object-cover" />
                 </div>
                 <div className="relative w-full h-40 overflow-hidden rounded-2xl">
-                  <img src="/images/kitchen/food3.jpg" alt="pic3" className="w-full h-full object-cover" />
+                  <img src="/images/kitchen/food3.avif" alt="pic3" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@ const KitchenPage: React.FC = () => {
             {/* Card 1: Sibonelo Mlangeni */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48">
-                <img src="/images/kitchen/mlangeni.jpg" alt="Sibonelo Mlangeni" className="w-full h-full object-cover" />
+                <img src="/images/kitchen/mlangeni.avif" alt="Sibonelo Mlangeni" className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-bold text-[#26262c]">Sibonelo Mlangeni</h3>
@@ -216,7 +216,7 @@ const KitchenPage: React.FC = () => {
             {/* Card 2: Alfred Peta */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48">
-                <img src="/images/kitchen/peta.jpg" alt="Alfred Peta" className="w-full h-full object-cover" />
+                <img src="/images/kitchen/peta.avif" alt="Alfred Peta" className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-bold text-[#26262c]">Alfred Peta</h3>
@@ -227,7 +227,7 @@ const KitchenPage: React.FC = () => {
             {/* Card 3: Nkosiyavuma Ndebele */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48">
-                <img src="/images/kitchen/ndebele.jpg" alt="Alfred Peta" className="w-full h-full object-cover" />
+                <img src="/images/kitchen/ndebele.avif" alt="Alfred Peta" className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-bold text-[#26262c]">Nkosiyavuma Ndebele</h3>
@@ -238,7 +238,7 @@ const KitchenPage: React.FC = () => {
             {/* Card 4: Bongiwe Khanyile */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="w-full h-48">
-                <img src="/images/kitchen/bongiwe.jpg" alt="Bongiwe Khanyile" className="w-full h-full object-cover" />
+                <img src="/images/kitchen/bongiwe.avif" alt="Bongiwe Khanyile" className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
                 <h3 className="text-lg font-bold text-[#26262c]">Bongiwe Khanyile</h3>

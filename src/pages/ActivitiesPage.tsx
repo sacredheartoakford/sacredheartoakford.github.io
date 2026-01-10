@@ -6,10 +6,10 @@ import EducationalInstitutionSchema from '../components/EducationalInstitutionSc
 const ActivitiesPage: React.FC = () => {
 
   const galleryImages = [
-    { src: "images/activities/pic1.jpg", title: "Instrumental" },
-    { src: "images/activities/pic2.jpg", title: "Vocal Training" },
-    { src: "images/activities/pic5.jpg", title: "Ensemble" },
-    { src: "images/activities/pic6.jpg", title: "Theory" }
+    { src: "images/activities/pic1.avif", title: "Instrumental" },
+    { src: "images/activities/pic2.avif", title: "Vocal Training" },
+    { src: "images/activities/pic5.avif", title: "Ensemble" },
+    { src: "images/activities/pic6.avif", title: "Theory" }
   ];
 
   return (
@@ -58,7 +58,7 @@ const ActivitiesPage: React.FC = () => {
             <div className="lg:col-span-7 order-2 lg:order-1 relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/10">
                 <img
-                  src="images/activities/main.jpg"
+                  src="images/activities/main.avif"
                   alt="Music Class"
                   className="w-full h-[400px] object-cover transform transition-transform duration-700 group-hover:scale-105"
                 />
@@ -115,7 +115,7 @@ const ActivitiesPage: React.FC = () => {
               <div className="absolute top-0 right-0 w-full h-full bg-blue-50 rounded-2xl transform translate-x-4 translate-y-4"></div>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/10">
                 <img
-                  src="images/activities/choir.jpg"
+                  src="images/activities/choir.avif"
                   alt="School Choir"
                   className="w-full h-[400px] object-cover transform transition-transform duration-700 group-hover:scale-105"
                 />
@@ -141,7 +141,7 @@ const ActivitiesPage: React.FC = () => {
             <div className="lg:col-span-7 order-2 lg:order-1 relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-blue-900/10">
                 <img
-                  src="images/activities/pic7.jpg"
+                  src="images/activities/pic7.avif"
                   alt="Performing Arts"
                   className="w-full h-[400px] object-cover transform transition-transform duration-700 group-hover:scale-105"
                 />

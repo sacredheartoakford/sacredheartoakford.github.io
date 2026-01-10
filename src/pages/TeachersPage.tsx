@@ -38,7 +38,6 @@ const TeachersPage = () => {
   const teachers = [
     { id: 1, name: 'Mr NA Khumalo', subject: 'CAT', photo: 'khumalo' },
     { id: 2, name: 'Miss T Mngadi', subject: 'Mathematics', photo: 'mngadi' },
-    { id: 3, name: 'Ms NS Ndlovu', subject: 'Life Sciences', photo: 'ns_ndlovu' },
     { id: 4, name: 'Miss NP Luthuli', subject: 'Physical Science', photo: 'luthuli' },
     { id: 5, name: 'Miss T Mazibuko', subject: 'Tourism', photo: 'mazibuko' },
     { id: 6, name: 'Miss TL Mvubu', subject: 'IsiZulu', photo: 'mvubu' },
@@ -49,14 +48,12 @@ const TeachersPage = () => {
     { id: 11, name: 'Miss MA ndlovu', subject: 'IsiZulu', photo: 'ma_ndlovu' },
     { id: 12, name: 'Mrs BG Makhanya', subject: 'Life Orientation', photo: 'makhanya' },
     { id: 13, name: 'Mr M Mthalane', subject: 'Music', photo: 'mthalane' },
-    { id: 14, name: 'Mr Mthethwa', subject: 'Isizulu', photo: 'mthethwa' },
     { id: 15, name: 'Miss Kheswa', subject: 'English & History', photo: 'kheswa' },
     { id: 16, name: 'Miss TC Simon', subject: 'English', photo: 'simon' },
     { id: 17, name: 'Mr S Ndlovu', subject: 'Mathematics & N.S', photo: 's_ndlovu' },
     { id: 18, name: 'Miss A Mzobe', subject: 'Business Studies', photo: 'mzobe' },
     { id: 19, name: 'Miss Miya', subject: 'Drama', photo: 'miya' },
     { id: 20, name: 'Miss T Ngidi', subject: 'Clerk', photo: 'ngidi' },
-    { id: 22, name: 'Mr. Malinga', subject: 'Lithographic Operator', photo: 'malinga' },
     { id: 23, name: 'Mr. Mhlengi', subject: 'Technician', photo: 'mhlengi' },
   ];
 
@@ -106,7 +103,7 @@ const TeachersPage = () => {
             <div className="relative group">
               <div className="absolute -inset-4 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl transform -rotate-2 transition-transform group-hover:-rotate-1"></div>
               <div className="relative h-[400px] w-full rounded-2xl overflow-hidden shadow-xl bg-white">
-                <ProfileImage src="images/teachers/principal.jpg" alt="Principal of Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
+                <ProfileImage src="images/teachers/principal.avif" alt="Principal of Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
               </div>
             </div>
             <div>
@@ -116,7 +113,7 @@ const TeachersPage = () => {
               <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Principal</h3>
               <div className="prose prose-lg text-slate-600 mb-6 leading-relaxed">
                 <p>
-                  Our dedicated Principal leads Sacred Heart Secondary School with vision, integrity, and a deep commitment to educational excellence.
+                  Our dedicated Principal <b>Mrs S.P Hlongwa</b> leads Sacred Heart Secondary School with vision, integrity, and a deep commitment to educational excellence.
                   Under their guidance, our school continues to thrive as a nurturing environment for academic and personal growth.
                 </p>
                 <p>
@@ -153,7 +150,7 @@ const TeachersPage = () => {
               <div className="relative group">
                 <div className="absolute -inset-4 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl transform rotate-3 transition-transform group-hover:rotate-2"></div>
                 <div className="relative h-[400px] w-full rounded-2xl overflow-hidden shadow-xl bg-white">
-                  <ProfileImage src="images/teachers/goba.jpg" alt="Mrs. NS Goba, Deputy Principal of Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
+                  <ProfileImage src="images/teachers/goba.avif" alt="Mrs. NS Goba, Deputy Principal of Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
             </div>
@@ -168,7 +165,7 @@ const TeachersPage = () => {
             <div className="relative group">
               <div className="absolute -inset-4 bg-gradient-to-l from-blue-100 to-indigo-100 rounded-2xl transform -rotate-2 transition-transform group-hover:-rotate-1"></div>
               <div className="relative h-[400px] w-full rounded-2xl overflow-hidden shadow-xl bg-white">
-                <ProfileImage src="images/teachers/mtshali.jpg" alt="Miss. NC Mtshali, Head of Science Department at Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
+                <ProfileImage src="images/teachers/mtshali.avif" alt="Miss. NC Mtshali, Head of Science Department at Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
               </div>
             </div>
             <div>
@@ -208,7 +205,7 @@ const TeachersPage = () => {
               <div className="relative group">
                 <div className="absolute -inset-4 bg-gradient-to-r from-indigo-100 to-blue-100 rounded-2xl transform rotate-2 transition-transform group-hover:rotate-1"></div>
                 <div className="relative h-[400px] w-full rounded-2xl overflow-hidden shadow-xl bg-white">
-                  <ProfileImage src="images/teachers/mkhize.jpg" alt="Mr. SMN Mkhize, Head of Language Department at Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
+                  <ProfileImage src="images/teachers/mkhize.avif" alt="Mr. SMN Mkhize, Head of Language Department at Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
                 </div>
               </div>
             </div>
@@ -223,7 +220,7 @@ const TeachersPage = () => {
             <div className="relative group">
               <div className="absolute -inset-4 bg-gradient-to-l from-blue-100 to-indigo-100 rounded-2xl transform -rotate-3 transition-transform group-hover:-rotate-2"></div>
               <div className="relative h-[400px] w-full rounded-2xl overflow-hidden shadow-xl bg-white">
-                <ProfileImage src="images/teachers/vambe.jpg" alt="Mr. Vambe, Head of Commerce Department at Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
+                <ProfileImage src="images/teachers/vambe.avif" alt="Mr. Vambe, Head of Commerce Department at Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
               </div>
             </div>
             <div>
@@ -263,7 +260,7 @@ const TeachersPage = () => {
               <div key={teacher.id} className="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                 <div className="h-64 overflow-hidden bg-slate-100 relative">
                   <ProfileImage
-                    src={`images/teachers/${teacher.photo}.jpg`}
+                    src={`images/teachers/${teacher.photo}.avif`}
                     alt={teacher.name}
                     className="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-500"
                   />

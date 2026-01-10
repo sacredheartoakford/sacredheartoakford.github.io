@@ -76,7 +76,7 @@ const SportsPage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-96 flex items-center justify-center">
-                <ResponsiveImage src="/images/sports/pic1.jpg" alt="Soccer" loading='lazy' className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src="/images/sports/pic1.avif" alt="Soccer" loading='lazy' className="w-full h-full object-cover object-top" />
               </div>
             </div>
             <div>
@@ -120,7 +120,7 @@ const SportsPage: React.FC = () => {
               <div key={index} className="bg-gray-200 border-2 border-dashed rounded-lg w-full h-48 flex items-center justify-center">
                 {/* <span className="text-gray-500 text-sm">Sport Image {index + 1}</span> */}
                 <ResponsiveImage
-                  src={`/images/sports/pic${index + 1}.jpg`}
+                  src={`/images/sports/pic${index + 1}.avif`}
                   alt={`Student participating in sports activity ${index + 1}`}
                   className="w-full h-full object-cover object-top transform group-hover:scale-105 transition-transform duration-500"
                 />
@@ -144,7 +144,7 @@ const SportsPage: React.FC = () => {
             </div>
             <div>
               <div className="bg-gray-200 border-2 border-dashed rounded-xl w-full h-96 flex items-center justify-center">
-                <ResponsiveImage src="/images/sports/swimming.jpg" alt="Swimming" loading='lazy' className="w-full h-full object-cover object-top" />
+                <ResponsiveImage src="/images/sports/swimming.avif" alt="Swimming" loading='lazy' className="w-full h-full object-cover object-top" />
               </div>
             </div>
           </div>
