@@ -23,7 +23,7 @@ const ApplyPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="py-12 bg-gradient-to-b from-[#f6f7fd] to-white min-h-screen">
+    <div className="py-12 bg-gradient-to-b from-[#f6f7fd] to-white min-h-screen flex flex-col">
       <MetaTags
         title="Apply - Sacred Heart Secondary School"
         description="Apply to Sacred Heart Secondary School. Complete our online application form for Grade 8 or transfer students. Submit your application today."
@@ -31,7 +31,7 @@ const ApplyPage: React.FC = () => {
         url="/apply"
       />
       <EducationalInstitutionSchema pageType="admissions" />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow">
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-[#26262c] mb-3">
@@ -43,9 +43,9 @@ const ApplyPage: React.FC = () => {
         </div>
 
         {/* OpnForm Embedded Form */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+        <div className="bg-white rounded-2xl w-full shadow-lg p-6 md:p-8 h-full flex-grow flex flex-col">
           <iframe
-            style={{ border: 'none', width: '100%', height: '700px', maxHeight: '50vh' }}
+            style={{ border: 'none', width: '100%', minHeight: '75vh', flexGrow: 1 }}
             id="high-school-application-form-htqamj"
             src="https://opnform.com/forms/high-school-application-form-htqamj"
             title="High School Application Form"
