@@ -1,64 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Page Not Found | Sacred Heart Secondary School</title>
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      margin: 0;
-      background-color: #f6f7fd;
-      text-align: center;
-    }
-    .logo-container {
-      margin-bottom: 2rem;
-    }
-    .logo {
-      height: 80px;
-      width: auto;
-    }
-    .error-content {
-      max-width: 600px;
-      padding: 0 20px;
-    }
-    .error-title {
-      font-size: 2.5rem;
-      color: #26262c;
-      margin-bottom: 1rem;
-    }
-    .error-message {
-      font-size: 1.2rem;
-      color: #4747d7;
-      margin-bottom: 2rem;
-    }
-    .home-link {
-      display: inline-block;
-      padding: 12px 24px;
-      background-color: #4747d7;
-      color: white;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: 500;
-      transition: background-color 0.3s;
-    }
-    .home-link:hover {
-      background-color: #26262c;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <script>
+        // Check if the current path is not the root and not pointing to a real file
+        // Redirect to index.html to let the client-side router handle the route
+        (function () {
+            var redirect = sessionStorage.getItem('redirect');
+            if (redirect) {
+                sessionStorage.removeItem('redirect');
+                return;
+            }
+
+            // Check if this is a resource that should exist (like images, css, js)
+            var path = window.location.pathname;
+            if (!path.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$/)) {
+                sessionStorage.setItem('redirect', true);
+                window.location.href = window.location.origin + '/sacredheartoakford.github.io/';
+            }
+        })();
+    </script>
+    <!-- Fallback meta refresh in case JS is disabled -->
+    <meta http-equiv="refresh" content="0; url=/sacredheartoakford.github.io/">
 </head>
 <body>
-  <div class="logo-container">
-    <img src="/images/logo.jpg" alt="Sacred Heart Secondary School Logo" class="logo" />
-  </div>
-  <div class="error-content">
-    <h1 class="error-title">404 -  Page Not Found</h1>
-    <p class="error-message">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
-    <a href="/" class="home-link">Go to Homepage</a>
-  </div>
+    <p>If you are not redirected automatically, follow this <a href="/sacredheartoakford.github.io/">link</a>.</p>
 </body>
 </html>
