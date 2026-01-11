@@ -47,7 +47,7 @@ const ApplyPage: React.FC = () => {
           <iframe
             style={{ border: 'none', width: '100%', minHeight: '75vh', flexGrow: 1 }}
             id="high-school-application-form-htqamj"
-            src="https://opnform.com/forms/high-school-application-form-htqamj"
+            src="https://opnform.com/forms/school-application-form-hohzmy"
             title="High School Application Form"
           />
         </div>
