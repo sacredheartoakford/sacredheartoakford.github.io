@@ -109,5 +109,5 @@ def convert_jpg_to_avif(folder_path):
     print(f"Processing complete. Processed {converted_count} images.")
 
 if __name__ == "__main__":
-    root_folder_path = r"C:\Users\khumalo\Documents\code\sacredheartoakford.github.io\public\images\homepage"
+    root_folder_path = r"C:\Users\khumalo\Documents\code\sacredheartoakford.github.io\public\images\activities"
     convert_jpg_to_avif(root_folder_path)
