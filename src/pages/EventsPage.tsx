@@ -10,12 +10,79 @@ interface EventData {
   highlightImage: string;
   highlightAlt: string;
   galleryCount: number;
-  galleryPathBase: string;
+  galleryPathBase?: string; // Optional for pattern-based galleries
   galleryAltBase: string;
+  specificImages?: string[]; // Optional for specific image arrays
   content: React.ReactNode;
 }
 
 const eventsData: EventData[] = [
+  {
+    id: 6,
+    date: "January 13/ 2026 / 07:00 am",
+    title: "MATRIC 2025 AWARDS: Celebrating Excellence with 98% Pass Rate",
+    highlightImage: "/images/events/matric_2025_awards/PXL_20260113_075545857.MP.avif",
+    highlightAlt: "Matric 2025 Awards Ceremony",
+    galleryCount: 16,
+    galleryAltBase: "Matric 2025 Awards",
+    specificImages: [
+      "/images/events/matric_2025_awards/1768320705m1.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_075545857.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_075547801.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_110748489.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_115337994.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_121738119.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_121826737.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_125906163.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_125958237.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_130011938.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_131322619.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_131427222.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_133253531.LONG_EXPOSURE-02.ORIGINAL.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_134501813.LONG_EXPOSURE-02.ORIGINAL.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_135057785.MP.avif",
+      "/images/events/matric_2025_awards/SGCAM_20260113_135003037.avif"
+    ],
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Celebrating Outstanding Academic Achievement!</h4>
+        <p className="text-[#76767f] mb-4">
+          On January 13, 2026, Sacred Heart Secondary School celebrated the exceptional achievements
+          of the Class of 2025, who achieved an outstanding 98% pass rate. This remarkable accomplishment
+          reflects the dedication of our learners, teachers, and support staff.
+        </p>
+        <div className="bg-gradient-to-r from-[#4747d7] to-[#6e71e4] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">Award Winners</h5>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span><strong>1st Place:</strong> Certificate + R8,000</span>
+            </div>
+            <div className="flex justify-between">
+              <span><strong>2nd Place:</strong> Certificate + R6,000</span>
+            </div>
+            <div className="flex justify-between">
+              <span><strong>3rd Place:</strong> Certificate + R4,000</span>
+            </div>
+            <div className="flex justify-between">
+              <span><strong>4th-10th Place:</strong> Certificate + R500 each</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] mb-4">
+          The Top 10 learners were recognized for their exceptional academic performance.
+          This ceremony highlighted the importance of hard work, dedication, and perseverance
+          in achieving academic excellence.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          We extend our heartfelt congratulations to all the award recipients and
+          commend the entire Class of 2025 for their remarkable achievement of a 98% pass rate.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With pride and celebration, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
   {
     id: 1,
     date: "November 23/ 2024 / 15:00 pm",
@@ -243,10 +310,20 @@ const EventsPage: React.FC = () => {
               {/* Gallery Carousel */}
               <h4 className="text-xl font-bold text-[#26262c] mb-6">Photo Gallery</h4>
               <ThreeDCarousel
-                images={Array.from({ length: event.galleryCount }, (_, i) => `${event.galleryPathBase}${i + 1}.avif`)}
-                altTexts={Array.from({ length: event.galleryCount }, (_, i) =>
-                  i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
-                )}
+                images={
+                  event.specificImages
+                    ? event.specificImages
+                    : Array.from({ length: event.galleryCount }, (_, i) => `${event.galleryPathBase}${i + 1}.avif`)
+                }
+                altTexts={
+                  event.specificImages
+                    ? Array.from({ length: event.specificImages?.length || 0 }, (_, i) =>
+                        i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
+                      )
+                    : Array.from({ length: event.galleryCount }, (_, i) =>
+                        i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
+                      )
+                }
               />
             </div>
           </section>
