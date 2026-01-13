@@ -18,7 +18,7 @@ interface EventData {
 
 const eventsData: EventData[] = [
   {
-    id: 6,
+    id: 1,
     date: "January 13/ 2026 / 07:00 am",
     title: "MATRIC 2025 AWARDS: Celebrating Excellence with 98% Pass Rate",
     highlightImage: "/images/events/matric_2025_awards/PXL_20260113_075545857.MP.avif",
@@ -51,7 +51,7 @@ const eventsData: EventData[] = [
           of the Class of 2025, who achieved an outstanding 98% pass rate. This remarkable accomplishment
           reflects the dedication of our learners, teachers, and support staff.
         </p>
-        <div className="bg-gradient-to-r from-[#4747d7] to-[#6e71e4] text-white rounded-xl p-6 mb-4">
+        <div className="bg-gradient-to-r from-[#4747d7] to-[#6e71e4] text-white rounded-xl p-6 mb-2">
           <h5 className="text-lg font-bold mb-2 text-center">Award Winners</h5>
           <div className="space-y-2">
             <div className="flex justify-between">
@@ -84,7 +84,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 1,
+    id: 2,
     date: "November 23/ 2024 / 15:00 pm",
     title: "Class of 2024 MATRIC DANCE: A night to Remember",
     highlightImage: "/images/events/matric_dance_2024/pic1.avif",
@@ -116,7 +116,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 2,
+    id: 3,
     date: "October 08/ 2024 / 12:00 pm",
     title: "Sacred Heart Business Lunch",
     highlightImage: "/images/events/business_lunch/pic5.avif",
@@ -148,7 +148,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 3,
+    id: 4,
     date: "September 19/ 2024 / 18:00 pm",
     title: "GALA DINNER",
     highlightImage: "/images/events/gala_dinner_2024/pic12.avif",
@@ -181,7 +181,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 4,
+    id: 5,
     date: "September 30/ 2023 / 18:30 pm",
     title: "GALA DINNER",
     highlightImage: "/images/events/gala_dinner_2023/pic9.avif",
@@ -215,7 +215,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 5,
+    id: 6,
     date: "February 14/ 2024 / 10:00 am",
     title: "Valentine's Day Picnic",
     highlightImage: "/images/events/valentines_day_picnic/pic1.avif",
