@@ -52,6 +52,29 @@ const StudentsPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Academic Achievement Section */}
+      <section className="py-16 bg-gradient-to-r from-[#4747d7] to-[#6e71e4] text-white">
+        <div className="container mx-auto px-6 sm:px-8 max-w-6xl text-center">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Outstanding Matric Results</h2>
+          <div className="w-24 h-1 bg-white mx-auto mb-8"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-8">
+              <h3 className="text-2xl font-bold mb-4">Class of 2024</h3>
+              <div className="text-5xl font-bold mb-2">94.5%</div>
+              <p className="text-lg">Pass Rate</p>
+            </div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-8">
+              <h3 className="text-2xl font-bold mb-4">Class of 2025</h3>
+              <div className="text-5xl font-bold mb-2">98%</div>
+              <p className="text-lg">Pass Rate</p>
+            </div>
+          </div>
+          <p className="mt-8 text-xl max-w-3xl mx-auto italic">
+            These exceptional results reflect our commitment to academic excellence and the dedication of our students and teachers.
+          </p>
+        </div>
+      </section>
+
       {/* Student Life Description & Gallery */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6 sm:px-8 max-w-6xl">
