@@ -84,6 +84,38 @@ const eventsData: EventData[] = [
     )
   },
   {
+    id: 2,
+    date: "November 23/ 2024 / 15:00 pm",
+    title: "Class of 2024 MATRIC DANCE: A night to Remember",
+    highlightImage: "/images/events/matric_dance_2024/pic1.avif",
+    highlightAlt: "Matric Dance Highlight",
+    galleryCount: 10,
+    galleryPathBase: "/images/events/matric_dance_2024/pic",
+    galleryAltBase: "Matric Dance",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">What a night to remember!!!!!</h4>
+        <p className="text-[#76767f] mb-4">
+          Congratulations to our Class of 2024 graduates on your special night! Your journey has been
+          filled with dedication, perseverance, and remarkable achievements. The Brently Lodge and
+          Lifestyle Centre in Durban provided the perfect setting for this memorable celebration of
+          your accomplishments.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          As you move forward into your next chapter, remember that the Sacred Heart family will
+          always be here to support you. Embrace your future with courage and confidence, and never
+          forget the friendships and memories you've made here.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          Wishing all the best to the Class of 2024 as you embark on your next adventure.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With love and blessings, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
     id: 3,
     date: "October 08/ 2024 / 12:00 pm",
     title: "Sacred Heart Business Lunch",
