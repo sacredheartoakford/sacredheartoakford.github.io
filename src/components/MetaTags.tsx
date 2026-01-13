@@ -24,7 +24,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
     useEffect(() => {
         // Update canonical URL
         const canonicalLink = document.querySelector('link[rel="canonical"]');
-        const canonicalUrl = canonical || `https://sacredheartoakford.github.io${url}`;
+        const canonicalUrl = canonical || `https://sacredheartoakford.co.za${url}`;
         if (canonicalLink) {
             canonicalLink.setAttribute('href', canonicalUrl);
         } else {
@@ -103,11 +103,11 @@ const MetaTags: React.FC<MetaTagsProps> = ({
 
         const ogUrl = document.querySelector('meta[property="og:url"]');
         if (ogUrl) {
-            ogUrl.setAttribute('content', `https://sacredheartoakford.github.io${url}`);
+            ogUrl.setAttribute('content', `https://sacredheartoakford.co.za${url}`);
         } else {
             const meta = document.createElement('meta');
             meta.setAttribute('property', 'og:url');
-            meta.setAttribute('content', `https://sacredheartoakford.github.io${url}`);
+            meta.setAttribute('content', `https://sacredheartoakford.co.za${url}`);
             document.head.appendChild(meta);
         }
 
@@ -155,7 +155,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
             <meta property="og:title" content={title} />
             <meta property="og:description" content={description} />
             <meta property="og:image" content={image} />
-            <meta property="og:url" content={`https://sacredheartoakford.github.io${url}`} />
+            <meta property="og:url" content={`https://sacredheartoakford.co.za${url}`} />
             <meta property="og:site_name" content="Sacred Heart Secondary School" />
 
             {/* Twitter */}
@@ -165,7 +165,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
             <meta name="twitter:image" content={image} />
 
             {/* Canonical URL */}
-            <link rel="canonical" href={canonical} />
+            <link rel="canonical" href={canonical || `https://sacredheartoakford.co.za${url}`} />
         </>
     );
 };
