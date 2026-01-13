@@ -47,12 +47,12 @@ const eventsData: EventData[] = [
       <>
         <h4 className="text-xl font-bold text-[#26262c] mb-4">Celebrating Outstanding Academic Achievement!</h4>
         <p className="text-[#76767f] mb-4">
-          On January 13, 2026, Sacred Heart Secondary School celebrated the exceptional achievements
+          On January 13, 2026, we celebrated the exceptional achievements
           of the Class of 2025, who achieved an outstanding 98% pass rate. This remarkable accomplishment
           reflects the dedication of our learners, teachers, and support staff.
         </p>
         <div className="bg-gradient-to-r from-[#4747d7] to-[#6e71e4] text-white rounded-xl p-6 mb-4">
-          <h5 className="text-lg font-bold mb-3 text-center">Award Winners</h5>
+          <h5 className="text-lg font-bold mb-2 text-center">Award Winners</h5>
           <div className="space-y-2">
             <div className="flex justify-between">
               <span><strong>1st Place:</strong> Certificate + R8,000</span>
