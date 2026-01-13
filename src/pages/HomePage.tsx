@@ -45,12 +45,14 @@ const CountUp = ({ end, duration = 2000, suffix = '' }: { end: number; duration?
       // Easing function for smooth animation (easeOutExpo)
       const easeOut = (x: number) => (x === 1 ? 1 : 1 - Math.pow(2, -10 * x));
 
-      setCount(Math.floor(easeOut(progress) * end));
+      // Format to 1 decimal place for percentages like 94.5%
+      const calculatedValue = parseFloat((easeOut(progress) * end).toFixed(1));
+      setCount(calculatedValue);
 
       if (progress < 1) {
         animationFrame = requestAnimationFrame(animate);
       } else {
-        setCount(end); // Ensure it ends exactly on the target
+        setCount(parseFloat(end.toFixed(1))); // Ensure it ends exactly on the target with 1 decimal place
       }
     };
 
@@ -59,7 +61,10 @@ const CountUp = ({ end, duration = 2000, suffix = '' }: { end: number; duration?
     return () => cancelAnimationFrame(animationFrame);
   }, [isVisible, end, duration]);
 
-  return <span ref={ref}>{count}{suffix}</span>;
+  // Format the display to show decimal places for percentages
+  const displayValue = Number.isInteger(end) ? count : parseFloat(count.toFixed(1));
+
+  return <span ref={ref}>{displayValue}{suffix}</span>;
 };
 
 const HomePage: React.FC = () => {
@@ -149,6 +154,18 @@ const HomePage: React.FC = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center p-4 bg-white rounded-lg shadow-sm md:bg-transparent md:shadow-none">
               <div className="text-4xl md:text-5xl font-bold text-[#4747d7] mb-2">
+                <CountUp end={98} suffix="%" />
+              </div>
+              <p className="text-[#76767f] font-medium">2025 Matric Pass Rate</p>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm md:bg-transparent md:shadow-none">
+              <div className="text-4xl md:text-5xl font-bold text-[#4747d7] mb-2">
+                <CountUp end={94.5} suffix="%" />
+              </div>
+              <p className="text-[#76767f] font-medium">2024 Matric Pass Rate</p>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm md:bg-transparent md:shadow-none">
+              <div className="text-4xl md:text-5xl font-bold text-[#4747d7] mb-2">
                 <CountUp end={500} suffix="+" />
               </div>
               <p className="text-[#76767f] font-medium">Current Enrollments</p>
@@ -158,18 +175,6 @@ const HomePage: React.FC = () => {
                 <CountUp end={27} suffix="+" duration={1500} />
               </div>
               <p className="text-[#76767f] font-medium">Qualified Staff</p>
-            </div>
-            <div className="text-center p-4 bg-white rounded-lg shadow-sm md:bg-transparent md:shadow-none">
-              <div className="text-4xl md:text-5xl font-bold text-[#4747d7] mb-2">
-                <CountUp end={12} suffix="+" duration={1500} />
-              </div>
-              <p className="text-[#76767f] font-medium">Clubs & Activities</p>
-            </div>
-            <div className="text-center p-4 bg-white rounded-lg shadow-sm md:bg-transparent md:shadow-none">
-              <div className="text-4xl md:text-5xl font-bold text-[#4747d7] mb-2">
-                <CountUp end={8} suffix="+" duration={1000} />
-              </div>
-              <p className="text-[#76767f] font-medium">SGB Members</p>
             </div>
           </div>
         </div>
@@ -181,7 +186,7 @@ const HomePage: React.FC = () => {
           <div className="max-w-4xl mx-auto bg-gray-200 border-2 border-dashed rounded-xl w-full h-96 flex items-center justify-center">
             <div className="w-full h-full">
               <video
-                src="public/vid/home.mp4"
+                src="/vid/home.mp4"
                 // poster="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/20240523_163224-scaled.avif"
                 controls={true}
                 className="w-full h-full object-cover rounded-xl"
