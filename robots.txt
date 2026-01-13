@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sacredheartoakford.github.io/sitemap.xml
+Sitemap: https://sacredheartoakford.co.za/sitemap.xml
