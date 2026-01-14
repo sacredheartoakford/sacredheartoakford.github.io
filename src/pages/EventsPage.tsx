@@ -55,13 +55,13 @@ const eventsData: EventData[] = [
           <h5 className="text-lg font-bold mb-2 text-center">Award Winners</h5>
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span><strong>1st Place:</strong> Certificate + R8,000</span>
+              <span><strong>1st Place:</strong> Certificate + R10,000</span>
             </div>
             <div className="flex justify-between">
-              <span><strong>2nd Place:</strong> Certificate + R6,000</span>
+              <span><strong>2nd Place:</strong> Certificate + R5,000</span>
             </div>
             <div className="flex justify-between">
-              <span><strong>3rd Place:</strong> Certificate + R4,000</span>
+              <span><strong>3rd Place:</strong> Certificate + R2,000</span>
             </div>
             <div className="flex justify-between">
               <span><strong>4th-10th Place:</strong> Certificate + R500 each</span>
