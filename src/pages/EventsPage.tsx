@@ -19,6 +19,158 @@ interface EventData {
 const eventsData: EventData[] = [
   {
     id: 1,
+    date: "February 27/ 2026 / 08:00 am",
+    title: "STAFF TEAM BUILDING: 2 Days at The Riverside Hotel",
+    highlightImage: "/images/events/team_building_2026/PXL_20260227_131900486.MP.avif",
+    highlightAlt: "Team Building at The Riverside Hotel",
+    galleryCount: 115,
+    galleryAltBase: "Team Building",
+    specificImages: [
+      "/images/events/team_building_2026/PXL_20260227_124044740.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_124050597.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_124051714.avif",
+      "/images/events/team_building_2026/PXL_20260227_124231231.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_124233834.avif",
+      "/images/events/team_building_2026/PXL_20260227_124238201.avif",
+      "/images/events/team_building_2026/PXL_20260227_125013296.avif",
+      "/images/events/team_building_2026/PXL_20260227_125015212.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_125606459.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_125825685.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_125832765.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_125838873.avif",
+      "/images/events/team_building_2026/PXL_20260227_125844991.avif",
+      "/images/events/team_building_2026/PXL_20260227_125855441.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_125921048.NIGHT.avif",
+      "/images/events/team_building_2026/PXL_20260227_125955147.avif",
+      "/images/events/team_building_2026/PXL_20260227_130002148.avif",
+      "/images/events/team_building_2026/PXL_20260227_131900486.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_131926300.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_131935799.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_132023868.avif",
+      "/images/events/team_building_2026/PXL_20260227_132102517.avif",
+      "/images/events/team_building_2026/PXL_20260227_132139307.avif",
+      "/images/events/team_building_2026/PXL_20260227_132222465.avif",
+      "/images/events/team_building_2026/PXL_20260227_132246949.avif",
+      "/images/events/team_building_2026/PXL_20260227_132255933.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_132344029.NIGHT.avif",
+      "/images/events/team_building_2026/PXL_20260227_132401181.avif",
+      "/images/events/team_building_2026/PXL_20260227_132430273.NIGHT.avif",
+      "/images/events/team_building_2026/PXL_20260227_132437105.avif",
+      "/images/events/team_building_2026/PXL_20260227_132720040.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_132727095.avif",
+      "/images/events/team_building_2026/PXL_20260227_133522905.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_133531802.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_133609237.avif",
+      "/images/events/team_building_2026/PXL_20260227_133632732.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_133731611.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_133742102.avif",
+      "/images/events/team_building_2026/PXL_20260227_133923774.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_134026297.avif",
+      "/images/events/team_building_2026/PXL_20260227_134809677.avif",
+      "/images/events/team_building_2026/PXL_20260227_134818373.avif",
+      "/images/events/team_building_2026/PXL_20260227_134822372.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_134834713.NIGHT.avif",
+      "/images/events/team_building_2026/PXL_20260227_134943016.avif",
+      "/images/events/team_building_2026/PXL_20260227_135149704.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_135215684.avif",
+      "/images/events/team_building_2026/PXL_20260227_135527231.avif",
+      "/images/events/team_building_2026/PXL_20260227_140501771.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_140505352.avif",
+      "/images/events/team_building_2026/PXL_20260227_140850074.avif",
+      "/images/events/team_building_2026/PXL_20260227_140944600.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_062527116.avif",
+      "/images/events/team_building_2026/PXL_20260228_065133272.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_065207073.avif",
+      "/images/events/team_building_2026/PXL_20260228_065219047.avif",
+      "/images/events/team_building_2026/PXL_20260228_065223731.avif",
+      "/images/events/team_building_2026/PXL_20260228_065231415.avif",
+      "/images/events/team_building_2026/PXL_20260228_065301119.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_065414361.avif",
+      "/images/events/team_building_2026/PXL_20260228_070250090.avif",
+      "/images/events/team_building_2026/PXL_20260228_072523234.avif",
+      "/images/events/team_building_2026/PXL_20260228_072533061.avif",
+      "/images/events/team_building_2026/PXL_20260228_073139143.avif",
+      "/images/events/team_building_2026/PXL_20260228_073159550.avif",
+      "/images/events/team_building_2026/PXL_20260228_084231701.avif",
+      "/images/events/team_building_2026/PXL_20260228_084246338.avif",
+      "/images/events/team_building_2026/PXL_20260228_084251324.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_084300431.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_084337168.avif",
+      "/images/events/team_building_2026/PXL_20260228_084352568.avif",
+      "/images/events/team_building_2026/PXL_20260228_084355136.avif",
+      "/images/events/team_building_2026/PXL_20260228_092522320.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_092535616.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_092604115.avif",
+      "/images/events/team_building_2026/PXL_20260228_092610313.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_092718731.avif",
+      "/images/events/team_building_2026/PXL_20260228_092953730.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093020433.avif",
+      "/images/events/team_building_2026/PXL_20260228_093022772.avif",
+      "/images/events/team_building_2026/PXL_20260228_093030913.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093043437.avif",
+      "/images/events/team_building_2026/PXL_20260228_093046261.avif",
+      "/images/events/team_building_2026/PXL_20260228_093047994.avif",
+      "/images/events/team_building_2026/PXL_20260228_093052708.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093055229.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093311439.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093319137.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093323295.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094656738.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094711474.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094713101.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094827308.avif",
+      "/images/events/team_building_2026/PXL_20260228_094906896.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094911175.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_095149596.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_095229038.avif",
+      "/images/events/team_building_2026/PXL_20260228_095231013.avif",
+      "/images/events/team_building_2026/PXL_20260228_095243913.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_095459569.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_151409794.avif",
+      "/images/events/team_building_2026/PXL_20260228_170037320.avif",
+      "/images/events/team_building_2026/PXL_20260228_170044237.avif",
+      "/images/events/team_building_2026/PXL_20260228_170508700.avif",
+      "/images/events/team_building_2026/PXL_20260228_170509535.avif",
+      "/images/events/team_building_2026/PXL_20260228_170511687.avif",
+      "/images/events/team_building_2026/PXL_20260228_170513283.avif",
+      "/images/events/team_building_2026/PXL_20260228_172345800.avif",
+      "/images/events/team_building_2026/PXL_20260228_173054881.avif",
+      "/images/events/team_building_2026/PXL_20260228_173108609.avif",
+      "/images/events/team_building_2026/PXL_20260228_181957980.avif",
+      "/images/events/team_building_2026/PXL_20260228_182008903.avif",
+      "/images/events/team_building_2026/PXL_20260228_183500878.avif",
+      "/images/events/team_building_2026/PXL_20260228_191610374.avif",
+      "/images/events/team_building_2026/PXL_20260228_191614572.MP.avif"
+    ],
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Building Stronger Bonds Beyond the Classroom</h4>
+        <p className="text-[#76767f] mb-4">
+          On February 27–28, 2026, the Sacred Heart Secondary School staff embarked on an exciting
+          2-day team building retreat at The Riverside Hotel. This enriching experience was designed
+          to strengthen collaboration, boost morale, and foster deeper connections among our
+          dedicated educators and support staff.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The retreat featured a variety of engaging activities that encouraged teamwork,
+          communication, and creative problem-solving. From outdoor challenges to reflective
+          sessions, every moment was crafted to bring our team closer together and reignite
+          the passion that drives our commitment to excellence in education.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The beautiful setting of The Riverside Hotel provided the perfect backdrop for
+          relaxation and camaraderie, allowing staff members to unwind while building
+          lasting memories and strengthening the bonds that make Sacred Heart a truly
+          special community.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With unity and purpose, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 2,
     date: "January 13/ 2026 / 07:00 am",
     title: "MATRIC 2025 AWARDS: Celebrating Excellence with 98% Pass Rate",
     highlightImage: "/images/events/matric_2025_awards/PXL_20260113_075545857.MP.avif",
@@ -84,7 +236,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 2,
+    id: 3,
     date: "November 23/ 2024 / 15:00 pm",
     title: "Class of 2024 MATRIC DANCE: A night to Remember",
     highlightImage: "/images/events/matric_dance_2024/pic1.avif",
@@ -116,7 +268,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 3,
+    id: 4,
     date: "October 08/ 2024 / 12:00 pm",
     title: "Sacred Heart Business Lunch",
     highlightImage: "/images/events/business_lunch/pic5.avif",
@@ -148,7 +300,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 4,
+    id: 5,
     date: "September 19/ 2024 / 18:00 pm",
     title: "GALA DINNER",
     highlightImage: "/images/events/gala_dinner_2024/pic12.avif",
@@ -181,7 +333,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 5,
+    id: 6,
     date: "September 30/ 2023 / 18:30 pm",
     title: "GALA DINNER",
     highlightImage: "/images/events/gala_dinner_2023/pic9.avif",
@@ -215,7 +367,7 @@ const eventsData: EventData[] = [
     )
   },
   {
-    id: 6,
+    id: 7,
     date: "February 14/ 2024 / 10:00 am",
     title: "Valentine's Day Picnic",
     highlightImage: "/images/events/valentines_day_picnic/pic1.avif",
