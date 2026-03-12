@@ -23,124 +23,63 @@ const eventsData: EventData[] = [
     title: "STAFF TEAM BUILDING: 2 Days at The Riverside Hotel",
     highlightImage: "/images/events/team_building_2026/PXL_20260227_131900486.MP.avif",
     highlightAlt: "Team Building at The Riverside Hotel",
-    galleryCount: 115,
+    galleryCount: 54,
     galleryAltBase: "Team Building",
     specificImages: [
       "/images/events/team_building_2026/PXL_20260227_124044740.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_124050597.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_124051714.avif",
       "/images/events/team_building_2026/PXL_20260227_124231231.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_124233834.avif",
-      "/images/events/team_building_2026/PXL_20260227_124238201.avif",
-      "/images/events/team_building_2026/PXL_20260227_125013296.avif",
       "/images/events/team_building_2026/PXL_20260227_125015212.MP.avif",
       "/images/events/team_building_2026/PXL_20260227_125606459.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_125825685.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_125832765.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_125838873.avif",
-      "/images/events/team_building_2026/PXL_20260227_125844991.avif",
-      "/images/events/team_building_2026/PXL_20260227_125855441.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_125921048.NIGHT.avif",
-      "/images/events/team_building_2026/PXL_20260227_125955147.avif",
-      "/images/events/team_building_2026/PXL_20260227_130002148.avif",
       "/images/events/team_building_2026/PXL_20260227_131900486.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_131926300.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_131935799.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_132023868.avif",
-      "/images/events/team_building_2026/PXL_20260227_132102517.avif",
-      "/images/events/team_building_2026/PXL_20260227_132139307.avif",
       "/images/events/team_building_2026/PXL_20260227_132222465.avif",
       "/images/events/team_building_2026/PXL_20260227_132246949.avif",
-      "/images/events/team_building_2026/PXL_20260227_132255933.MP.avif",
       "/images/events/team_building_2026/PXL_20260227_132344029.NIGHT.avif",
       "/images/events/team_building_2026/PXL_20260227_132401181.avif",
-      "/images/events/team_building_2026/PXL_20260227_132430273.NIGHT.avif",
       "/images/events/team_building_2026/PXL_20260227_132437105.avif",
-      "/images/events/team_building_2026/PXL_20260227_132720040.MP.avif",
       "/images/events/team_building_2026/PXL_20260227_132727095.avif",
       "/images/events/team_building_2026/PXL_20260227_133522905.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_133531802.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_133609237.avif",
-      "/images/events/team_building_2026/PXL_20260227_133632732.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_133731611.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_133742102.avif",
       "/images/events/team_building_2026/PXL_20260227_133923774.MP.avif",
       "/images/events/team_building_2026/PXL_20260227_134026297.avif",
-      "/images/events/team_building_2026/PXL_20260227_134809677.avif",
-      "/images/events/team_building_2026/PXL_20260227_134818373.avif",
-      "/images/events/team_building_2026/PXL_20260227_134822372.MP.avif",
       "/images/events/team_building_2026/PXL_20260227_134834713.NIGHT.avif",
-      "/images/events/team_building_2026/PXL_20260227_134943016.avif",
       "/images/events/team_building_2026/PXL_20260227_135149704.MP.avif",
-      "/images/events/team_building_2026/PXL_20260227_135215684.avif",
-      "/images/events/team_building_2026/PXL_20260227_135527231.avif",
       "/images/events/team_building_2026/PXL_20260227_140501771.MP.avif",
       "/images/events/team_building_2026/PXL_20260227_140505352.avif",
       "/images/events/team_building_2026/PXL_20260227_140850074.avif",
       "/images/events/team_building_2026/PXL_20260227_140944600.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_062527116.avif",
       "/images/events/team_building_2026/PXL_20260228_065133272.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_065207073.avif",
-      "/images/events/team_building_2026/PXL_20260228_065219047.avif",
-      "/images/events/team_building_2026/PXL_20260228_065223731.avif",
-      "/images/events/team_building_2026/PXL_20260228_065231415.avif",
       "/images/events/team_building_2026/PXL_20260228_065301119.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_065414361.avif",
-      "/images/events/team_building_2026/PXL_20260228_070250090.avif",
       "/images/events/team_building_2026/PXL_20260228_072523234.avif",
-      "/images/events/team_building_2026/PXL_20260228_072533061.avif",
       "/images/events/team_building_2026/PXL_20260228_073139143.avif",
       "/images/events/team_building_2026/PXL_20260228_073159550.avif",
       "/images/events/team_building_2026/PXL_20260228_084231701.avif",
-      "/images/events/team_building_2026/PXL_20260228_084246338.avif",
-      "/images/events/team_building_2026/PXL_20260228_084251324.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_084300431.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_084337168.avif",
       "/images/events/team_building_2026/PXL_20260228_084352568.avif",
       "/images/events/team_building_2026/PXL_20260228_084355136.avif",
       "/images/events/team_building_2026/PXL_20260228_092522320.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_092535616.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_092604115.avif",
-      "/images/events/team_building_2026/PXL_20260228_092610313.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_092718731.avif",
       "/images/events/team_building_2026/PXL_20260228_092953730.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_093020433.avif",
-      "/images/events/team_building_2026/PXL_20260228_093022772.avif",
       "/images/events/team_building_2026/PXL_20260228_093030913.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_093043437.avif",
       "/images/events/team_building_2026/PXL_20260228_093046261.avif",
-      "/images/events/team_building_2026/PXL_20260228_093047994.avif",
       "/images/events/team_building_2026/PXL_20260228_093052708.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_093055229.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_093311439.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_093319137.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_093323295.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_094656738.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_094711474.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_094713101.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_094827308.avif",
       "/images/events/team_building_2026/PXL_20260228_094906896.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_094911175.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_095149596.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_095229038.avif",
-      "/images/events/team_building_2026/PXL_20260228_095231013.avif",
-      "/images/events/team_building_2026/PXL_20260228_095243913.MP.avif",
       "/images/events/team_building_2026/PXL_20260228_095459569.MP.avif",
-      "/images/events/team_building_2026/PXL_20260228_151409794.avif",
-      "/images/events/team_building_2026/PXL_20260228_170037320.avif",
-      "/images/events/team_building_2026/PXL_20260228_170044237.avif",
-      "/images/events/team_building_2026/PXL_20260228_170508700.avif",
-      "/images/events/team_building_2026/PXL_20260228_170509535.avif",
-      "/images/events/team_building_2026/PXL_20260228_170511687.avif",
-      "/images/events/team_building_2026/PXL_20260228_170513283.avif",
       "/images/events/team_building_2026/PXL_20260228_172345800.avif",
       "/images/events/team_building_2026/PXL_20260228_173054881.avif",
       "/images/events/team_building_2026/PXL_20260228_173108609.avif",
       "/images/events/team_building_2026/PXL_20260228_181957980.avif",
       "/images/events/team_building_2026/PXL_20260228_182008903.avif",
-      "/images/events/team_building_2026/PXL_20260228_183500878.avif",
-      "/images/events/team_building_2026/PXL_20260228_191610374.avif",
-      "/images/events/team_building_2026/PXL_20260228_191614572.MP.avif"
+      "/images/events/team_building_2026/PXL_20260228_183500878.avif"
     ],
     content: (
       <>
@@ -418,11 +357,28 @@ const EventsPage: React.FC = () => {
         url="/events"
       />
       <EducationalInstitutionSchema pageType="events" />
-      {/* Page Title */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6 sm:px-8 max-w-6xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#26262c] mb-4">Events</h1>
-          <div className="w-20 h-1 bg-[#4747d7]"></div>
+      {/* Hero Section */}
+      <section className="relative h-[60vh] min-h-[250px] flex items-center justify-center bg-blue-950 text-white overflow-hidden">
+        {/* Decorative Circles */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[-10%] left-[10%] w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-[10%] right-[10%] w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 max-w-5xl text-center">
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-800/50 border border-blue-700 backdrop-blur-sm text-blue-200 text-xs font-bold uppercase tracking-widest">
+              ✦ School Life
+            </div>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-8 leading-tight tracking-tight text-white drop-shadow-sm">
+            Our <span className="italic font-light text-blue-200">Events</span>
+          </h1>
+
+          <p className="max-w-2xl mx-auto text-blue-100 text-lg md:text-xl leading-relaxed font-light mb-10">
+            Celebrating milestones, building community, and creating memories that last a lifetime.
+          </p>
         </div>
       </section>
 
