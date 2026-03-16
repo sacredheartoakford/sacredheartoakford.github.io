@@ -14,11 +14,73 @@ interface EventData {
   galleryAltBase: string;
   specificImages?: string[]; // Optional for specific image arrays
   content: React.ReactNode;
+  fullSizeImage?: boolean; // Optional flag to render the image in full detail
 }
 
 const eventsData: EventData[] = [
   {
     id: 1,
+    date: "September 25/ 2026 / Morning",
+    title: "SACRED HEART GOLF FUNDRAISING DAY",
+    highlightImage: "/images/events/golf_september/WhatsApp Image 2026-03-02 at 13.06.58.jpeg",
+    highlightAlt: "Sacred Heart Golf Fundraising Day Invitation",
+    galleryCount: 1,
+    galleryAltBase: "Golf Fundraising Day",
+    specificImages: [
+      "/images/events/golf_september/WhatsApp Image 2026-03-02 at 13.06.58.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Sacred Heart Golf Fundraising Day</h4>
+        <p className="text-[#76767f] mb-4">
+          Join us for the Sacred Heart Golf Fundraising Day in partnership with Mandate &amp; Sumptuous,
+          taking place on <strong>25 September 2026</strong> at <strong>Umhlali Country Club</strong>.
+          Format: IPS.
+        </p>
+        <div className="bg-gradient-to-r from-[#2d6a2e] to-[#4a9e4b] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">Packages</h5>
+          <div className="space-y-3">
+            <div>
+              <strong>R50 000 Package:</strong>
+              <ul className="list-disc list-inside ml-2 mt-1 text-sm">
+                <li>2 x Fourball</li>
+                <li>4 People for Dinner</li>
+                <li>Hole 1 or Hole 10 Activation</li>
+                <li>Dinner Branding</li>
+              </ul>
+            </div>
+            <div>
+              <strong>R15 000 Package:</strong>
+              <ul className="list-disc list-inside ml-2 mt-1 text-sm">
+                <li>1 x Fourball</li>
+                <li>Hole Activation</li>
+              </ul>
+            </div>
+            <div>
+              <strong>1 x Fourball — R6 000:</strong>
+              <ul className="list-disc list-inside ml-2 mt-1 text-sm">
+                <li>Greenfees</li>
+                <li>Halfway House</li>
+                <li>Prize Giving Dinner</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] mb-2">
+          <strong>RSVP:</strong> 31 August 2026
+        </p>
+        <p className="text-[#76767f] mb-2">
+          <strong>TEL:</strong> (031) 812 0555 &nbsp;•&nbsp; <strong>EMAIL:</strong> olivia@slgas.co.za
+        </p>
+        <p className="text-[#76767f] font-semibold mt-4">
+          With unity and purpose, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 2,
     date: "February 27/ 2026 / 08:00 am",
     title: "STAFF TEAM BUILDING: 2 Days at The Riverside Hotel",
     highlightImage: "/images/events/team_building_2026/PXL_20260227_131900486.MP.avif",
@@ -398,12 +460,12 @@ const EventsPage: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 {/* Main Content - Left: Large Photo */}
                 <div className="flex justify-center">
-                  <div className="w-full max-w-lg">
-                    <div className="w-full h-96 mb-4 overflow-hidden rounded-xl shadow-xl">
+                  <div className={`w-full ${event.fullSizeImage ? '' : 'max-w-lg'}`}>
+                    <div className={`w-full ${event.fullSizeImage ? 'h-auto' : 'h-96'} mb-4 overflow-hidden rounded-xl shadow-xl`}>
                       <img
                         src={event.highlightImage}
                         alt={event.highlightAlt}
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full ${event.fullSizeImage ? 'object-contain' : 'object-cover'}`}
                       />
                     </div>
                   </div>
@@ -416,23 +478,27 @@ const EventsPage: React.FC = () => {
               </div>
 
               {/* Gallery Carousel */}
-              <h4 className="text-xl font-bold text-[#26262c] mb-6">Photo Gallery</h4>
-              <ThreeDCarousel
-                images={
-                  event.specificImages
-                    ? event.specificImages
-                    : Array.from({ length: event.galleryCount }, (_, i) => `${event.galleryPathBase}${i + 1}.avif`)
-                }
-                altTexts={
-                  event.specificImages
-                    ? Array.from({ length: event.specificImages?.length || 0 }, (_, i) =>
-                        i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
-                      )
-                    : Array.from({ length: event.galleryCount }, (_, i) =>
-                        i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
-                      )
-                }
-              />
+              {event.galleryCount > 1 && (
+                <>
+                  <h4 className="text-xl font-bold text-[#26262c] mb-6">Photo Gallery</h4>
+                  <ThreeDCarousel
+                    images={
+                      event.specificImages
+                        ? event.specificImages
+                        : Array.from({ length: event.galleryCount }, (_, i) => `${event.galleryPathBase}${i + 1}.avif`)
+                    }
+                    altTexts={
+                      event.specificImages
+                        ? Array.from({ length: event.specificImages?.length || 0 }, (_, i) =>
+                            i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
+                          )
+                        : Array.from({ length: event.galleryCount }, (_, i) =>
+                            i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
+                          )
+                    }
+                  />
+                </>
+              )}
             </div>
           </section>
 
