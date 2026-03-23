@@ -13,6 +13,7 @@ import SportsPage from './pages/SportsPage';
 import StudentsPage from './pages/StudentsPage';
 import TeachersPage from './pages/TeachersPage';
 import ContactPage from './pages/ContactPage';
+import AdminPage from './pages/AdminPage';
 import ScrollToTop from './components/ScrollToTop';
 
 const App: React.FC = () => {
@@ -33,6 +34,7 @@ const App: React.FC = () => {
           <Route path="/staff" element={<TeachersPage />} />
           <Route path="/students" element={<StudentsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Route>
       </Routes>
     </HashRouter>
