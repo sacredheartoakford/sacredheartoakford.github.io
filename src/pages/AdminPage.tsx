@@ -240,7 +240,7 @@ const AdminPage: React.FC = () => {
                 await renderToPdf(app);
                 await new Promise(resolve => setTimeout(resolve, 500));
             } catch (error) {
-                console.error(`Error generating PDF for application ${i}:`, error);
+                console.error(`Error generating PDF  for application ${i}:`, error);
             }
         }
 
