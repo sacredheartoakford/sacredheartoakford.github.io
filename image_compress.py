@@ -96,7 +96,7 @@ def convert_jpg_to_avif(folder_path):
                         background.paste(img, mask=img.split()[-1] if img.mode == 'RGBA' else None)
                         img = background
                     
-                    # Save as AVIF with maximum web optimization
+                    # Save as AVIF with maximum web optimization1
                     img.save(output_path, 'AVIF', quality=50, lossless=False, speed=6)
                 
                 print(f"Converted: {filename} -> {output_filename}")
