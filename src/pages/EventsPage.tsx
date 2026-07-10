@@ -20,61 +20,183 @@ interface EventData {
 const eventsData: EventData[] = [
   {
     id: 1,
-    date: "September 25/ 2026 / Morning",
-    title: "SACRED HEART GOLF FUNDRAISING DAY",
-    highlightImage: "/images/events/golf_september/WhatsApp Image 2026-03-02 at 13.06.58.jpeg",
-    highlightAlt: "Sacred Heart Golf Fundraising Day Invitation",
+    date: "Friday, September 25/ 2026 / 11h00",
+    title: "ANNUAL GOLF DAY: Driving Excellence, Building Futures",
+    highlightImage: "/images/events/golf_day_september/poster.jpeg",
+    highlightAlt: "Sacred Heart Annual Golf Day Invitation",
     galleryCount: 1,
-    galleryAltBase: "Golf Fundraising Day",
+    galleryAltBase: "Golf Day",
     specificImages: [
-      "/images/events/golf_september/WhatsApp Image 2026-03-02 at 13.06.58.jpeg"
+      "/images/events/golf_day_september/poster.jpeg"
     ],
     fullSizeImage: true,
     content: (
       <>
-        <h4 className="text-xl font-bold text-[#26262c] mb-4">Sacred Heart Golf Fundraising Day</h4>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Annual Golf Day: Driving Excellence, Building Futures</h4>
         <p className="text-[#76767f] mb-4">
-          Join us for the Sacred Heart Golf Fundraising Day in partnership with Mandate &amp; Sumptuous,
-          taking place on <strong>25 September 2026</strong> at <strong>Umhlali Country Club</strong>.
-          Format: IPS.
+          Sacred Heart Secondary School invites you to the Annual Golf Day on
+          <strong> Friday, 25 September 2026 at 11h00</strong>, held at
+          <strong> Umhlali Country Club</strong>. Tee off for a greater cause, your support directly funds academic, sporting and boarding facilities.
         </p>
         <div className="bg-gradient-to-r from-[#2d6a2e] to-[#4a9e4b] text-white rounded-xl p-6 mb-4">
-          <h5 className="text-lg font-bold mb-3 text-center">Packages</h5>
+          <h5 className="text-lg font-bold mb-3 text-center">Golf Packages &amp; Prices</h5>
           <div className="space-y-3">
             <div>
-              <strong>R50 000 Package:</strong>
+              <strong>R30 000 Package:</strong>
               <ul className="list-disc list-inside ml-2 mt-1 text-sm">
-                <li>2 x Fourball</li>
-                <li>4 People for Dinner</li>
-                <li>Hole 1 or Hole 10 Activation</li>
-                <li>Dinner Branding</li>
+                <li>2x Fourball</li>
+                <li>1x 4 Additional people for prize giving dinner</li>
+                <li>Hole 1 or 10 Activation</li>
+                <li>Prize Giving Dinner Branding</li>
+                <li>5 Minutes promotion company at prize giving dinner</li>
               </ul>
             </div>
             <div>
               <strong>R15 000 Package:</strong>
               <ul className="list-disc list-inside ml-2 mt-1 text-sm">
-                <li>1 x Fourball</li>
                 <li>Hole Activation</li>
+                <li>1x Fourball</li>
+                <li>1x 2 Additional people for prize giving dinner</li>
               </ul>
             </div>
             <div>
-              <strong>1 x Fourball — R6 000:</strong>
+              <strong>R6 000 Package:</strong>
               <ul className="list-disc list-inside ml-2 mt-1 text-sm">
-                <li>Greenfees</li>
-                <li>Halfway House</li>
-                <li>Prize Giving Dinner</li>
+                <li>Hole Activation</li>
+                <li>1x Fourball</li>
+                <li>1x 2 Additional people for prize giving dinner</li>
               </ul>
             </div>
           </div>
         </div>
         <p className="text-[#76767f] mb-2">
-          <strong>RSVP:</strong> 31 August 2026
+          <strong>Contact:</strong> Mr S. Mlangeni — 071 670 6550 &nbsp;•&nbsp; sibonelomlangeni@gmail.com
         </p>
         <p className="text-[#76767f] mb-2">
-          <strong>TEL:</strong> (031) 812 0555 &nbsp;•&nbsp; <strong>EMAIL:</strong> olivia@slgas.co.za
+          <strong>RSVP:</strong> 065 169 9788 &nbsp;•&nbsp; queensoga@gmail.com
+        </p>
+        <div className="bg-white/10 rounded-lg p-4 mt-4">
+          <h6 className="font-bold mb-2">Banking Details</h6>
+          <ul className="text-sm space-y-1">
+            <li><strong>Bank:</strong> Standard Bank</li>
+            <li><strong>Account Name:</strong> Sacred Heart Secondary School</li>
+            <li><strong>Account Number:</strong> 10200789447</li>
+            <li><strong>Branch Code:</strong> 051001</li>
+            <li><strong>Account Type:</strong> Current Account</li>
+          </ul>
+        </div>
+        <p className="text-[#76767f] font-semibold mt-4">
+          For supporting our learners' future Together, let's build a better tomorrow.
+        </p>
+      </>
+    )
+  },
+  {
+    id: 8,
+    date: "July / 2026",
+    title: "Class of 2026: 100 Days to Matric!",
+    highlightImage: "/images/events/class_of_2026_countdown/poster.jpeg",
+    highlightAlt: "Class of 2026 100 Days Countdown Poster",
+    galleryCount: 1,
+    galleryAltBase: "100 Days Countdown",
+    specificImages: [
+      "/images/events/class_of_2026_countdown/poster.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">100 Days to Go!</h4>
+        <p className="text-[#76767f] mb-4">
+          The 100 Day Countdown has officially started! The Class of 2026 is entering the final stretch
+          towards matric. With focus, discipline and belief, greatness awaits.
+        </p>
+        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2d5aa0] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">Our Pillars</h5>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="text-center">
+              <div className="text-2xl mb-1">🎯</div>
+              <strong>Focus</strong>
+              <p className="mt-1 opacity-80">On your goals</p>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl mb-1">📈</div>
+              <strong>Work</strong>
+              <p className="mt-1 opacity-80">With discipline</p>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl mb-1">💡</div>
+              <strong>Believe</strong>
+              <p className="mt-1 opacity-80">In yourself</p>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl mb-1">🏔️</div>
+              <strong>Achieve</strong>
+              <p className="mt-1 opacity-80">Greatness</p>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] mb-2 italic text-center">
+          "Focus Today. Stronger Tomorrow. Limitless Future."
         </p>
         <p className="text-[#76767f] font-semibold mt-4">
-          With unity and purpose, Sacred Heart Secondary School
+          Class of 2026: Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 9,
+    date: "Ongoing / 2026",
+    title: "Alumni Fundraiser: Chalkboards to Whiteboards",
+    highlightImage: "/images/events/alumni_whiteboard_fundraiser/poster.jpeg",
+    highlightAlt: "Alumni Whiteboard Fundraiser Poster",
+    galleryCount: 1,
+    galleryAltBase: "Whiteboard Fundraiser",
+    specificImages: [
+      "/images/events/alumni_whiteboard_fundraiser/poster.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Help Us Upgrade from Chalkboards to Whiteboards</h4>
+        <p className="text-[#76767f] mb-4">
+          Sacred Heart Secondary School is shifting from chalkboards to modern whiteboards.
+          Your support will help create a better teaching and learning experience for our learners.
+        </p>
+        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#4747d7] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-2 text-center">To Our Alumni</h5>
+          <p className="text-blue-100 leading-relaxed mb-3">
+            You were once a learner here, and today, you have the power to make a lasting impact.
+            Help us create a better learning environment for the next generation of Sacred Heart scholars.
+          </p>
+          <p className="italic text-center text-lg font-semibold">Your school. Your legacy. Their future.</p>
+        </div>
+        <div className="bg-[#f6f7fd] rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold text-[#26262c] mb-3">Whiteboard Cost: R3,355.61 Each</h5>
+          <p className="text-[#76767f] text-sm mb-4">Your support will help create a better teaching and learning experience for our learners.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <strong className="text-[#26262c] block mb-1">Donate To:</strong>
+              <ul className="list-disc list-inside space-y-1 text-[#76767f]">
+                <li><strong>Bank:</strong> Standard Bank</li>
+                <li><strong>Account Name:</strong> Sacred Heart Secondary School</li>
+                <li><strong>Account Number:</strong> 1020 0789447</li>
+                <li><strong>Branch Code:</strong> 057 629</li>
+              </ul>
+            </div>
+            <div>
+              <ul className="list-disc list-inside space-y-1 text-[#76767f]">
+                <li><strong>Reference:</strong> Your name / Alumni Donation</li>
+                <li><strong>Contact:</strong> Mrs S.P. Hlongwa — 078 629 9152</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] italic text-center mb-2">
+          "Thank you for carrying the Sacred Heart legacy forward."
+        </p>
+        <p className="text-[#76767f] font-semibold text-center">
+          Together, let's build a better future for our learners.
         </p>
       </>
     )
