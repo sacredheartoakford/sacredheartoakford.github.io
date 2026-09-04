@@ -183,13 +183,13 @@ const HomePage: React.FC = () => {
       {/* Video Section */}
       <section className="py-16 bg-white">
         <div className="w-[80%] mx-auto">
-          <div className="max-w-4xl mx-auto bg-gray-200 border-2 border-dashed rounded-xl w-full h-96 flex items-center justify-center">
-            <div className="w-full h-full">
+          <div className="max-w-4xl mx-auto flex justify-center py-4">
+            <div className="w-full max-w-[414px] md:w-auto">
               <video
                 src="/vid/home.mp4"
                 // poster="https://sacredheartoakford.co.za/wp-content/uploads/2024/05/20240523_163224-scaled.avif"
                 controls={true}
-                className="w-full h-full object-cover rounded-xl"
+                className="w-full rounded-xl object-cover aspect-[9/16] md:w-auto md:h-[560px] md:aspect-auto"
                 aria-label="Sacred Heart Secondary School promotional video"
               >
                 Your browser does not support the video tag.
