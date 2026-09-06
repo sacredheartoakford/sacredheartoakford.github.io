@@ -19,6 +19,47 @@ interface EventData {
 
 const eventsData: EventData[] = [
   {
+    id: 10,
+    date: "September / 2026",
+    title: "Grade 10 Debate Team Triumphs at Ethekwini Libraries & Coding Launch",
+    highlightImage: "/images/events/debate_team_sep2026/poster.jpeg",
+    highlightAlt: "Sacred Heart Grade 10 Debate Team at the Ethekwini Libraries & Coding Launch",
+    galleryCount: 2,
+    galleryAltBase: "Debate Team",
+    specificImages: [
+      "/images/events/debate_team_sep2026/poster.jpeg",
+      "/images/events/debate_team_sep2026/best_speaker.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Representing Sacred Heart at a Milestone for Youth Literacy &amp; Coding</h4>
+        <p className="text-[#76767f] mb-4">
+          In September 2026, our Grade 10 Debate Team represented Sacred Heart Secondary School at the
+          highly anticipated <strong>Ethekwini Municipality Libraries &amp; Heritage Coding</strong> launch, a
+          partnership event celebrating literacy and technology, supported by Ethekwini Municipal Libraries and Durban,
+          UNESCO City of Literature.
+        </p>
+        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2d5aa0] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">A Speaker to Remember</h5>
+          <p className="leading-relaxed text-blue-50">
+            Our team delivered a commanding performance, and one standout performer was honoured as the
+            <strong> Best Speaker of the event</strong>. They commanded the podium
+            with clarity, confidence, and conviction, putting Sacred Heart on the map for young voices in debate.
+          </p>
+        </div>
+        <p className="text-[#76767f] mb-4">
+          The launch brought together learners, educators, and community partners to champion access to books,
+          digital skills, and learning opportunities for the next generation. Our debate team's presence reminded
+          everyone why Sacred Heart continues to produce articulate, thoughtful, and confident young leaders.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With pride and achievement, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
     id: 1,
     date: "Friday, September 25/ 2026 / 11h00",
     title: "ANNUAL GOLF DAY: Driving Excellence, Building Futures",
