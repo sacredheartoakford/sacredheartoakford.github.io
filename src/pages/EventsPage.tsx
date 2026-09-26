@@ -7,7 +7,7 @@ interface EventData {
   id: number;
   date: string;
   title: string;
-  highlightImage: string;
+  highlightImage?: string;
   highlightAlt: string;
   galleryCount: number;
   galleryPathBase?: string; // Optional for pattern-based galleries
@@ -15,9 +15,50 @@ interface EventData {
   specificImages?: string[]; // Optional for specific image arrays
   content: React.ReactNode;
   fullSizeImage?: boolean; // Optional flag to render the image in full detail
+  videoSrc?: string; // Optional video URL that renders a <video> element instead of <img>
 }
 
 const eventsData: EventData[] = [
+  {
+    id: 11,
+    date: "September 25 / 2026",
+    title: "Annual Golf Day 2026: A Day on the Greens, A Heart for Sacred Heart",
+    highlightImage: "/images/events/golf_day_september/event.mp4",
+    highlightAlt: "Annual Golf Day 2026, recapping the day on the greens at Umhlali Country Club",
+    galleryCount: 1,
+    galleryAltBase: "Golf Day 2026",
+    fullSizeImage: false,
+    videoSrc: "/images/events/golf_day_replay_2026/event.mp4",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">A Day on the Greens. A Heart for Sacred Heart.</h4>
+        <p className="text-[#76767f] mb-4">
+          What a day! The <strong>Sacred Heart Secondary School Annual Golf Day</strong> brought together
+          an incredible community of sponsors, players, supporters, and friends, all united by one purpose:
+          to raise funds and invest in the future of our school.
+        </p>
+        <div className="bg-gradient-to-r from-[#2d6a2e] to-[#4a9e4b] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">A Huge Thank You</h5>
+          <p className="leading-relaxed text-green-50">
+            To every sponsor who believed in our vision, every player who showed up and brought the energy,
+            every spectator who came out to support, and everyone who contributed to making the day a
+            resounding success, <strong>thank you.</strong>
+          </p>
+        </div>
+        <p className="text-[#76767f] mb-4">
+          A special word of gratitude goes out to <strong>Umhlali Country Club</strong> for hosting us and
+          providing the perfect setting for an unforgettable day on the greens.
+        </p>
+        <p className="text-[#76767f] mb-4 italic">
+          This wasn't just a golf day. It was community. It was purpose. It was an investment in our girls
+          and their future. To everyone who played a part, we appreciate you!
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With gratitude and pride, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
   {
     id: 10,
     date: "September / 2026",
@@ -621,16 +662,27 @@ const EventsPage: React.FC = () => {
 
               {/* Main Content - Large Photo Left, Text Right */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-                {/* Main Content - Left: Large Photo */}
+                {/* Main Content - Left: Large Photo or Video */}
                 <div className="flex justify-center">
                   <div className={`w-full ${event.fullSizeImage ? '' : 'max-w-lg'}`}>
-                    <div className={`w-full ${event.fullSizeImage ? 'h-auto' : 'h-96'} mb-4 overflow-hidden rounded-xl shadow-xl`}>
-                      <img
-                        src={event.highlightImage}
-                        alt={event.highlightAlt}
-                        className={`w-full h-full ${event.fullSizeImage ? 'object-contain' : 'object-cover'}`}
-                      />
-                    </div>
+                    {event.videoSrc ? (
+                      <div className="w-full mb-4 rounded-xl shadow-xl overflow-hidden">
+                        <video
+                          src={event.videoSrc}
+                          className="w-full h-auto rounded-xl"
+                          controls
+                          playsInline
+                        />
+                      </div>
+                    ) : (
+                      <div className={`w-full ${event.fullSizeImage ? 'h-auto' : 'h-96'} mb-4 overflow-hidden rounded-xl shadow-xl`}>
+                        <img
+                          src={event.highlightImage}
+                          alt={event.highlightAlt}
+                          className={`w-full h-full ${event.fullSizeImage ? 'object-contain' : 'object-cover'}`}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 
