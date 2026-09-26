@@ -1,27 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MetaTags from '../components/MetaTags';
 import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
+import ApplicationForm from '../components/ApplicationForm';
 
 const ApplyPage: React.FC = () => {
-  useEffect(() => {
-    // Load the OpnForm iframe script
-    const script = document.createElement('script');
-    script.src = 'https://opnform.com/widgets/iframe.min.js';
-    script.type = 'text/javascript';
-    script.onload = () => {
-      // Initialize the embed after script loads
-      if (typeof (window as any).initEmbed === 'function') {
-        (window as any).initEmbed('high-school-application-form-htqamj', { autoResize: false });
-      }
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      // Cleanup script on unmount
-      document.body.removeChild(script);
-    };
-  }, []);
-
   return (
     <div className="py-12 bg-gradient-to-b from-[#f6f7fd] to-white min-h-screen flex flex-col">
       <MetaTags
@@ -42,21 +24,14 @@ const ApplyPage: React.FC = () => {
           </p>
         </div>
 
-        {/* OpnForm Embedded Form */}
-        <div className="bg-white rounded-2xl w-full shadow-lg p-6 md:p-8 h-full flex-grow flex flex-col">
-          <iframe
-            style={{ border: 'none', width: '100%', minHeight: '75vh', flexGrow: 1 }}
-            id="high-school-application-form-htqamj"
-            src="https://opnform.com/forms/school-application-form-hohzmy"
-            title="High School Application Form"
-          />
-        </div>
+        {/* Native Application Form */}
+        <ApplicationForm />
 
         {/* Footer Note */}
         <div className="mt-8 text-center">
           <p className="text-[#76767f] text-sm">
             By submitting this form, you agree to our terms and conditions.
-            We will contact you via the telephone number provided.
+            We will contact you via the telephone number or email address provided.
           </p>
         </div>
       </div>

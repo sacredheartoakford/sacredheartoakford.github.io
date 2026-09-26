@@ -1,7 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import MetaTags from '../components/MetaTags';
 import Papa from 'papaparse';
 import { jsPDF } from 'jspdf';
+
+// ── Configuration ────────────────────────────────────────────────────────────
+// GOOGLE_SHEET_CSV_URL: Published CSV URL of the Google Sheet that receives
+// form submissions. The sheet must be shared "Anyone with the link can view".
+// Then: File → Share → "Anyone with the link" → Viewer.
+// Then: File → Publish to web → Choose CSV → Launch.
+// The CSV URL will look like:
+//   https://docs.google.com/spreadsheets/d/e/2…/pub?output=csv
+const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJG2gNIrfOrikj0YbKsGCotz_c1EWZuEpujgcaEs0NqKzNtiZLk-KZ7zi9K5D1om-6bRuQ4hlz6ifl/pub?gid=0&single=true&output=csv';
 
 interface ApplicationData {
   id?: string;
@@ -15,7 +24,7 @@ interface ApplicationData {
   'Grade Applying For'?: string;
   'Extracurricular Activities'?: string;
   'Upload Report'?: string;
-  'I agree to the school\'s policies and terms'?: string;
+  "I agree to the school's policies and terms"?: string;
   [key: string]: any;
 }
 
@@ -24,7 +33,54 @@ const AdminPage: React.FC = () => {
     const [fileName, setFileName] = useState<string>('No file selected');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [loadingText, setLoadingText] = useState<string>('');
+    const [mode, setMode] = useState<'live' | 'manual'>('live');
+    const [liveLoading, setLiveLoading] = useState<boolean>(false);
+    const [liveError, setLiveError] = useState<string>('');
+    const [lastRefreshed, setLastRefreshed] = useState<Date | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Fetch from Google Sheet CSV
+    const fetchLiveApplications = useCallback(async () => {
+        if (!GOOGLE_SHEET_CSV_URL) return;
+
+        setLiveLoading(true);
+        setLiveError('');
+
+        try {
+            const response = await fetch(GOOGLE_SHEET_CSV_URL);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const csvText = await response.text();
+
+            Papa.parse<ApplicationData>(csvText, {
+                header: true,
+                skipEmptyLines: true,
+                dynamicTyping: false,
+                complete: (results) => {
+                    const rows = results.data as ApplicationData[];
+                    // Filter out empty rows and header duplicates
+                    const valid = rows.filter(
+                        r => r['Full Name'] || r['fullName'] || Object.keys(r).length > 1
+                    );
+                    setApplicationsData(valid);
+                    setLastRefreshed(new Date());
+                }
+            });
+        } catch (err) {
+            console.error('Live feed fetch error:', err);
+            setLiveError('Could not load live applications. Check the Google Sheet URL.');
+        } finally {
+            setLiveLoading(false);
+        }
+    }, []);
+
+    // Auto-fetch on mount and every 2 minutes
+    useEffect(() => {
+        if (mode === 'live' && GOOGLE_SHEET_CSV_URL) {
+            fetchLiveApplications();
+            const interval = setInterval(fetchLiveApplications, 120_000); // 2 min
+            return () => clearInterval(interval);
+        }
+    }, [mode, fetchLiveApplications]);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -139,8 +195,8 @@ const AdminPage: React.FC = () => {
                 } else {
                     pdf.setFont('helvetica', 'normal');
                     const splitText = pdf.splitTextToSize(value, pageWidth - margin);
-                    pdf.text(splitText, margin, y);
-                    y += (splitText.length * 5) + 2;
+                        pdf.text(splitText, margin, y);
+                        y += (splitText.length * 5) + 2;
                 }
             });
 
@@ -257,58 +313,131 @@ const AdminPage: React.FC = () => {
             
             <div className="container mx-auto px-4 max-w-6xl relative z-10">
                 <header className="text-center mb-12">
-                    <h1 className="text-4xl font-bold text-[#2107c8] mb-3">📄 Application Generator (Admin)</h1>
-                    <p className="text-[#76767f] text-lg">Upload a CSV file to generate formatted PDF documents for each application</p>
+                    <h1 className="text-4xl font-bold text-[#2107c8] mb-3">📄 Application Manager (Admin)</h1>
+                    <p className="text-[#76767f] text-lg">View live applications or upload a CSV to generate formatted PDF documents</p>
                 </header>
 
-                <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border border-blue-100">
-                    <h2 className="text-2xl font-semibold text-[#26262c] mb-6 flex items-center gap-3">
-                        <span className="text-[#4747d7]">📁</span> Upload CSV File
-                    </h2>
-                    
-                    <div className="flex flex-col md:flex-row gap-4 items-start">
-                        <input
-                            type="file"
-                            id="csvFileInput"
-                            accept=".csv"
-                            className="hidden"
-                            ref={fileInputRef}
-                            onChange={handleFileChange}
-                        />
-                        
-                        <button 
-                            onClick={() => fileInputRef.current?.click()}
-                            className="cursor-pointer bg-gradient-to-r from-[#4747d7] to-[#6e71e4] hover:from-[#3a3ad7] hover:to-[#575ae1] text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                            </svg>
-                            Choose CSV File
-                        </button>
-                        
-                        <div className={`text-sm py-3 px-4 rounded-lg border flex-grow ${applicationsData.length > 0 ? 'bg-green-50 border-green-300 text-green-800' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
-                            {fileName}
-                        </div>
-                    </div>
-
-                    <div className="mt-6 p-4 bg-blue-50/50 rounded-lg border border-blue-100">
-                        <h3 className="font-semibold text-[#26262c] mb-2 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#4747d7]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Expected CSV Format
-                        </h3>
-                        <p className="text-sm text-[#76767f] mb-2">The CSV should contain the following columns:</p>
-                        <div className="flex flex-wrap gap-2">
-                            {['id', 'Full Name', 'Date of Birth', 'Gender', 'Email Address', 'Phone Number', 'Previous School', 'Application Year', 'Grade Applying For', 'Extracurricular Activities', 'Upload Report'].map(col => (
-                                <span key={col} className="px-2 py-1 bg-white border border-blue-200 rounded text-xs font-mono text-[#4747d7]">
-                                    {col}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
+                {/* ── Mode Toggle ── */}
+                <div className="flex justify-center gap-2 mb-8">
+                    <button
+                        onClick={() => { setMode('live'); setApplicationsData([]); }}
+                        className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                            mode === 'live'
+                                ? 'bg-[#4747d7] text-white shadow-md'
+                                : 'bg-white text-[#76767f] border border-gray-200 hover:bg-gray-50'
+                        }`}
+                    >
+                        Live Feed
+                    </button>
+                    <button
+                        onClick={() => { setMode('manual'); setApplicationsData([]); }}
+                        className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-200 ${
+                            mode === 'manual'
+                                ? 'bg-[#4747d7] text-white shadow-md'
+                                : 'bg-white text-[#76767f] border border-gray-200 hover:bg-gray-50'
+                        }`}
+                    >
+                        Manual Upload
+                    </button>
                 </div>
 
+                {/* ── Live Feed Panel ── */}
+                {mode === 'live' && (
+                    <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border border-blue-100">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between mb-6">
+                            <h2 className="text-2xl font-semibold text-[#26262c] flex items-center gap-3">
+                                <span className="text-[#4747d7]">📡</span> Live Applications Feed
+                            </h2>
+                            <div className="flex items-center gap-3">
+                                {lastRefreshed && (
+                                    <span className="text-xs text-[#76767f]">
+                                        Last updated: {lastRefreshed.toLocaleTimeString('en-ZA')}
+                                    </span>
+                                )}
+                                <button
+                                    onClick={fetchLiveApplications}
+                                    disabled={liveLoading || !GOOGLE_SHEET_CSV_URL}
+                                    className="bg-[#4747d7] hover:bg-[#3a3ad7] disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm"
+                                >
+                                    {liveLoading ? 'Refreshing…' : 'Refresh Now'}
+                                </button>
+                            </div>
+                        </div>
+
+                        {!GOOGLE_SHEET_CSV_URL ? (
+                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-5">
+                                <h3 className="font-semibold text-amber-800 mb-2">⚠️ Google Sheet not configured</h3>
+                                <p className="text-sm text-amber-700">
+                                    Set the <code className="bg-amber-100 px-1 rounded">GOOGLE_SHEET_CSV_URL</code> in{' '}
+                                    <code className="bg-amber-100 px-1 rounded">AdminPage.tsx</code> to the published CSV URL of your
+                                    Google Sheet. Once configured, this page will automatically load all applications from the
+                                    Google Sheet every 2 minutes.
+                                </p>
+                            </div>
+                        ) : liveError ? (
+                            <div className="bg-red-50 border border-red-200 rounded-lg p-5">
+                                <p className="text-red-700 text-sm">{liveError}</p>
+                            </div>
+                        ) : (
+                            <p className="text-sm text-[#76767f] mb-4">
+                                Auto-refreshes every 2 minutes. {applicationsData.length} application(s) loaded.
+                            </p>
+                        )}
+                    </div>
+                )}
+
+                {/* ── Manual Upload Panel ── */}
+                {mode === 'manual' && (
+                    <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border border-blue-100">
+                        <h2 className="text-2xl font-semibold text-[#26262c] mb-6 flex items-center gap-3">
+                            <span className="text-[#4747d7]">📁</span> Upload CSV File
+                        </h2>
+                        
+                        <div className="flex flex-col md:flex-row gap-4 items-start">
+                            <input
+                                type="file"
+                                id="csvFileInput"
+                                accept=".csv"
+                                className="hidden"
+                                ref={fileInputRef}
+                                onChange={handleFileChange}
+                            />
+                            
+                            <button 
+                                onClick={() => fileInputRef.current?.click()}
+                                className="cursor-pointer bg-gradient-to-r from-[#4747d7] to-[#6e71e4] hover:from-[#3a3ad7] hover:to-[#575ae1] text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                </svg>
+                                Choose CSV File
+                            </button>
+                            
+                            <div className={`text-sm py-3 px-4 rounded-lg border flex-grow ${applicationsData.length > 0 ? 'bg-green-50 border-green-300 text-green-800' : 'bg-gray-50 border-gray-200 text-gray-600'}`}>
+                                {fileName}
+                            </div>
+                        </div>
+
+                        <div className="mt-6 p-4 bg-blue-50/50 rounded-lg border border-blue-100">
+                            <h3 className="font-semibold text-[#26262c] mb-2 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#4747d7]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Expected CSV Format
+                            </h3>
+                            <p className="text-sm text-[#76767f] mb-2">The CSV should contain the following columns:</p>
+                            <div className="flex flex-wrap gap-2">
+                                {['id', 'Full Name', 'Date of Birth', 'Gender', 'Email Address', 'Phone Number', 'Previous School', 'Application Year', 'Grade Applying For', 'Extracurricular Activities', 'Upload Report'].map(col => (
+                                    <span key={col} className="px-2 py-1 bg-white border border-blue-200 rounded text-xs font-mono text-[#4747d7]">
+                                        {col}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* ── Applications Preview ── */}
                 {applicationsData.length > 0 && (
                     <div className="bg-white rounded-xl shadow-xl p-8 mb-8 border border-blue-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <h2 className="text-2xl font-semibold text-[#26262c] mb-6 flex items-center gap-3">
@@ -326,37 +455,37 @@ const AdminPage: React.FC = () => {
 
                         <div className="space-y-4">
                             {applicationsData.map((app, index) => {
-                                const fullName = app['Full Name'] || 'Unknown';
+                                const fullName = app['Full Name'] || app['fullName'] || 'Unknown';
                                 const fName = fullName.split(' ')[0] || fullName;
                                 return (
                                     <div key={index} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-200">
                                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                                             <h3 className="font-semibold text-lg text-gray-800">{index + 1}. {fName}</h3>
                                             <span className="px-3 py-1 bg-[#4747d7]/10 text-[#4747d7] rounded-full text-sm font-medium">
-                                                Grade: {app['Grade Applying For'] || 'N/A'}
+                                                Grade: {app['Grade Applying For'] || app['gradeApplyingFor'] || 'N/A'}
                                             </span>
                                         </div>
                                         
                                         <div className="p-6 space-y-3">
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                                                 <div><span className="text-gray-500">Full Name:</span><span className="ml-2 font-medium">{fullName}</span></div>
-                                                <div><span className="text-gray-500">Date of Birth:</span><span className="ml-2 font-medium">{formatDate(app['Date of Birth'])}</span></div>
-                                                <div><span className="text-gray-500">Gender:</span><span className="ml-2 font-medium">{app['Gender'] || 'N/A'}</span></div>
-                                                <div><span className="text-gray-500">Email:</span><span className="ml-2 font-medium text-blue-600 truncate" title={app['Email Address']}>{app['Email Address'] || 'N/A'}</span></div>
-                                                <div><span className="text-gray-500">Phone:</span><span className="ml-2 font-medium">{app['Phone Number'] || 'N/A'}</span></div>
-                                                <div><span className="text-gray-500">Previous School:</span><span className="ml-2 font-medium">{app['Previous School'] || 'N/A'}</span></div>
+                                                <div><span className="text-gray-500">Date of Birth:</span><span className="ml-2 font-medium">{formatDate(app['Date of Birth'] || app['dateOfBirth'])}</span></div>
+                                                <div><span className="text-gray-500">Gender:</span><span className="ml-2 font-medium">{app['Gender'] || app['gender'] || 'N/A'}</span></div>
+                                                <div><span className="text-gray-500">Email:</span><span className="ml-2 font-medium text-blue-600 truncate" title={app['Email Address'] || app['email']}>{app['Email Address'] || app['email'] || 'N/A'}</span></div>
+                                                <div><span className="text-gray-500">Phone:</span><span className="ml-2 font-medium">{app['Phone Number'] || app['phone'] || 'N/A'}</span></div>
+                                                <div><span className="text-gray-500">Previous School:</span><span className="ml-2 font-medium">{app['Previous School'] || app['previousSchool'] || 'N/A'}</span></div>
                                             </div>
                                             
-                                            {app['Extracurricular Activities'] && (
+                                            {(app['Extracurricular Activities'] || app['extracurricular']) && (
                                                 <div className="mt-4 pt-4 border-t border-gray-100">
                                                     <span className="text-gray-500 text-sm">Activities:</span>
-                                                    <p className="text-[#26262c] mt-1 whitespace-pre-line">{app['Extracurricular Activities']}</p>
+                                                    <p className="text-[#26262c] mt-1 whitespace-pre-line">{app['Extracurricular Activities'] || app['extracurricular']}</p>
                                                 </div>
                                             )}
                                             
-                                            {app['Upload Report'] && (
+                                            {(app['Upload Report'] || app['report']) && (
                                                 <div className="mt-3">
-                                                    <a href={app['Upload Report']} target="_blank" rel="noreferrer" className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors">
+                                                    <a href={app['Upload Report'] || app['report']} target="_blank" rel="noreferrer" className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors">
                                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                         </svg>
@@ -378,6 +507,17 @@ const AdminPage: React.FC = () => {
                                 );
                             })}
                         </div>
+                    </div>
+                )}
+
+                {mode === 'live' && !GOOGLE_SHEET_CSV_URL && (
+                    <div className="text-center py-8 text-[#76767f] text-sm">
+                        No applications to display yet.
+                    </div>
+                )}
+                {mode === 'manual' && applicationsData.length === 0 && (
+                    <div className="text-center py-8 text-[#76767f] text-sm">
+                        Upload a CSV file to see applications.
                     </div>
                 )}
             </div>
