@@ -126,34 +126,12 @@ const TeachersPage = () => {
         </div>
       </section>
 
-      {/* Deputy Principal Section */}
-      <section className="py-20 bg-blue-50/50">
+      {/* Deputy Principal Section (currently unavailable) */}
+      <section className="py-16 bg-blue-50/50">
         <div className="container mx-auto px-6 sm:px-8 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-blue-600 uppercase bg-blue-50 rounded-full">
-                Leadership
-              </div>
-              <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Deputy Principal</h3>
-              <div className="prose prose-lg text-slate-600 mb-6 leading-relaxed">
-                <p>
-                  Meet our dedicated Deputy Principal, <strong>Mrs. NS Goba</strong>, fostering excellence and supporting student success.
-                  Our Deputy Principal ensures every student's potential is nurtured. Guiding academic excellence, she leads with passion.
-                </p>
-                <p>
-                  At the heart of our school's success, our Deputy Principal champions innovation and collaboration.
-                  Working alongside the principal, she shapes the future of our school.
-                </p>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <div className="relative group">
-                <div className="absolute -inset-4 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-2xl transform rotate-3 transition-transform group-hover:rotate-2"></div>
-                <div className="relative h-[400px] w-full rounded-2xl overflow-hidden shadow-xl bg-white">
-                  <ProfileImage src="images/teachers/goba.avif" alt="Mrs. NS Goba, Deputy Principal of Sacred Heart Secondary School" className="w-full h-full object-cover object-top" />
-                </div>
-              </div>
-            </div>
+          <div className="bg-white rounded-2xl border border-blue-100 shadow-sm p-8 text-center">
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">Deputy Principal</h3>
+            <p className="text-slate-600">Currently unavailable.</p>
           </div>
         </div>
       </section>
