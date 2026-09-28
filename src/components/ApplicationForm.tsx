@@ -1,14 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
 // ── Configuration ────────────────────────────────────────────────────────────
-// Set these when you deploy the Google Apps Script.
-// AP_SCRIPT_URL: The /exec URL of your deployed Apps Script (handles form POST).
-// GOOGLE_SHEET_CSV: The published CSV URL of your Google Sheet (for the admin view).
-// For now they're empty — fill them in once the Apps Script is deployed.
-const AP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS00U-uV19eyDxtfzNw_GqqRhKUwqgO-CZb6oTmVgF_IzJyFZYiVDtZjj7FdcgecS8Tg/exec';
-const GOOGLE_SHEET_CSV_URL = '';
+const AP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyf3cdFWDFlVkk0SVOrlImxu4HWZ5GBJc2kN5buYeV83qrqjWjrcelFF5Y0zfvI5YRapQ/exec';
 
-export const APPLICATION_CONFIG = { AP_SCRIPT_URL, GOOGLE_SHEET_CSV_URL };
+export const APPLICATION_CONFIG = { AP_SCRIPT_URL };
 
 interface FormState {
   fullName: string;
@@ -38,6 +33,15 @@ const initialState: FormState = {
   agreed: false,
 };
 
+const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+};
+
 const ApplicationForm: React.FC = () => {
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -48,7 +52,7 @@ const ApplicationForm: React.FC = () => {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setForm(prev => ({
+    setForm((prev) => ({
       ...prev,
       [name]: name === 'agreed' ? (e.target as HTMLInputElement).checked : value,
     }));
@@ -56,7 +60,7 @@ const ApplicationForm: React.FC = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
-    setForm(prev => ({ ...prev, reportFile: file }));
+    setForm((prev) => ({ ...prev, reportFile: file }));
     setFileName(file ? file.name : '');
   };
 
@@ -65,7 +69,13 @@ const ApplicationForm: React.FC = () => {
 
     if (!AP_SCRIPT_URL) {
       setStatus('error');
-      setErrorMessage('The application endpoint is not configured yet. Please try again later or contact the school directly.');
+      setErrorMessage('The application endpoint is not configured yet.');
+      return;
+    }
+
+    if (!form.agreed) {
+      setStatus('error');
+      setErrorMessage('Please accept the policies and terms before submitting.');
       return;
     }
 
@@ -73,42 +83,48 @@ const ApplicationForm: React.FC = () => {
     setErrorMessage('');
 
     try {
-      // Build FormData for the Apps Script
-      const formData = new FormData();
-      formData.append('fullName', form.fullName);
-      formData.append('dateOfBirth', form.dateOfBirth);
-      formData.append('gender', form.gender);
-      formData.append('email', form.email);
-      formData.append('phone', form.phone);
-      formData.append('previousSchool', form.previousSchool);
-      formData.append('applicationYear', form.applicationYear);
-      formData.append('gradeApplyingFor', form.gradeApplyingFor);
-      formData.append('extracurricular', form.extracurricular);
-      formData.append('agreed', form.agreed ? 'true' : 'false');
+      let fileData = '';
+      let fileMimeType = '';
+      let reportFileName = '';
 
       if (form.reportFile) {
-        formData.append('report', form.reportFile, form.reportFile.name);
+        fileData = await fileToBase64(form.reportFile);
+        fileMimeType = form.reportFile.type;
+        reportFileName = form.reportFile.name;
       }
 
-      const response = await fetch(AP_SCRIPT_URL, {
+      // Convert data into URLSearchParams (Native support in Apps Script e.parameter)
+      const params = new URLSearchParams();
+      params.append('fullName', form.fullName || '');
+      params.append('dateOfBirth', form.dateOfBirth || '');
+      params.append('gender', form.gender || '');
+      params.append('email', form.email || '');
+      params.append('phone', form.phone || '');
+      params.append('previousSchool', form.previousSchool || '');
+      params.append('applicationYear', form.applicationYear || '');
+      params.append('gradeApplyingFor', form.gradeApplyingFor || '');
+      params.append('extracurricular', form.extracurricular || '');
+      params.append('fileName', reportFileName);
+      params.append('fileMimeType', fileMimeType);
+      params.append('fileData', fileData);
+
+      await fetch(AP_SCRIPT_URL, {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params.toString(),
+        mode: 'no-cors',
       });
 
-      const result = await response.json();
-
-      if (response.ok && result.status === 'success') {
-        setStatus('success');
-        setForm(initialState);
-        setFileName('');
-      } else {
-        setStatus('error');
-        setErrorMessage(result.message || 'Something went wrong. Please try again.');
-      }
-    } catch (err) {
+      setStatus('success');
+      setForm(initialState);
+      setFileName('');
+    } catch (err: unknown) {
       console.error('Application submission error:', err);
       setStatus('error');
-      setErrorMessage('Network error. Please check your connection and try again.');
+      const message = err instanceof Error ? err.message : 'Network error. Please try again.';
+      setErrorMessage(message);
     }
   };
 
@@ -120,9 +136,12 @@ const ApplicationForm: React.FC = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-[#26262c] mb-2">Application Received</h2>
-        <p className="text-[#76767f] mb-6">
+        <h2 className="text-2xl font-bold text-[#26262c] mb-2">Application Submitted</h2>
+        <p className="text-[#76767f] mb-2">
           Thank you for your application. We will be in touch shortly.
+        </p>
+        <p className="text-[#76767f] text-sm mb-6">
+          A confirmation email has been sent to your address.
         </p>
         <button
           onClick={() => setStatus('idle')}
@@ -142,7 +161,6 @@ const ApplicationForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-6 md:p-8" noValidate>
       <div className="space-y-6">
-        {/* ── Personal Information ── */}
         <fieldset className="space-y-4">
           <legend className="text-lg font-semibold text-[#4747d7] border-b border-[#4747d7]/20 pb-2 mb-2">
             Personal Information
@@ -195,7 +213,6 @@ const ApplicationForm: React.FC = () => {
           </div>
         </fieldset>
 
-        {/* ── Contact Information ── */}
         <fieldset className="space-y-4">
           <legend className="text-lg font-semibold text-[#4747d7] border-b border-[#4747d7]/20 pb-2 mb-2">
             Contact Information
@@ -232,7 +249,6 @@ const ApplicationForm: React.FC = () => {
           </div>
         </fieldset>
 
-        {/* ── Academic Information ── */}
         <fieldset className="space-y-4">
           <legend className="text-lg font-semibold text-[#4747d7] border-b border-[#4747d7]/20 pb-2 mb-2">
             Academic Information
@@ -263,7 +279,7 @@ const ApplicationForm: React.FC = () => {
                 onChange={handleChange}
                 className={inputClass()}
               >
-                {[new Date().getFullYear() + 1, new Date().getFullYear() + 2].map(yr => (
+                {[new Date().getFullYear(), new Date().getFullYear() + 1, new Date().getFullYear() + 2].map((yr) => (
                   <option key={yr} value={String(yr)}>{yr}</option>
                 ))}
               </select>
@@ -289,7 +305,6 @@ const ApplicationForm: React.FC = () => {
           </div>
         </fieldset>
 
-        {/* ── Extracurricular ── */}
         <fieldset className="space-y-4">
           <legend className="text-lg font-semibold text-[#4747d7] border-b border-[#4747d7]/20 pb-2 mb-2">
             Extracurricular Activities <span className="text-sm font-normal text-[#76767f]">(optional)</span>
@@ -304,7 +319,6 @@ const ApplicationForm: React.FC = () => {
           />
         </fieldset>
 
-        {/* ── Report Upload ── */}
         <fieldset className="space-y-4">
           <legend className="text-lg font-semibold text-[#4747d7] border-b border-[#4747d7]/20 pb-2 mb-2">
             Academic Report <span className="text-sm font-normal text-[#76767f]">(PDF, optional)</span>
@@ -323,7 +337,6 @@ const ApplicationForm: React.FC = () => {
           </p>
         </fieldset>
 
-        {/* ── Terms ── */}
         <div className="flex items-start gap-3">
           <input
             id="agreed"
@@ -339,14 +352,12 @@ const ApplicationForm: React.FC = () => {
           </label>
         </div>
 
-        {/* ── Error message ── */}
         {status === 'error' && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <p className="text-red-700 text-sm">{errorMessage}</p>
           </div>
         )}
 
-        {/* ── Submit ── */}
         <button
           type="submit"
           disabled={status === 'submitting'}

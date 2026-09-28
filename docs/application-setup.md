@@ -42,6 +42,7 @@ This is the "backend" that receives form submissions and writes them to the shee
 /**
  * SHS Application Form Handler
  * Receives form submissions from the website and logs them to a Google Sheet.
+ * The website sends JSON with base64-encoded file uploads.
  */
 
 // ⚠️ CHANGE THIS TO YOUR SPREADSHEET ID (from the URL)
@@ -53,6 +54,7 @@ const SHEET_NAME = 'Sheet1';
 
 /**
  * Handles POST requests from the website form.
+ * The website sends a JSON body with text/plain content type (to avoid CORS preflight).
  * @param {Object} e - The web app request event
  */
 function doPost(e) {
@@ -71,27 +73,31 @@ function doPost(e) {
       sheet.appendRow(headers);
     }
 
-    const postData = e.parameter;
+    // Parse the JSON body (sent as text/plain to avoid CORS preflight)
+    const rawBody = e.postData ? e.postData.contents : '';
+    const postData = JSON.parse(rawBody);
 
-    // Handle file upload (report document)
+    // Handle file upload (base64 in the JSON payload) — optional
     let reportUrl = '';
-    if (e.postData.length > 0) {
-      for (let i = 0; i < e.postData.length; i++) {
-        const item = e.postData[i];
-        if (item.name === 'report' && item.type.startsWith('application/')) {
-          // Upload to Drive
-          const name = item.getFileName() || 'report.pdf';
-          const blob = item.getData().createBlob(name);
-          const folder = DriveApp.getFolderById('YOUR_DRIVE_FOLDER_ID') || DriveApp.getRootFolder();
-          const file = folder.copyFileFromUrl ? null : null;
-          // Simple: save to root
-          const driveFile = DriveApp.createFile(blob);
-          // Make it publicly accessible
-          driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-          reportUrl = driveFile.getUrl();
-          break;
-        }
+    try {
+      if (postData.fileData) {
+        // Strip the data URL prefix (e.g. "data:application/pdf;base64,")
+        const base64 = postData.fileData.split(',')[1] || postData.fileData;
+        const contentType = postData.fileMimeType || 'application/pdf';
+        const fileName = 'SHS_Application_' + Date.now() + '_' + (postData.fileName || 'report.pdf');
+        const blob = Utilities.base64ToString(base64);
+        const driveFile = DriveApp.createFile(
+          Utilities.newBlob(
+            Utilities.base64Decode(base64),
+            fileName,
+            contentType
+          )
+        );
+        driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        reportUrl = driveFile.getUrl();
       }
+    } catch (fileErr) {
+      reportUrl = 'FILE_UPLOAD_ERROR: ' + fileErr.message;
     }
 
     const row = [
@@ -110,15 +116,19 @@ function doPost(e) {
 
     sheet.appendRow(row);
 
-    // Send confirmation email to the applicant (optional)
-    if (postData.email) {
-      MailApp.sendEmail({
-        to: postData.email,
-        subject: 'Application Received - Sacred Heart Secondary School',
-        body: `Hi ${postData.fullName},\n\nThank you for applying to Sacred Heart Secondary School.\n` +
-              `Your application for Grade ${postData.gradeApplyingFor || '?'} has been received.\n` +
-              `We will be in touch shortly.\n\nRegards,\nAdmissions Office`
-      });
+    // Send confirmation email to the applicant (optional — won't block on failure)
+    try {
+      if (postData.email) {
+        MailApp.sendEmail({
+          to: postData.email,
+          subject: 'Application Received - Sacred Heart Secondary School',
+          body: 'Hi ' + (postData.fullName || 'applicant') + ',\n\nThank you for applying to Sacred Heart Secondary School.\n' +
+                'Your application for Grade ' + (postData.gradeApplyingFor || '?') + ' has been received.\n' +
+                'We will be in touch shortly.\n\nRegards,\nAdmissions Office'
+        });
+      }
+    } catch (emailErr) {
+      // Email failed — don't block the application
     }
 
     return ContentService.createTextOutput(
@@ -194,6 +204,8 @@ git add . && git commit -m "Connect application form to Google Sheet" && git pus
 4. Check the **Admin** page (`/#/admin`) — the live feed should show the application
 5. Generate a PDF from the admin page to confirm everything works
 
+> **Note on the submission flow:** The form uses `fetch` with `mode: 'no-cors'` to bypass Google Apps Script CORS preflight issues. This means the browser can't read the server's response, but the POST still reaches the Apps Script and the row is written to the sheet. The "Application Submitted" screen appears after the request completes. If you ever want to verify server-side status, add a `console.log` in the Apps Script or check the sheet directly.
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -201,7 +213,7 @@ git add . && git commit -m "Connect application form to Google Sheet" && git pus
 | Form says "endpoint not configured" | Check `AP_SCRIPT_URL` in `ApplicationForm.tsx` |
 | Admin page says "Google Sheet not configured" | Check `GOOGLE_SHEET_CSV_URL` in `AdminPage.tsx` |
 | CSV fetch returns empty | Verify the sheet is shared "Anyone with the link" AND published as CSV |
-| Form submits but no row appears | Check the Apps Script: open it and click "Executions" to see errors |
+| Form submits but no row appears | Open the Apps Script editor → click **Executions** (left sidebar) to see the error. Common cause: wrong spreadsheet ID, or the file upload block throwing an error. Update the Apps Script code and redeploy. |
 | PDF generation fails | Make sure the column headers in the sheet match what the form sends |
 
 ## Cost
