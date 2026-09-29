@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 import MetaTags from '../components/MetaTags';
 import Papa from 'papaparse';
 import { jsPDF } from 'jspdf';
+import { PDFDocument } from 'pdf-lib';
 
 // ── Configuration ────────────────────────────────────────────────────────────
 // GOOGLE_SHEET_CSV_URL: Published CSV URL of the Google Sheet that receives
@@ -154,6 +155,67 @@ const AdminPage: React.FC = () => {
         return fullName ? fullName.split(' ')[0] : 'Application';
     };
 
+    // ── PDF Merge Helpers ───────────────────────────────────────────────────
+    const extractDriveFileId = (url: string): string | null => {
+        const match = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?id=)([a-zA-Z0-9_-]+)/);
+        if (match) return match[1];
+        const ucMatch = url.match(/uc\?.*id=([a-zA-Z0-9_-]+)/);
+        if (ucMatch) return ucMatch[1];
+        return null;
+    };
+
+    // Static-host proxy (persistent cloudflared tunnel + node server).
+    // Used in production where there's no dev-server middleware.
+    const DRIVE_PROXY_BASE = 'https://limiting-jesse-wake-ventures.trycloudflare.com';
+
+    const fetchDriveFile = async (fileId: string): Promise<Uint8Array> => {
+        const tryFetch = (baseUrl: string): Promise<Uint8Array> =>
+            fetch(`${baseUrl}/api/drive-proxy?id=${encodeURIComponent(fileId)}`)
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    return res.arrayBuffer();
+                })
+                .then(buf => new Uint8Array(buf));
+
+        // Prefer the static proxy (works on GitHub Pages); fall back to the
+        // local Vite middleware (works in dev) if the tunnel is down.
+        try {
+            return await tryFetch(DRIVE_PROXY_BASE);
+        } catch (e) {
+            console.warn('Static proxy failed, trying local dev proxy:', e);
+            return await tryFetch('');
+        }
+    };
+
+    const isPdf = (bytes: Uint8Array): boolean => {
+        if (bytes.length < 4) return false;
+        return bytes[0] === 0x25 && bytes[1] === 0x50 && bytes[2] === 0x44 && bytes[3] === 0x46; // %PDF
+    };
+
+    const mergePdfs = async (generatedPdfBytes: Uint8Array, uploadedPdfBytes: Uint8Array): Promise<Uint8Array> => {
+        const mergedDoc = await PDFDocument.create();
+
+        // Copy generated form pages
+        const genDoc = await PDFDocument.load(generatedPdfBytes);
+        const genPageCount = genDoc.getPageCount();
+        const genPageNumbers = Array.from({ length: genPageCount }, (_, i) => i);
+        const genPages = await mergedDoc.copyPages(genDoc, genPageNumbers);
+        for (const page of genPages) {
+            mergedDoc.addPage(page);
+        }
+
+        // Copy uploaded report pages
+        const upDoc = await PDFDocument.load(uploadedPdfBytes);
+        const upPageCount = upDoc.getPageCount();
+        const upPageNumbers = Array.from({ length: upPageCount }, (_, i) => i);
+        const upPages = await mergedDoc.copyPages(upDoc, upPageNumbers);
+        for (const page of upPages) {
+            mergedDoc.addPage(page);
+        }
+
+        return mergedDoc.save();
+    };
+
     const renderToPdf = async (app: ApplicationData) => {
         // Create PDF with A4 dimensions (210mm x 297mm)
         const pdf = new jsPDF({
@@ -255,37 +317,15 @@ const AdminPage: React.FC = () => {
             ]);
         }
 
-        if (app['Upload Report'] || app['I agree to the school\'s policies and terms']) {
+        if (app['Upload Report'] || app["I agree to the school's policies and terms"]) {
             const extraLines: { label: string, value: string }[] = [];
 
-            if (app['I agree to the school\'s policies and terms'] === 'TRUE') {
+            if (app["I agree to the school's policies and terms"] === 'TRUE') {
                 extraLines.push({ label: "Terms Agreement", value: "✓ Agreed" });
             }
 
-            addSection("ADDITIONAL INFORMATION", extraLines);
-
-            if (app['Upload Report']) {
-                const url = app['Upload Report'];
-                const text = "View Document";
-
-                y -= 10;
-
-                pdf.setFontSize(11);
-                pdf.setFont('helvetica', 'bold');
-                pdf.setTextColor(...colorDark);
-                pdf.text("Report Document:", margin, y);
-
-                const labelWidth = pdf.getTextWidth("Report Document: ");
-                let valX = margin + labelWidth;
-
-                pdf.setFont('helvetica', 'normal');
-                pdf.setTextColor(37, 99, 235);
-
-                pdf.textWithLink(text, valX, y, { url: url });
-
-                pdf.setTextColor(...colorDark);
-
-                y += 15;
+            if (extraLines.length > 0) {
+                addSection("ADDITIONAL INFORMATION", extraLines);
             }
         }
 
@@ -296,7 +336,46 @@ const AdminPage: React.FC = () => {
         pdf.text(`Generated on ${dateStr}`, pageWidth / 2, y, { align: 'center' });
 
         const fName = `${firstName(app['Full Name'])}_Application_${app['id'] || Date.now()}.pdf`;
-        pdf.save(fName);
+
+        // Get the generated PDF bytes
+        const generatedBytes = new Uint8Array(pdf.output('arraybuffer'));
+
+        // Try to merge with the uploaded report file (if it's a PDF)
+        const reportUrl = app['Upload Report'] || app['Report URL'] || '';
+        let mergedBytes: Uint8Array | null = null;
+
+        console.log('[PDF] reportUrl:', reportUrl);
+
+        if (reportUrl && reportUrl.startsWith('http')) {
+            try {
+                const fileId = extractDriveFileId(reportUrl);
+                console.log('[PDF] fileId:', fileId);
+                if (fileId) {
+                    const fileBytes = await fetchDriveFile(fileId);
+                    console.log('[PDF] fileBytes:', fileBytes.length, 'bytes');
+                    if (isPdf(fileBytes)) {
+                        mergedBytes = await mergePdfs(generatedBytes, fileBytes);
+                        console.log('[PDF] merged:', mergedBytes.length, 'bytes');
+                    } else {
+                        console.log('[PDF] Not a PDF');
+                    }
+                }
+            } catch (mergeErr) {
+                console.warn('Could not merge uploaded file:', mergeErr);
+            }
+        }
+
+        if (mergedBytes) {
+            const blob = new Blob([mergedBytes.buffer as ArrayBuffer], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fName;
+            a.click();
+            URL.revokeObjectURL(url);
+        } else {
+            pdf.save(fName);
+        }
     };
 
     const generateSinglePDF = async (index: number) => {
