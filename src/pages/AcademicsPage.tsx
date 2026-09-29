@@ -42,25 +42,103 @@ const AcademicsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Academic Achievement Section */}
+      {/* Matric Pass Rate Table */}
       <section className="py-16 bg-gradient-to-r from-[#4747d7] to-[#6e71e4] text-white">
         <div className="container mx-auto px-6 sm:px-8 max-w-6xl text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-bold mb-6">Outstanding Matric Results</h2>
-          <div className="w-24 h-1 bg-white mx-auto mb-8"></div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-8">
-              <h3 className="text-2xl font-bold mb-4">Class of 2024</h3>
-              <div className="text-5xl font-bold mb-2">94.5%</div>
-              <p className="text-lg">Pass Rate</p>
-            </div>
-            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-8">
-              <h3 className="text-2xl font-bold mb-4">Class of 2025</h3>
-              <div className="text-5xl font-bold mb-2">98%</div>
-              <p className="text-lg">Pass Rate</p>
-            </div>
+          <div className="w-24 h-1 bg-white mx-auto mb-10"></div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 md:p-8 max-w-3xl mx-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-white/30">
+                  <th className="py-3 px-4 font-semibold">Year</th>
+                  <th className="py-3 px-4 font-semibold text-center">Matric Pass Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { year: '2021', rate: '74%' },
+                  { year: '2022', rate: '78%' },
+                  { year: '2023', rate: '84%' },
+                  { year: '2024', rate: '90%' },
+                  { year: '2025', rate: '99%' },
+                ].map((row) => (
+                  <tr key={row.year} className="border-b border-white/10">
+                    <td className="py-3 px-4 font-medium">{row.year}</td>
+                    <td className="py-3 px-4 text-center text-2xl font-bold">{row.rate}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td className="py-3 px-4 font-bold text-white/90">2026 Target</td>
+                  <td className="py-3 px-4 text-center text-2xl font-bold text-yellow-300">100%</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <p className="mt-8 text-xl max-w-3xl mx-auto italic">
-            These exceptional results reflect our commitment to academic excellence and the dedication of our students and teachers.
+            Five consecutive years of growth. These results reflect our commitment to academic excellence and the dedication of our students and teachers.
+          </p>
+        </div>
+      </section>
+
+      {/* Enrollment Growth Section */}
+      <section className="py-16 bg-[#f6f7fd]">
+        <div className="container mx-auto px-6 sm:px-8 max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h6 className="text-lg font-medium text-[#26262c] mb-2">A School That Is Growing</h6>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#26262c] mb-6">From 350 to 730 Learners</h2>
+              <p className="text-[#76767f] mb-4">
+                Since 2021, enrollment at Sacred Heart Secondary School has more than doubled, from approximately 350 learners to around 730. This growth reflects the confidence that families, alumni and the community place in the school, and it has driven our matric pass rate from 74% to 99% over the same period.
+              </p>
+              <p className="text-[#76767f] mb-4">
+                Academic focus areas include Mathematics, Physical Sciences, English, Music, Art and Culture, CAT and IT, Agriculture and Accounting. A developing swimming programme is also creating pathways for learners to compete at higher levels.
+              </p>
+            </div>
+            <div className="bg-white rounded-xl shadow-md p-8">
+              <div className="text-center mb-6">
+                <div className="text-5xl font-bold text-[#4747d7]">730</div>
+                <p className="text-[#76767f] text-sm mt-2">learners enrolled (2025)</p>
+              </div>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+                  <span className="text-[#76767f]">2021</span>
+                  <span className="font-bold text-[#26262c]">≈ 350 learners</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+                  <span className="text-[#76767f]">2025</span>
+                  <span className="font-bold text-[#26262c]">≈ 730 learners</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#76767f]">Growth</span>
+                  <span className="font-bold text-[#4747d7]">+109% since 2021</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* School History Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6 sm:px-8 max-w-6xl">
+          <h6 className="text-lg font-medium text-[#26262c] mb-2 text-center">Our Story</h6>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#26262c] mb-8 text-center">A Legacy Since 1886</h2>
+          <div className="w-16 h-1 bg-[#4747d7] mb-10 mx-auto"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div>
+              <p className="text-[#76767f] mb-4">
+                Sacred Heart Secondary School traces its origins to 1886, when it formed part of a Roman Catholic Mission school serving local primary school children. The Dominican Sisters of Oakford later took over the school, and in 1903 they established St. Mary's, a separate girls' school, on the same estate.
+              </p>
+            </div>
+            <div>
+              <p className="text-[#76767f] mb-4">
+                When St. Mary's closed in 1980, Sacred Heart Secondary School for African girls was relocated to the St. Mary's premises, where it continues to operate. In 1982 the Dominican Sisters handed management of the school to the Department of Education, with a formal transition agreement signed in 2000.
+              </p>
+            </div>
+          </div>
+          <p className="mt-8 text-center text-[#76767f] max-w-3xl mx-auto">
+            Today, the school is located at the historic Oakford Priory, approximately 40 km north of Durban, and serves Grades 8–12 as a girls' boarding school. Education extends beyond the classroom through academic, cultural, artistic, sporting and leadership opportunities.
           </p>
         </div>
       </section>
