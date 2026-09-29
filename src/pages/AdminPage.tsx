@@ -698,10 +698,10 @@ const AdminPage: React.FC = () => {
                                                     </div>
                                                 )}
 
-                                                {getFieldValue(app, ['Upload Report', 'report']) && (
+                                                {getFieldValue(app, ['Upload Report', 'Report URL', 'report']) && (
                                                     <div className="mt-3 pt-3 border-t border-gray-100">
                                                         <a
-                                                            href={getFieldValue(app, ['Upload Report', 'report'])}
+                                                            href={getFieldValue(app, ['Upload Report', 'Report URL', 'report'])}
                                                             target="_blank"
                                                             rel="noreferrer"
                                                             className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors font-medium"
@@ -710,6 +710,38 @@ const AdminPage: React.FC = () => {
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                             </svg>
                                                             View Report Document
+                                                        </a>
+                                                    </div>
+                                                )}
+
+                                                {getFieldValue(app, ['Parent ID URL', 'parentIdUrl']) && (
+                                                    <div className="mt-3 pt-3 border-t border-gray-100">
+                                                        <a
+                                                            href={getFieldValue(app, ['Parent ID URL', 'parentIdUrl'])}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors font-medium"
+                                                        >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
+                                                            View Parent ID
+                                                        </a>
+                                                    </div>
+                                                )}
+
+                                                {getFieldValue(app, ['Birth Certificate URL', 'birthCertUrl']) && (
+                                                    <div className="mt-3 pt-3 border-t border-gray-100">
+                                                        <a
+                                                            href={getFieldValue(app, ['Birth Certificate URL', 'birthCertUrl'])}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors font-medium"
+                                                        >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                            </svg>
+                                                            View Birth Certificate
                                                         </a>
                                                     </div>
                                                 )}

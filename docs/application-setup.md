@@ -68,7 +68,8 @@ function doPost(e) {
         'Timestamp', 'Full Name', 'Date of Birth', 'Gender',
         'Email Address', 'Phone Number', 'Previous School',
         'Application Year', 'Grade Applying For',
-        'Extracurricular Activities', 'Report URL'
+        'Extracurricular Activities', 'Report URL',
+        'Parent ID URL', 'Birth Certificate URL'
       ];
       sheet.appendRow(headers);
     }
@@ -77,28 +78,27 @@ function doPost(e) {
     const rawBody = e.postData ? e.postData.contents : '';
     const postData = JSON.parse(rawBody);
 
-    // Handle file upload (base64 in the JSON payload) — optional
-    let reportUrl = '';
-    try {
-      if (postData.fileData) {
-        // Strip the data URL prefix (e.g. "data:application/pdf;base64,")
-        const base64 = postData.fileData.split(',')[1] || postData.fileData;
-        const contentType = postData.fileMimeType || 'application/pdf';
-        const fileName = 'SHS_Application_' + Date.now() + '_' + (postData.fileName || 'report.pdf');
-        const blob = Utilities.base64ToString(base64);
-        const driveFile = DriveApp.createFile(
-          Utilities.newBlob(
-            Utilities.base64Decode(base64),
-            fileName,
-            contentType
-          )
-        );
-        driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-        reportUrl = driveFile.getUrl();
-      }
-    } catch (fileErr) {
-      reportUrl = 'FILE_UPLOAD_ERROR: ' + fileErr.message;
-    }
+    // Save a base64 file upload to Drive and return its share URL ('' if none).
+    const saveFile = function (fileData, mimeType, fileName, prefix) {
+      if (!fileData) return '';
+      const base64 = fileData.split(',')[1] || fileData;
+      const contentType = mimeType || 'application/pdf';
+      const name = prefix + '_' + Date.now() + '_' + (fileName || 'upload.pdf');
+      const blob = DriveApp.createFile(
+        Utilities.newBlob(Utilities.base64Decode(base64), name, contentType)
+      );
+      blob.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+      return blob.getUrl();
+    };
+
+    // Handle file uploads (base64 in the JSON payload) — each optional
+    let reportUrl = '', parentIdUrl = '', birthCertUrl = '';
+    try { reportUrl = saveFile(postData.fileData, postData.fileMimeType, postData.fileName, 'SHS_Report'); }
+    catch (fileErr) { reportUrl = 'FILE_UPLOAD_ERROR: ' + fileErr.message; }
+    try { parentIdUrl = saveFile(postData.parentIdFileData, postData.parentIdFileMimeType, postData.parentIdFileName, 'SHS_ParentID'); }
+    catch (fileErr) { parentIdUrl = ''; }
+    try { birthCertUrl = saveFile(postData.birthCertFileData, postData.birthCertFileMimeType, postData.birthCertFileName, 'SHS_BirthCert'); }
+    catch (fileErr) { birthCertUrl = ''; }
 
     const row = [
       new Date(),
@@ -111,7 +111,9 @@ function doPost(e) {
       postData.applicationYear || '',
       postData.gradeApplyingFor || '',
       postData.extracurricular || '',
-      reportUrl
+      reportUrl,
+      parentIdUrl,
+      birthCertUrl
     ];
 
     sheet.appendRow(row);

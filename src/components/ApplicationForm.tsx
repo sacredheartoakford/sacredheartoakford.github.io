@@ -16,6 +16,8 @@ interface FormState {
   gradeApplyingFor: string;
   extracurricular: string;
   reportFile: File | null;
+  parentIdFile: File | null;
+  birthCertFile: File | null;
   agreed: boolean;
 }
 
@@ -30,6 +32,8 @@ const initialState: FormState = {
   gradeApplyingFor: '',
   extracurricular: '',
   reportFile: null,
+  parentIdFile: null,
+  birthCertFile: null,
   agreed: false,
 };
 
@@ -46,7 +50,9 @@ const ApplicationForm: React.FC = () => {
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [fileName, setFileName] = useState('');
+  const [reportFileName, setReportFileName] = useState('');
+  const [parentIdFileName, setParentIdFileName] = useState('');
+  const [birthCertFileName, setBirthCertFileName] = useState('');
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -58,10 +64,15 @@ const ApplicationForm: React.FC = () => {
     }));
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    field: 'reportFile' | 'parentIdFile' | 'birthCertFile'
+  ) => {
     const file = e.target.files?.[0] || null;
-    setForm((prev) => ({ ...prev, reportFile: file }));
-    setFileName(file ? file.name : '');
+    setForm((prev) => ({ ...prev, [field]: file }));
+    if (field === 'reportFile') setReportFileName(file ? file.name : '');
+    if (field === 'parentIdFile') setParentIdFileName(file ? file.name : '');
+    if (field === 'birthCertFile') setBirthCertFileName(file ? file.name : '');
   };
 
   const handleSubmit = async (e: FormEvent) => {
@@ -83,15 +94,14 @@ const ApplicationForm: React.FC = () => {
     setErrorMessage('');
 
     try {
-      let fileData = '';
-      let fileMimeType = '';
-      let reportFileName = '';
+      const encodeFile = async (file: File) => {
+        const data = await fileToBase64(file);
+        return { data, mime: file.type, name: file.name };
+      };
 
-      if (form.reportFile) {
-        fileData = await fileToBase64(form.reportFile);
-        fileMimeType = form.reportFile.type;
-        reportFileName = form.reportFile.name;
-      }
+      const report = form.reportFile ? await encodeFile(form.reportFile) : null;
+      const parentId = form.parentIdFile ? await encodeFile(form.parentIdFile) : null;
+      const birthCert = form.birthCertFile ? await encodeFile(form.birthCertFile) : null;
 
       // Convert data into URLSearchParams (Native support in Apps Script e.parameter)
       const params = new URLSearchParams();
@@ -104,9 +114,18 @@ const ApplicationForm: React.FC = () => {
       params.append('applicationYear', form.applicationYear || '');
       params.append('gradeApplyingFor', form.gradeApplyingFor || '');
       params.append('extracurricular', form.extracurricular || '');
-      params.append('fileName', reportFileName);
-      params.append('fileMimeType', fileMimeType);
-      params.append('fileData', fileData);
+      // Academic Report (existing)
+      params.append('fileName', report?.name || '');
+      params.append('fileMimeType', report?.mime || '');
+      params.append('fileData', report?.data || '');
+      // Parent ID
+      params.append('parentIdFileName', parentId?.name || '');
+      params.append('parentIdFileMimeType', parentId?.mime || '');
+      params.append('parentIdFileData', parentId?.data || '');
+      // Learner Birth Certificate
+      params.append('birthCertFileName', birthCert?.name || '');
+      params.append('birthCertFileMimeType', birthCert?.mime || '');
+      params.append('birthCertFileData', birthCert?.data || '');
 
       await fetch(AP_SCRIPT_URL, {
         method: 'POST',
@@ -119,7 +138,9 @@ const ApplicationForm: React.FC = () => {
 
       setStatus('success');
       setForm(initialState);
-      setFileName('');
+      setReportFileName('');
+      setParentIdFileName('');
+      setBirthCertFileName('');
     } catch (err: unknown) {
       console.error('Application submission error:', err);
       setStatus('error');
@@ -321,19 +342,53 @@ const ApplicationForm: React.FC = () => {
 
         <fieldset className="space-y-4">
           <legend className="text-lg font-semibold text-[#4747d7] border-b border-[#4747d7]/20 pb-2 mb-2">
-            Academic Report <span className="text-sm font-normal text-[#76767f]">(PDF, optional)</span>
+            Supporting Documents <span className="text-sm font-normal text-[#76767f]">(PDF, JPG or PNG)</span>
           </legend>
-          <input
-            type="file"
-            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-            onChange={handleFileChange}
-            className="block w-full text-sm text-[#76767f] file:mr-4 file:py-3 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#4747d7]/10 file:text-[#4747d7] hover:file:bg-[#4747d7]/20 cursor-pointer"
-          />
-          {fileName && (
-            <p className="text-sm text-[#76767f]">Attached: <span className="font-medium">{fileName}</span></p>
-          )}
+
+          <div>
+            <label htmlFor="academicReport" className={labelClass}>Academic Report</label>
+            <input
+              id="academicReport"
+              type="file"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              onChange={(e) => handleFileChange(e, 'reportFile')}
+              className="block w-full text-sm text-[#76767f] file:mr-4 file:py-3 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#4747d7]/10 file:text-[#4747d7] hover:file:bg-[#4747d7]/20 cursor-pointer"
+            />
+            {reportFileName && (
+              <p className="mt-1 text-sm text-[#76767f]">Attached: <span className="font-medium">{reportFileName}</span></p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="parentId" className={labelClass}>Parent / Guardian ID</label>
+            <input
+              id="parentId"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={(e) => handleFileChange(e, 'parentIdFile')}
+              className="block w-full text-sm text-[#76767f] file:mr-4 file:py-3 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#4747d7]/10 file:text-[#4747d7] hover:file:bg-[#4747d7]/20 cursor-pointer"
+            />
+            {parentIdFileName && (
+              <p className="mt-1 text-sm text-[#76767f]">Attached: <span className="font-medium">{parentIdFileName}</span></p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="birthCert" className={labelClass}>Learner Birth Certificate</label>
+            <input
+              id="birthCert"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={(e) => handleFileChange(e, 'birthCertFile')}
+              className="block w-full text-sm text-[#76767f] file:mr-4 file:py-3 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#4747d7]/10 file:text-[#4747d7] hover:file:bg-[#4747d7]/20 cursor-pointer"
+            />
+            {birthCertFileName && (
+              <p className="mt-1 text-sm text-[#76767f]">Attached: <span className="font-medium">{birthCertFileName}</span></p>
+            )}
+          </div>
+
           <p className="text-xs text-[#76767f]">
-            Upload the most recent term report. If you don't have it ready, you can email it to the school later.
+            Upload a clear, legible copy of each document. If you don't have one ready, you can email it to the school later.
           </p>
         </fieldset>
 
