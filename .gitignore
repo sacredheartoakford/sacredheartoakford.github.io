@@ -141,3 +141,15 @@ Thumbs.db
 # Your specific project files
 backup.zip
 .a0proj/
+
+# Personal / PII artifacts — never commit (test application PDFs, etc.)
+Njabulo_Application_merged.pdf
+*_Application_merged.pdf
+*.pdf
+
+# AI/agent scaffolding (Supabase skill markdown, not part of the site)
+.agent/
+.agents/
+.claude/
+agent/
+skills-lock.json

@@ -1,9 +1,13 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import emailjs from '@emailjs/browser';
 
-// ── Configuration ────────────────────────────────────────────────────────────
-const AP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyf3cdFWDFlVkk0SVOrlImxu4HWZ5GBJc2kN5buYeV83qrqjWjrcelFF5Y0zfvI5YRapQ/exec';
-
-export const APPLICATION_CONFIG = { AP_SCRIPT_URL };
+// ── Supabase submission ───────────────────────────────────────────────────────
+// Replaces the Google Apps Script POST. Flow:
+//   1. INSERT into applications (anon key, RLS insert-only) → returns the new id.
+//   2. For each uploaded file: upload to the private "documents" bucket at
+//      <application_id>/<kind>, then INSERT an application_documents row.
+// The anon key is public; RLS is what enforces insert-only for anonymous users.
 
 interface FormState {
   fullName: string;
@@ -37,19 +41,61 @@ const initialState: FormState = {
   agreed: false,
 };
 
-const fileToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+type DocKind = 'report' | 'parent_id' | 'birth_cert';
+
+// ── EmailJS admin notification ────────────────────────────────────────────────
+// Sends a confirmation email to the school admin when a new application is
+// submitted. Configured via VITE_EMAILJS_* env vars. If not configured,
+// submission still succeeds — the email is just skipped (with a console warning).
+const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  as string | undefined;
+const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string | undefined;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string | undefined;
+const ADMIN_EMAIL         = 'Sacredheartss3@gmail.com';
+
+const isEmailConfigured = !!(EMAILJS_PUBLIC_KEY && EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID);
+
+const sendAdminNotification = async (app: {
+  fullName: string; email: string; phone: string;
+  previousSchool: string; applicationYear: string; gradeApplyingFor: string;
+  dateOfBirth: string; gender: string; extracurricular: string;
+}) => {
+  if (!isEmailConfigured) {
+    console.warn('[admin-notify] EmailJS not configured — skipping admin email. Set VITE_EMAILJS_PUBLIC_KEY, VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID.');
+    return false;
+  }
+  try {
+    await emailjs.send(
+      EMAILJS_SERVICE_ID!,
+      EMAILJS_TEMPLATE_ID!,
+      {
+        to_email:       ADMIN_EMAIL,
+        to_name:        'Sacred Heart Admissions',
+        applicant_name: app.fullName,
+        applicant_email: app.email,
+        applicant_phone: app.phone,
+        applicant_dob:   app.dateOfBirth,
+        applicant_gender: app.gender,
+        applicant_school: app.previousSchool,
+        applicant_year:   app.applicationYear,
+        applicant_grade:  `Grade ${app.gradeApplyingFor}`,
+        applicant_extras: app.extracurricular || '—',
+        admin_url:        'https://sacredhearts.co.za/#/admin',
+      },
+      { publicKey: EMAILJS_PUBLIC_KEY! }
+    );
+    console.log('[admin-notify] Email sent to', ADMIN_EMAIL);
+    return true;
+  } catch (err) {
+    console.error('[admin-notify] Failed to send admin email:', err);
+    return false;
+  }
 };
 
 const ApplicationForm: React.FC = () => {
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [warning, setWarning] = useState('');
   const [reportFileName, setReportFileName] = useState('');
   const [parentIdFileName, setParentIdFileName] = useState('');
   const [birthCertFileName, setBirthCertFileName] = useState('');
@@ -78,9 +124,9 @@ const ApplicationForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!AP_SCRIPT_URL) {
+    if (!isSupabaseConfigured) {
       setStatus('error');
-      setErrorMessage('The application endpoint is not configured yet.');
+      setErrorMessage('The application backend is not configured yet.');
       return;
     }
 
@@ -92,49 +138,90 @@ const ApplicationForm: React.FC = () => {
 
     setStatus('submitting');
     setErrorMessage('');
+    setWarning('');
 
     try {
-      const encodeFile = async (file: File) => {
-        const data = await fileToBase64(file);
-        return { data, mime: file.type, name: file.name };
-      };
+      // 1. Insert the application row. Anon RLS permits insert; the row's id
+      //    is returned so we can key the document files to it.
+      const { data: row, error: rowError } = await supabase
+        .from('applications')
+        .insert({
+          full_name: form.fullName || '',
+          date_of_birth: form.dateOfBirth || null,
+          gender: form.gender || null,
+          email: form.email || '',
+          phone: form.phone || '',
+          previous_school: form.previousSchool || '',
+          application_year: Number(form.applicationYear) || null,
+          grade_applying_for: form.gradeApplyingFor || '',
+          extracurricular: form.extracurricular || '',
+        })
+        .select()
+        .single();
 
-      const report = form.reportFile ? await encodeFile(form.reportFile) : null;
-      const parentId = form.parentIdFile ? await encodeFile(form.parentIdFile) : null;
-      const birthCert = form.birthCertFile ? await encodeFile(form.birthCertFile) : null;
+      if (rowError || !row) {
+        throw rowError || new Error('Could not save the application.');
+      }
 
-      // Convert data into URLSearchParams (Native support in Apps Script e.parameter)
-      const params = new URLSearchParams();
-      params.append('fullName', form.fullName || '');
-      params.append('dateOfBirth', form.dateOfBirth || '');
-      params.append('gender', form.gender || '');
-      params.append('email', form.email || '');
-      params.append('phone', form.phone || '');
-      params.append('previousSchool', form.previousSchool || '');
-      params.append('applicationYear', form.applicationYear || '');
-      params.append('gradeApplyingFor', form.gradeApplyingFor || '');
-      params.append('extracurricular', form.extracurricular || '');
-      // Academic Report (existing)
-      params.append('fileName', report?.name || '');
-      params.append('fileMimeType', report?.mime || '');
-      params.append('fileData', report?.data || '');
-      // Parent ID
-      params.append('parentIdFileName', parentId?.name || '');
-      params.append('parentIdFileMimeType', parentId?.mime || '');
-      params.append('parentIdFileData', parentId?.data || '');
-      // Learner Birth Certificate
-      params.append('birthCertFileName', birthCert?.name || '');
-      params.append('birthCertFileMimeType', birthCert?.mime || '');
-      params.append('birthCertFileData', birthCert?.data || '');
+      // 1b. Fire the admin notification email (non-blocking — a failed email
+      //     must not break the application submission).
+      sendAdminNotification({
+        fullName:         form.fullName,
+        email:            form.email,
+        phone:            form.phone,
+        previousSchool:   form.previousSchool,
+        applicationYear:  form.applicationYear,
+        gradeApplyingFor: form.gradeApplyingFor,
+        dateOfBirth:      form.dateOfBirth,
+        gender:           form.gender,
+        extracurricular:  form.extracurricular,
+      }); // fire-and-forget
 
-      await fetch(AP_SCRIPT_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: params.toString(),
-        mode: 'no-cors',
-      });
+      // 2. Upload each document to Storage, then record its metadata.
+      const docEntries: { kind: DocKind; file: File | null }[] = [
+        { kind: 'report', file: form.reportFile },
+        { kind: 'parent_id', file: form.parentIdFile },
+        { kind: 'birth_cert', file: form.birthCertFile },
+      ];
+
+      const failedDocs: string[] = [];
+      for (const { kind, file } of docEntries) {
+        if (!file) continue;
+        const path = `${row.id}/${kind}`;
+        const { error: upError } = await supabase.storage
+          .from('documents')
+          .upload(path, file, {
+            contentType: file.type || 'application/octet-stream',
+            upsert: false,
+          });
+        if (upError) {
+          // A document failure must not hide the already-saved row, but it must
+          // not be SILENT either — collect it so the applicant can resend.
+          console.error(`Failed to upload ${kind}:`, upError);
+          failedDocs.push(kind);
+          continue;
+        }
+        const { error: docError } = await supabase
+          .from('application_documents')
+          .insert({
+            application_id: row.id,
+            kind,
+            storage_path: path,
+            file_name: file.name,
+          });
+        if (docError) {
+          console.error(`Failed to record ${kind} metadata:`, docError);
+          failedDocs.push(kind);
+        }
+      }
+
+      if (failedDocs.length > 0) {
+        setWarning(
+          `Your details were saved, but the following documents were not attached: ` +
+            failedDocs.join(', ') +
+            `. Please email them to the school or resubmit the form with the files attached.`
+        );
+      }
 
       setStatus('success');
       setForm(initialState);
@@ -161,6 +248,11 @@ const ApplicationForm: React.FC = () => {
         <p className="text-[#76767f] mb-2">
           Thank you for your application. We will be in touch shortly.
         </p>
+        {warning && (
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4 text-left">
+            <p className="text-amber-800 text-sm font-medium">⚠ {warning}</p>
+          </div>
+        )}
         <p className="text-[#76767f] text-sm mb-6">
           A confirmation email has been sent to your address.
         </p>
