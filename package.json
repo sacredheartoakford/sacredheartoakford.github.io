@@ -2,7 +2,7 @@
   "homepage": "https://sacredhearts.co.za",
   "name": "sacred-heart-secondary-school",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "scripts": {
     "dev": "vite",
