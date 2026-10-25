@@ -1,4 +1,4 @@
-import{c as a,j as e,E as g}from"./index-8c4dc47d.js";import{M as f}from"./MetaTags-edf13a5e.js";/**
+import{c as a,j as e,E as g}from"./index-01a4b18a.js";import{M as f}from"./MetaTags-417b028c.js";/**
  * @license lucide-react v0.294.0 - ISC
  *
  * This source code is licensed under the ISC license.
