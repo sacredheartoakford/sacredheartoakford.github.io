@@ -4,15 +4,17 @@ import Papa from 'papaparse';
 import { jsPDF } from 'jspdf';
 import { PDFDocument } from 'pdf-lib';
 import {
-  supabase,
+  fetchApplications,
+  downloadDocument,
+  getAuth,
   Application,
   ApplicationDocument,
-} from '../lib/supabase';
+} from '../lib/neon';
 
-// ── Supabase live feed (replaces the public Google Sheet CSV) ──────────────
-// The anon key cannot read (RLS is insert-only for anon), so the admin page
-// requires sign-in. Once authenticated, RLS grants full read. Realtime keeps
-// the list fresh without polling; "Refresh Now" does a manual select().
+// ── Neon live feed ──────────────────────────────────────────────────────────
+// The admin page requires sign-in via Neon Auth (Managed Better Auth).
+// Once authenticated, the JWT is used to verify identity.
+// "Refresh Now" does a manual fetch.
 
 type AppWithDocs = Application & { documents?: ApplicationDocument[] };
 
@@ -62,48 +64,57 @@ const AdminPage: React.FC = () => {
 
   const isSignedIn = Boolean(session);
 
-  // ── Auth ─────────────────────────────────────────────────────────────────
+  // ── Auth (Neon Auth = Managed Better Auth) ────────────────────────────────
+  const auth: any = getAuth();
+
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
+    auth.getSession().then((res: any) => {
+      // Better Auth returns { data: { user, session } } or { data: null }
+      // Only treat as signed-in if there's an actual user object.
+      const d = res?.data ?? res;
+      const user = d?.user;
+      const sessionObj = d?.session;
+      setSession(user ? { user, session: sessionObj } : null);
+      setCheckingAuth(false);
+    }).catch(() => {
+      setSession(null);
       setCheckingAuth(false);
     });
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => setSession(s));
-    return () => sub.subscription.unsubscribe();
   }, []);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError('');
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) setAuthError(error.message);
+    try {
+      const res: any = await auth.signIn.email({ email, password });
+      // Better Auth returns { data: { user, session, token } } on success
+      const d = res?.data ?? res;
+      const user = d?.user;
+      if (user) {
+        setSession({ user, session: d?.session ?? null });
+      } else if (res?.error || d?.error) {
+        setAuthError(res?.error?.message || d?.error?.message || 'Invalid credentials');
+      } else {
+        setAuthError('Sign in did not return a user. Try again.');
+      }
+    } catch (err: any) {
+      setAuthError(err?.message || 'Sign in failed');
+    }
   };
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    try { await auth.signOut(); } catch {}
+    setSession(null);
     setApplicationsData([]);
   };
 
-  // ── Supabase live feed ───────────────────────────────────────────────────
+  // ── Neon live feed ─────────────────────────────────────────────────────────
   const fetchLiveApplications = useCallback(async () => {
     setLiveLoading(true);
     setLiveError('');
     try {
-      const { data, error } = await supabase
-        .from('applications')
-        .select('*, application_documents(*)')
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      // The PostgREST join returns uploaded files under the key
-      // `application_documents` (the table name), but the app reads them via
-      // `documents`. Normalise the shape so the document sections render and
-      // the PDF generator can merge the attachments.
-      const raw = (data || []) as Array<Record<string, unknown> & { application_documents?: ApplicationDocument[] }>;
-      const rows = raw.map((a) => ({
-        ...a,
-        documents: a.application_documents || [],
-      })) as AppWithDocs[];
-      setApplicationsData(rows);
+      const rows = await fetchApplications();
+      setApplicationsData(rows as AppWithDocs[]);
       setLastRefreshed(new Date());
     } catch (err) {
       console.error('Live feed fetch error:', err);
@@ -113,23 +124,11 @@ const AdminPage: React.FC = () => {
     }
   }, []);
 
-  // Load on sign-in + subscribe to Realtime for instant updates.
+  // Load on sign-in. No realtime — Neon Realtime is a separate service.
+  // "Refresh Now" button does a manual fetch.
   useEffect(() => {
     if (!isSignedIn || mode !== 'live') return;
-
     fetchLiveApplications();
-
-    const channel = supabase
-      .channel('applications-live')
-      .on('postgres_changes',
-        { event: '*', schema: 'public', table: 'applications' },
-        () => fetchLiveApplications()
-      )
-      .subscribe();
-
-    return () => {
-      channel.unsubscribe();
-    };
   }, [isSignedIn, mode, fetchLiveApplications]);
 
   // ── Manual CSV upload (fallback) ─────────────────────────────────────────
@@ -251,17 +250,9 @@ const AdminPage: React.FC = () => {
     return mergePdfs(baseBytes, dividerBytes);
   };
 
-  // Download a document from the Supabase Storage "documents" bucket.
-  // Admin session has a signed JWT, so the RLS select policy on storage
-  // .objects permits this.
-  const fetchStorageFile = async (storagePath: string): Promise<Uint8Array> => {
-    const { data, error } = await supabase.storage
-      .from('documents')
-      .download(storagePath);
-    if (error) throw error;
-    if (!data) throw new Error('No bytes returned from storage');
-    const ab = await data.arrayBuffer();
-    return new Uint8Array(ab);
+  // Download a document from Neon Object Storage "assets" bucket.
+  const fetchStorageFile = async (storageKey: string): Promise<Uint8Array> => {
+    return downloadDocument(storageKey);
   };
 
   // Trigger a direct browser download of a single uploaded attachment. Uses
@@ -411,7 +402,7 @@ const AdminPage: React.FC = () => {
     let hasMergedAttachment = false;
     for (const doc of uploadedDocs) {
       try {
-        const fileBytes = await fetchStorageFile(doc.storage_path);
+        const fileBytes = await fetchStorageFile(doc.storage_key);
         if (isPdf(fileBytes)) {
           // Append a divider immediately before the attachment so it is clear
           // where the form ends and each uploaded file begins.
@@ -831,7 +822,7 @@ const AdminPage: React.FC = () => {
                                                           onClick={(e) => {
                                                             e.preventDefault();
                                                             e.stopPropagation();
-                                                            downloadDoc(reportDoc.storage_path, reportDoc.file_name || 'report.pdf');
+                                                            downloadDoc(reportDoc.storage_key, reportDoc.file_name || 'report.pdf');
                                                           }}
                                                           className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors font-medium cursor-pointer"
                                                       >
@@ -850,7 +841,7 @@ const AdminPage: React.FC = () => {
                                                           onClick={(e) => {
                                                             e.preventDefault();
                                                             e.stopPropagation();
-                                                            downloadDoc(parentIdDoc.storage_path, parentIdDoc.file_name || 'parent-id.pdf');
+                                                            downloadDoc(parentIdDoc.storage_key, parentIdDoc.file_name || 'parent-id.pdf');
                                                           }}
                                                           className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors font-medium cursor-pointer"
                                                       >
@@ -869,7 +860,7 @@ const AdminPage: React.FC = () => {
                                                           onClick={(e) => {
                                                             e.preventDefault();
                                                             e.stopPropagation();
-                                                            downloadDoc(birthCertDoc.storage_path, birthCertDoc.file_name || 'birth-cert.pdf');
+                                                            downloadDoc(birthCertDoc.storage_key, birthCertDoc.file_name || 'birth-cert.pdf');
                                                           }}
                                                           className="inline-flex items-center text-sm text-[#4747d7] hover:text-[#2107c8] transition-colors font-medium cursor-pointer"
                                                       >

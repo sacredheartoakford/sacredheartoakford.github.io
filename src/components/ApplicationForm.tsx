@@ -1,13 +1,17 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import {
+  isNeonConfigured,
+  insertApplication,
+  insertDocument,
+  uploadDocument,
+} from '../lib/neon';
 import emailjs from '@emailjs/browser';
 
-// ── Supabase submission ───────────────────────────────────────────────────────
-// Replaces the Google Apps Script POST. Flow:
-//   1. INSERT into applications (anon key, RLS insert-only) → returns the new id.
-//   2. For each uploaded file: upload to the private "documents" bucket at
+// ── Neon submission ───────────────────────────────────────────────────────────
+// Flow:
+//   1. INSERT into applications (Neon Postgres via serverless driver) → returns the new id.
+//   2. For each uploaded file: upload to the private "assets" bucket at
 //      <application_id>/<kind>, then INSERT an application_documents row.
-// The anon key is public; RLS is what enforces insert-only for anonymous users.
 
 interface FormState {
   fullName: string;
@@ -124,7 +128,7 @@ const ApplicationForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!isSupabaseConfigured) {
+    if (!isNeonConfigured) {
       setStatus('error');
       setErrorMessage('The application backend is not configured yet.');
       return;
@@ -141,30 +145,20 @@ const ApplicationForm: React.FC = () => {
     setWarning('');
 
     try {
-      // 1. Insert the application row. Anon RLS permits insert; the row's id
-      //    is returned so we can key the document files to it.
-      const { data: row, error: rowError } = await supabase
-        .from('applications')
-        .insert({
-          full_name: form.fullName || '',
-          date_of_birth: form.dateOfBirth || null,
-          gender: form.gender || null,
-          email: form.email || '',
-          phone: form.phone || '',
-          previous_school: form.previousSchool || '',
-          application_year: Number(form.applicationYear) || null,
-          grade_applying_for: form.gradeApplyingFor || '',
-          extracurricular: form.extracurricular || '',
-        })
-        .select()
-        .single();
+      // 1. Insert the application row via Neon Postgres
+      const row = await insertApplication({
+        full_name: form.fullName || '',
+        date_of_birth: form.dateOfBirth || null,
+        gender: form.gender || null,
+        email: form.email || '',
+        phone: form.phone || '',
+        previous_school: form.previousSchool || '',
+        application_year: Number(form.applicationYear) || null,
+        grade_applying_for: form.gradeApplyingFor || '',
+        extracurricular: form.extracurricular || '',
+      });
 
-      if (rowError || !row) {
-        throw rowError || new Error('Could not save the application.');
-      }
-
-      // 1b. Fire the admin notification email (non-blocking — a failed email
-      //     must not break the application submission).
+      // 1b. Fire the admin notification email (non-blocking)
       sendAdminNotification({
         fullName:         form.fullName,
         email:            form.email,
@@ -177,7 +171,7 @@ const ApplicationForm: React.FC = () => {
         extracurricular:  form.extracurricular,
       }); // fire-and-forget
 
-      // 2. Upload each document to Storage, then record its metadata.
+      // 2. Upload each document to Neon Object Storage, then record its metadata.
       const docEntries: { kind: DocKind; file: File | null }[] = [
         { kind: 'report', file: form.reportFile },
         { kind: 'parent_id', file: form.parentIdFile },
@@ -187,30 +181,18 @@ const ApplicationForm: React.FC = () => {
       const failedDocs: string[] = [];
       for (const { kind, file } of docEntries) {
         if (!file) continue;
-        const path = `${row.id}/${kind}`;
-        const { error: upError } = await supabase.storage
-          .from('documents')
-          .upload(path, file, {
-            contentType: file.type || 'application/octet-stream',
-            upsert: false,
-          });
-        if (upError) {
-          // A document failure must not hide the already-saved row, but it must
-          // not be SILENT either — collect it so the applicant can resend.
-          console.error(`Failed to upload ${kind}:`, upError);
-          failedDocs.push(kind);
-          continue;
-        }
-        const { error: docError } = await supabase
-          .from('application_documents')
-          .insert({
+        const key = `${row.id}/${kind}`;
+        try {
+          await uploadDocument(key, file, file.type || 'application/octet-stream');
+          await insertDocument({
             application_id: row.id,
             kind,
-            storage_path: path,
+            storage_key: key,
             file_name: file.name,
+            content_type: file.type || null,
           });
-        if (docError) {
-          console.error(`Failed to record ${kind} metadata:`, docError);
+        } catch (upError) {
+          console.error(`Failed to upload ${kind}:`, upError);
           failedDocs.push(kind);
         }
       }
