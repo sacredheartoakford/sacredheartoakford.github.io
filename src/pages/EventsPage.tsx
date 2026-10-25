@@ -1,0 +1,742 @@
+import React, { useState } from 'react';
+import MetaTags from '../components/MetaTags';
+import EducationalInstitutionSchema from '../components/EducationalInstitutionSchema';
+import ThreeDCarousel from '../components/ThreeDCarousel';
+
+interface EventData {
+  id: number;
+  date: string;
+  title: string;
+  highlightImage?: string;
+  highlightAlt: string;
+  galleryCount: number;
+  galleryPathBase?: string; // Optional for pattern-based galleries
+  galleryAltBase: string;
+  specificImages?: string[]; // Optional for specific image arrays
+  content: React.ReactNode;
+  fullSizeImage?: boolean; // Optional flag to render the image in full detail
+  videoSrc?: string; // Optional video URL that renders a <video> element instead of <img>
+}
+
+const eventsData: EventData[] = [
+  {
+    id: 11,
+    date: "September 25 / 2026",
+    title: "Annual Golf Day 2026: A Day on the Greens, A Heart for Sacred Heart",
+    highlightImage: "/images/events/golf_day_september/event.mp4",
+    highlightAlt: "Annual Golf Day 2026, recapping the day on the greens at Umhlali Country Club",
+    galleryCount: 1,
+    galleryAltBase: "Golf Day 2026",
+    fullSizeImage: false,
+    videoSrc: "/images/events/golf_day_replay_2026/event.mp4",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">A Day on the Greens. A Heart for Sacred Heart.</h4>
+        <p className="text-[#76767f] mb-4">
+          What a day! The <strong>Sacred Heart Secondary School Annual Golf Day</strong> brought together
+          an incredible community of sponsors, players, supporters, and friends, all united by one purpose:
+          to raise funds and invest in the future of our school.
+        </p>
+        <div className="bg-gradient-to-r from-[#2d6a2e] to-[#4a9e4b] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">A Huge Thank You</h5>
+          <p className="leading-relaxed text-green-50">
+            To every sponsor who believed in our vision, every player who showed up and brought the energy,
+            every spectator who came out to support, and everyone who contributed to making the day a
+            resounding success, <strong>thank you.</strong>
+          </p>
+        </div>
+        <p className="text-[#76767f] mb-4">
+          A special word of gratitude goes out to <strong>Umhlali Country Club</strong> for hosting us and
+          providing the perfect setting for an unforgettable day on the greens.
+        </p>
+        <p className="text-[#76767f] mb-4 italic">
+          This wasn't just a golf day. It was community. It was purpose. It was an investment in our girls
+          and their future. To everyone who played a part, we appreciate you!
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With gratitude and pride, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 10,
+    date: "September / 2026",
+    title: "Grade 10 Debate Team Triumphs at Ethekwini Libraries & Coding Launch",
+    highlightImage: "/images/events/debate_team_sep2026/poster.jpeg",
+    highlightAlt: "Sacred Heart Grade 10 Debate Team at the Ethekwini Libraries & Coding Launch",
+    galleryCount: 2,
+    galleryAltBase: "Debate Team",
+    specificImages: [
+      "/images/events/debate_team_sep2026/poster.jpeg",
+      "/images/events/debate_team_sep2026/best_speaker.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Representing Sacred Heart at a Milestone for Youth Literacy &amp; Coding</h4>
+        <p className="text-[#76767f] mb-4">
+          In September 2026, our Grade 10 Debate Team represented Sacred Heart Secondary School at the
+          highly anticipated <strong>Ethekwini Municipality Libraries &amp; Heritage Coding</strong> launch, a
+          partnership event celebrating literacy and technology, supported by Ethekwini Municipal Libraries and Durban,
+          UNESCO City of Literature.
+        </p>
+        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2d5aa0] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">A Speaker to Remember</h5>
+          <p className="leading-relaxed text-blue-50">
+            Our team delivered a commanding performance, and one standout performer was honoured as the
+            <strong> Best Speaker of the event</strong>. They commanded the podium
+            with clarity, confidence, and conviction, putting Sacred Heart on the map for young voices in debate.
+          </p>
+        </div>
+        <p className="text-[#76767f] mb-4">
+          The launch brought together learners, educators, and community partners to champion access to books,
+          digital skills, and learning opportunities for the next generation. Our debate team's presence reminded
+          everyone why Sacred Heart continues to produce articulate, thoughtful, and confident young leaders.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With pride and achievement, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 1,
+    date: "Friday, September 25/ 2026 / 11h00",
+    title: "ANNUAL GOLF DAY: Driving Excellence, Building Futures",
+    highlightImage: "/images/events/golf_day_september/poster.jpeg",
+    highlightAlt: "Sacred Heart Annual Golf Day Invitation",
+    galleryCount: 1,
+    galleryAltBase: "Golf Day",
+    specificImages: [
+      "/images/events/golf_day_september/poster.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Annual Golf Day: Driving Excellence, Building Futures</h4>
+        <p className="text-[#76767f] mb-4">
+          Sacred Heart Secondary School invites you to the Annual Golf Day on
+          <strong> Friday, 25 September 2026 at 11h00</strong>, held at
+          <strong> Umhlali Country Club</strong>. Tee off for a greater cause, your support directly funds academic, sporting and boarding facilities.
+        </p>
+        <div className="bg-gradient-to-r from-[#2d6a2e] to-[#4a9e4b] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">Golf Packages &amp; Prices</h5>
+          <div className="space-y-3">
+            <div>
+              <strong>R30 000 Package:</strong>
+              <ul className="list-disc list-inside ml-2 mt-1 text-sm">
+                <li>2x Fourball</li>
+                <li>1x 4 Additional people for prize giving dinner</li>
+                <li>Hole 1 or 10 Activation</li>
+                <li>Prize Giving Dinner Branding</li>
+                <li>5 Minutes promotion company at prize giving dinner</li>
+              </ul>
+            </div>
+            <div>
+              <strong>R15 000 Package:</strong>
+              <ul className="list-disc list-inside ml-2 mt-1 text-sm">
+                <li>Hole Activation</li>
+                <li>1x Fourball</li>
+                <li>1x 2 Additional people for prize giving dinner</li>
+              </ul>
+            </div>
+            <div>
+              <strong>R6 000 Package:</strong>
+              <ul className="list-disc list-inside ml-2 mt-1 text-sm">
+                <li>Hole Activation</li>
+                <li>1x Fourball</li>
+                <li>1x 2 Additional people for prize giving dinner</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] mb-2">
+          <strong>Contact:</strong> Mr S. Mlangeni — 071 670 6550 &nbsp;•&nbsp; sibonelomlangeni@gmail.com
+        </p>
+        <p className="text-[#76767f] mb-2">
+          <strong>RSVP:</strong> 065 169 9788 &nbsp;•&nbsp; queensoga@gmail.com
+        </p>
+        <div className="bg-white/10 rounded-lg p-4 mt-4">
+          <h6 className="font-bold mb-2">Banking Details</h6>
+          <ul className="text-sm space-y-1">
+            <li><strong>Bank:</strong> Standard Bank</li>
+            <li><strong>Account Name:</strong> Sacred Heart Secondary School</li>
+            <li><strong>Account Number:</strong> 10200789447</li>
+            <li><strong>Branch Code:</strong> 051001</li>
+            <li><strong>Account Type:</strong> Current Account</li>
+          </ul>
+        </div>
+        <p className="text-[#76767f] font-semibold mt-4">
+          For supporting our learners' future Together, let's build a better tomorrow.
+        </p>
+      </>
+    )
+  },
+  {
+    id: 8,
+    date: "July / 2026",
+    title: "Class of 2026: 100 Days to Matric!",
+    highlightImage: "/images/events/class_of_2026_countdown/poster.jpeg",
+    highlightAlt: "Class of 2026 100 Days Countdown Poster",
+    galleryCount: 1,
+    galleryAltBase: "100 Days Countdown",
+    specificImages: [
+      "/images/events/class_of_2026_countdown/poster.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">100 Days to Go!</h4>
+        <p className="text-[#76767f] mb-4">
+          The 100 Day Countdown has officially started! The Class of 2026 is entering the final stretch
+          towards matric. With focus, discipline and belief, greatness awaits.
+        </p>
+        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#2d5aa0] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-3 text-center">Our Pillars</h5>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="text-center">
+              <div className="text-2xl mb-1">🎯</div>
+              <strong>Focus</strong>
+              <p className="mt-1 opacity-80">On your goals</p>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl mb-1">📈</div>
+              <strong>Work</strong>
+              <p className="mt-1 opacity-80">With discipline</p>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl mb-1">💡</div>
+              <strong>Believe</strong>
+              <p className="mt-1 opacity-80">In yourself</p>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl mb-1">🏔️</div>
+              <strong>Achieve</strong>
+              <p className="mt-1 opacity-80">Greatness</p>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] mb-2 italic text-center">
+          "Focus Today. Stronger Tomorrow. Limitless Future."
+        </p>
+        <p className="text-[#76767f] font-semibold mt-4">
+          Class of 2026: Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 9,
+    date: "Ongoing / 2026",
+    title: "Alumni Fundraiser: Chalkboards to Whiteboards",
+    highlightImage: "/images/events/alumni_whiteboard_fundraiser/poster.jpeg",
+    highlightAlt: "Alumni Whiteboard Fundraiser Poster",
+    galleryCount: 1,
+    galleryAltBase: "Whiteboard Fundraiser",
+    specificImages: [
+      "/images/events/alumni_whiteboard_fundraiser/poster.jpeg"
+    ],
+    fullSizeImage: true,
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Help Us Upgrade from Chalkboards to Whiteboards</h4>
+        <p className="text-[#76767f] mb-4">
+          Sacred Heart Secondary School is shifting from chalkboards to modern whiteboards.
+          Your support will help create a better teaching and learning experience for our learners.
+        </p>
+        <div className="bg-gradient-to-r from-[#1e3a5f] to-[#4747d7] text-white rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold mb-2 text-center">To Our Alumni</h5>
+          <p className="text-blue-100 leading-relaxed mb-3">
+            You were once a learner here, and today, you have the power to make a lasting impact.
+            Help us create a better learning environment for the next generation of Sacred Heart scholars.
+          </p>
+          <p className="italic text-center text-lg font-semibold">Your school. Your legacy. Their future.</p>
+        </div>
+        <div className="bg-[#f6f7fd] rounded-xl p-6 mb-4">
+          <h5 className="text-lg font-bold text-[#26262c] mb-3">Whiteboard Cost: R3,355.61 Each</h5>
+          <p className="text-[#76767f] text-sm mb-4">Your support will help create a better teaching and learning experience for our learners.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <strong className="text-[#26262c] block mb-1">Donate To:</strong>
+              <ul className="list-disc list-inside space-y-1 text-[#76767f]">
+                <li><strong>Bank:</strong> Standard Bank</li>
+                <li><strong>Account Name:</strong> Sacred Heart Secondary School</li>
+                <li><strong>Account Number:</strong> 1020 0789447</li>
+                <li><strong>Branch Code:</strong> 057 629</li>
+              </ul>
+            </div>
+            <div>
+              <ul className="list-disc list-inside space-y-1 text-[#76767f]">
+                <li><strong>Reference:</strong> Your name / Alumni Donation</li>
+                <li><strong>Contact:</strong> Mrs S.P. Hlongwa — 078 629 9152</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] italic text-center mb-2">
+          "Thank you for carrying the Sacred Heart legacy forward."
+        </p>
+        <p className="text-[#76767f] font-semibold text-center">
+          Together, let's build a better future for our learners.
+        </p>
+      </>
+    )
+  },
+  {
+    id: 2,
+    date: "February 27/ 2026 / 08:00 am",
+    title: "STAFF TEAM BUILDING: 2 Days at The Riverside Hotel",
+    highlightImage: "/images/events/team_building_2026/PXL_20260227_131900486.MP.avif",
+    highlightAlt: "Team Building at The Riverside Hotel",
+    galleryCount: 54,
+    galleryAltBase: "Team Building",
+    specificImages: [
+      "/images/events/team_building_2026/PXL_20260227_124044740.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_124231231.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_125015212.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_125606459.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_131900486.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_132222465.avif",
+      "/images/events/team_building_2026/PXL_20260227_132246949.avif",
+      "/images/events/team_building_2026/PXL_20260227_132344029.NIGHT.avif",
+      "/images/events/team_building_2026/PXL_20260227_132401181.avif",
+      "/images/events/team_building_2026/PXL_20260227_132437105.avif",
+      "/images/events/team_building_2026/PXL_20260227_132727095.avif",
+      "/images/events/team_building_2026/PXL_20260227_133522905.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_133923774.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_134026297.avif",
+      "/images/events/team_building_2026/PXL_20260227_134834713.NIGHT.avif",
+      "/images/events/team_building_2026/PXL_20260227_135149704.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_140501771.MP.avif",
+      "/images/events/team_building_2026/PXL_20260227_140505352.avif",
+      "/images/events/team_building_2026/PXL_20260227_140850074.avif",
+      "/images/events/team_building_2026/PXL_20260227_140944600.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_065133272.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_065207073.avif",
+      "/images/events/team_building_2026/PXL_20260228_065301119.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_065414361.avif",
+      "/images/events/team_building_2026/PXL_20260228_072523234.avif",
+      "/images/events/team_building_2026/PXL_20260228_073139143.avif",
+      "/images/events/team_building_2026/PXL_20260228_073159550.avif",
+      "/images/events/team_building_2026/PXL_20260228_084231701.avif",
+      "/images/events/team_building_2026/PXL_20260228_084337168.avif",
+      "/images/events/team_building_2026/PXL_20260228_084352568.avif",
+      "/images/events/team_building_2026/PXL_20260228_084355136.avif",
+      "/images/events/team_building_2026/PXL_20260228_092522320.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_092535616.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_092604115.avif",
+      "/images/events/team_building_2026/PXL_20260228_092953730.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093020433.avif",
+      "/images/events/team_building_2026/PXL_20260228_093030913.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093043437.avif",
+      "/images/events/team_building_2026/PXL_20260228_093046261.avif",
+      "/images/events/team_building_2026/PXL_20260228_093052708.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093055229.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093311439.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_093323295.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094656738.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094906896.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_094911175.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_095229038.avif",
+      "/images/events/team_building_2026/PXL_20260228_095459569.MP.avif",
+      "/images/events/team_building_2026/PXL_20260228_172345800.avif",
+      "/images/events/team_building_2026/PXL_20260228_173054881.avif",
+      "/images/events/team_building_2026/PXL_20260228_173108609.avif",
+      "/images/events/team_building_2026/PXL_20260228_181957980.avif",
+      "/images/events/team_building_2026/PXL_20260228_182008903.avif",
+      "/images/events/team_building_2026/PXL_20260228_183500878.avif"
+    ],
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Building Stronger Bonds Beyond the Classroom</h4>
+        <p className="text-[#76767f] mb-4">
+          On February 27–28, 2026, the Sacred Heart Secondary School staff embarked on an exciting
+          2-day team building retreat at The Riverside Hotel. This enriching experience was designed
+          to strengthen collaboration, boost morale, and foster deeper connections among our
+          dedicated educators and support staff.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The retreat featured a variety of engaging activities that encouraged teamwork,
+          communication, and creative problem-solving. From outdoor challenges to reflective
+          sessions, every moment was crafted to bring our team closer together and reignite
+          the passion that drives our commitment to excellence in education.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The beautiful setting of The Riverside Hotel provided the perfect backdrop for
+          relaxation and camaraderie, allowing staff members to unwind while building
+          lasting memories and strengthening the bonds that make Sacred Heart a truly
+          special community.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With unity and purpose, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 2,
+    date: "January 13/ 2026 / 07:00 am",
+    title: "MATRIC 2025 AWARDS: Celebrating Excellence with 98% Pass Rate",
+    highlightImage: "/images/events/matric_2025_awards/PXL_20260113_075545857.MP.avif",
+    highlightAlt: "Matric 2025 Awards Ceremony",
+    galleryCount: 16,
+    galleryAltBase: "Matric 2025 Awards",
+    specificImages: [
+      "/images/events/matric_2025_awards/1768320705m1.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_075545857.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_075547801.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_110748489.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_115337994.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_121738119.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_121826737.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_125906163.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_125958237.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_130011938.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_131322619.MP.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_131427222.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_133253531.LONG_EXPOSURE-02.ORIGINAL.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_134501813.LONG_EXPOSURE-02.ORIGINAL.avif",
+      "/images/events/matric_2025_awards/PXL_20260113_135057785.MP.avif",
+      "/images/events/matric_2025_awards/SGCAM_20260113_135003037.avif"
+    ],
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Celebrating Outstanding Academic Achievement!</h4>
+        <p className="text-[#76767f] mb-4">
+          On January 13, 2026, we celebrated the exceptional achievements
+          of the Class of 2025, who achieved an outstanding 98% pass rate. This remarkable accomplishment
+          reflects the dedication of our learners, teachers, and support staff.
+        </p>
+        <div className="bg-gradient-to-r from-[#4747d7] to-[#6e71e4] text-white rounded-xl p-6 mb-2">
+          <h5 className="text-lg font-bold mb-2 text-center">Award Winners</h5>
+          <div className="space-y-2">
+            <div className="flex justify-between">
+              <span><strong>1st Place:</strong> Certificate + R10,000</span>
+            </div>
+            <div className="flex justify-between">
+              <span><strong>2nd Place:</strong> Certificate + R5,000</span>
+            </div>
+            <div className="flex justify-between">
+              <span><strong>3rd Place:</strong> Certificate + R2,000</span>
+            </div>
+            <div className="flex justify-between">
+              <span><strong>4th-10th Place:</strong> Certificate + R500 each</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-[#76767f] mb-4">
+          The Top 10 learners were recognized for their exceptional academic performance.
+          This ceremony highlighted the importance of hard work, dedication, and perseverance
+          in achieving academic excellence.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          We extend our heartfelt congratulations to all the award recipients and
+          commend the entire Class of 2025 for their remarkable achievement of a 98% pass rate.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With pride and celebration, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 3,
+    date: "November 23/ 2024 / 15:00 pm",
+    title: "Class of 2024 MATRIC DANCE: A night to Remember",
+    highlightImage: "/images/events/matric_dance_2024/pic1.avif",
+    highlightAlt: "Matric Dance Highlight",
+    galleryCount: 10,
+    galleryPathBase: "/images/events/matric_dance_2024/pic",
+    galleryAltBase: "Matric Dance",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">What a night to remember!!!!!</h4>
+        <p className="text-[#76767f] mb-4">
+          Congratulations to our Class of 2024 graduates on your special night! Your journey has been
+          filled with dedication, perseverance, and remarkable achievements. The Brently Lodge and
+          Lifestyle Centre in Durban provided the perfect setting for this memorable celebration of
+          your accomplishments.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          As you move forward into your next chapter, remember that the Sacred Heart family will
+          always be here to support you. Embrace your future with courage and confidence, and never
+          forget the friendships and memories you've made here.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          Wishing all the best to the Class of 2024 as you embark on your next adventure.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With love and blessings, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 4,
+    date: "October 08/ 2024 / 12:00 pm",
+    title: "Sacred Heart Business Lunch",
+    highlightImage: "/images/events/business_lunch/pic5.avif",
+    highlightAlt: "Business Lunch Highlight",
+    galleryCount: 7,
+    galleryPathBase: "/images/events/business_lunch/pic",
+    galleryAltBase: "Business Lunch",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Business Partnership Celebration</h4>
+        <p className="text-[#76767f] mb-4">
+          Our exclusive Business Lunch brought together top companies and industry leaders to foster
+          meaningful relationships and explore potential partnerships. The event provided an excellent
+          platform for networking and collaboration between the business community and our school.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The Sacred Heart community extends its heartfelt appreciation to all attending businesses
+          and their commitment to education and youth development. These partnerships play a crucial
+          role in preparing our students for future success in the business world.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          We look forward to building stronger alliances with industry leaders as we continue to
+          provide quality education that meets the evolving needs of the marketplace.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With gratitude and appreciation, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 5,
+    date: "September 19/ 2024 / 18:00 pm",
+    title: "GALA DINNER",
+    highlightImage: "/images/events/gala_dinner_2024/pic12.avif",
+    highlightAlt: "Gala Dinner 2024 Highlight",
+    galleryCount: 15,
+    galleryPathBase: "/images/events/gala_dinner_2024/pic",
+    galleryAltBase: "Gala Dinner",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Prestigious Annual Gala Dinner</h4>
+        <p className="text-[#76767f] mb-4">
+          Sacred Heart Secondary School hosted its prestigious Annual Gala Dinner, celebrating
+          academic excellence, community spirit, and achievements across various fields. The evening
+          brought together students, staff, parents, and distinguished guests for an unforgettable
+          experience filled with awards, performances, and recognition.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The gala highlighted the remarkable talents of our students and the unwavering support
+          of our community. It was a testament to the values and traditions that Sacred Heart
+          continues to uphold while fostering an environment of growth and achievement.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          As we look back on this successful event, we are reminded of the strength of our
+          community bonds and the bright future that lies ahead for our students.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With pride and celebration, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 6,
+    date: "September 30/ 2023 / 18:30 pm",
+    title: "GALA DINNER",
+    highlightImage: "/images/events/gala_dinner_2023/pic9.avif",
+    highlightAlt: "Gala Dinner 2023 Highlight",
+    galleryCount: 9,
+    galleryPathBase: "/images/events/gala_dinner_2023/pic",
+    galleryAltBase: "Gala Dinner",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Annual Gala Dinner Partnership</h4>
+        <p className="text-[#76767f] mb-4">
+          Sacred Heart Secondary School hosted its prestigious Annual Gala Dinner in partnership
+          with Sumptuous Caterers. The evening was a resounding success, bringing together the
+          entire Sacred Heart community to celebrate academic achievements, cultural performances,
+          and the strong bonds that unite us.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The partnership with Sumptuous Caterers provided an exceptional dining experience,
+          enhancing the elegance of the event. It was a beautiful showcase of student talents,
+          with performances and presentations that highlighted the diverse abilities of our
+          learners.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          This event continues to be a cornerstone of our annual calendar, fostering community
+          spirit and creating lasting memories for students, staff, and families alike.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With gratitude and celebration, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  },
+  {
+    id: 7,
+    date: "February 14/ 2024 / 10:00 am",
+    title: "Valentine's Day Picnic",
+    highlightImage: "/images/events/valentines_day_picnic/pic1.avif",
+    highlightAlt: "Valentine's Day Highlight",
+    galleryCount: 14,
+    galleryPathBase: "/images/events/valentines_day_picnic/pic",
+    galleryAltBase: "Valentine's Day",
+    content: (
+      <>
+        <h4 className="text-xl font-bold text-[#26262c] mb-4">Community Spirit at its Finest</h4>
+        <p className="text-[#76767f] mb-4">
+          Our Valentine's Day Picnic remains a cherished tradition that fosters community spirit
+          and celebrates the bonds of friendship and love within our Sacred Heart family. Students,
+          staff, and families gathered for a day of fun, food, and fellowship under the bright
+          February sun.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          The event featured games, entertainment, and shared meals that brought together members
+          of our school community in a relaxed, joyful atmosphere. This picnic serves as a
+          reminder of the strong community we have built at Sacred Heart.
+        </p>
+        <p className="text-[#76767f] mb-4">
+          These moments of togetherness strengthen our school bonds and create lasting memories
+          that our students will treasure for years to come. We look forward to many more
+          celebrations together.
+        </p>
+        <p className="text-[#76767f] font-semibold">
+          With love and community spirit, Sacred Heart Secondary School
+        </p>
+      </>
+    )
+  }
+];
+
+const EventsPage: React.FC = () => {
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  const handleShowMore = () => {
+    setVisibleCount(prev => Math.min(prev + 1, eventsData.length));
+  };
+
+  return (
+    <div className="bg-white min-h-screen">
+      <MetaTags
+        title="Events - Sacred Heart Secondary School"
+        description="View upcoming and past events at Sacred Heart Secondary School including matric dances, gala dinners, and special celebrations."
+        keywords={['school', 'education', 'secondary school', 'south africa', 'school events', 'matric dance', 'gala dinner', 'community events']}
+        url="/events"
+      />
+      <EducationalInstitutionSchema pageType="events" />
+      {/* Hero Section */}
+      <section className="relative h-[60vh] min-h-[250px] flex items-center justify-center bg-blue-950 text-white overflow-hidden">
+        {/* Decorative Circles */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[-10%] left-[10%] w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-[10%] right-[10%] w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 max-w-5xl text-center">
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-800/50 border border-blue-700 backdrop-blur-sm text-blue-200 text-xs font-bold uppercase tracking-widest">
+              ✦ School Life
+            </div>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-8 leading-tight tracking-tight text-white drop-shadow-sm">
+            Our <span className="italic font-light text-blue-200">Events</span>
+          </h1>
+
+          <p className="max-w-2xl mx-auto text-blue-100 text-lg md:text-xl leading-relaxed font-light mb-10">
+            Celebrating milestones, building community, and creating memories that last a lifetime.
+          </p>
+        </div>
+      </section>
+
+      {eventsData.slice(0, visibleCount).map((event, index) => (
+        <React.Fragment key={event.id}>
+          <section className={`py-16 ${index % 2 === 0 ? 'bg-white' : 'bg-[#f6f7fd]'}`}>
+            <div className="container mx-auto px-6 sm:px-8 max-w-6xl">
+              {/* Top Section - Date and Title */}
+              <div className="mb-8">
+                <h6 className="text-lg font-medium text-[#6e71e4] mb-2">{event.date}</h6>
+                <h3 className="text-2xl md:text-3xl font-bold text-[#2107c8] mb-8" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.1)' }}>
+                  {event.title}
+                </h3>
+              </div>
+
+              {/* Main Content - Large Photo Left, Text Right */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                {/* Main Content - Left: Large Photo or Video */}
+                <div className="flex justify-center">
+                  <div className={`w-full ${event.fullSizeImage ? '' : 'max-w-lg'}`}>
+                    {event.videoSrc ? (
+                      <div className="w-full mb-4 rounded-xl shadow-xl overflow-hidden">
+                        <video
+                          src={event.videoSrc}
+                          className="w-full h-auto rounded-xl"
+                          controls
+                          playsInline
+                        />
+                      </div>
+                    ) : (
+                      <div className={`w-full ${event.fullSizeImage ? 'h-auto' : 'h-96'} mb-4 overflow-hidden rounded-xl shadow-xl`}>
+                        <img
+                          src={event.highlightImage}
+                          alt={event.highlightAlt}
+                          className={`w-full h-full ${event.fullSizeImage ? 'object-contain' : 'object-cover'}`}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Main Content - Right: Text Content */}
+                <div className="flex flex-col justify-center">
+                  {event.content}
+                </div>
+              </div>
+
+              {/* Gallery Carousel */}
+              {event.galleryCount > 1 && (
+                <>
+                  <h4 className="text-xl font-bold text-[#26262c] mb-6">Photo Gallery</h4>
+                  <ThreeDCarousel
+                    images={
+                      event.specificImages
+                        ? event.specificImages
+                        : Array.from({ length: event.galleryCount }, (_, i) => `${event.galleryPathBase}${i + 1}.avif`)
+                    }
+                    altTexts={
+                      event.specificImages
+                        ? Array.from({ length: event.specificImages?.length || 0 }, (_, i) =>
+                            i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
+                          )
+                        : Array.from({ length: event.galleryCount }, (_, i) =>
+                            i === 0 ? `${event.galleryAltBase} Highlight` : `${event.galleryAltBase} ${i + 1}`
+                          )
+                    }
+                  />
+                </>
+              )}
+            </div>
+          </section>
+
+          {/* Divider between events, but not after the last one if it's the end of the list */}
+          {index < visibleCount - 1 && (
+            <div className="border-t border-gray-200 mx-6 sm:mx-8 max-w-6xl"></div>
+          )}
+        </React.Fragment>
+      ))}
+
+      {/* Show More Button */}
+      {visibleCount < eventsData.length && (
+        <div className="py-12 flex justify-center bg-white">
+          <button
+            onClick={handleShowMore}
+            className="px-8 py-3 bg-[#4747d7] text-white font-bold rounded-full shadow-lg hover:bg-[#3b3bb5] transition-colors duration-300"
+          >
+            Show More Events
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default EventsPage;
