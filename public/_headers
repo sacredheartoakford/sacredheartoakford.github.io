@@ -1,0 +1,34 @@
+# GitHub Pages security headers (zero-cost; no code changes).
+# These apply to every route on sacredhearts.co.za.
+# Reversible: deleting this file restores the previous behavior.
+
+# Force HTTPS for 6 months (prevents SSL-strip on repeat visits)
+Strict-Transport-Security: max-age=15830000
+
+# Clickjacking defense: forbid the app from being framed.
+# (The /admin route holds all applicant PII and must never be iframed.)
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+
+# Limit referrer leakage
+Referrer-Policy: strict-origin-when-cross-origin
+
+# Browser API permissions: disable camera/microphone/geolocation/usb — the app uses none of them.
+Permissions-Policy: camera=(), microphone=(), geolocation=(), usb=()
+
+# Content Security Policy.
+# NOTE: the production app loads Tailwind from cdn.tailwindcss.com and Inter font
+# from fonts.googleapis.com, so those origins MUST be allowed or styling breaks.
+# - 'self'              : allow only our own origin
+# - cdn.tailwindcss.com : Tailwind Play CDN (used in index.html)
+# - fonts.googleapis.com: Inter webfont stylesheet
+# - fonts.gstatic.com   : the actual woff2 font files (served by Google)
+# - https:              : allow remote images/videos (school photos)
+# - data:               : allow base64 file uploads in the form
+# - 'unsafe-eval'       : React/Vite dev-mode; safe to keep in prod too
+# - 'unsafe-inline' (style) : Tailwind injects a <style> tag; required
+# - frame-ancestors 'none' : clickjacking block (redundant with X-Frame-Options DENY)
+# - object-src 'none'  : block <object>/<embed> (none used)
+# - connect-src        : Supabase (new backend) + the drive-proxy tunnel (legacy
+#                        PDF merge still points at it until cutover)
+Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://*.supabase.co https://limiting-jesse-wake-ventures.trycloudflare.com; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://*.supabase.co
